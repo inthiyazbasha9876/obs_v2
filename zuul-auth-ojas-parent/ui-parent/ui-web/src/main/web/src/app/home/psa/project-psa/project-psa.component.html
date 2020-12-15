@@ -1,0 +1,2383 @@
+<div>
+
+  <div class="card shadow" style="padding:20px ;">
+    <div>
+      <span style="font-size: 17px;"><b>Project Management System</b></span>
+
+      <button *ngIf="!hideToEdit" class="btn float-right" style="background-color: #1d62a7;color: white;"
+        (click)="back()">Back</button>
+
+    </div>
+    <hr>
+
+    <div *ngIf="hideToEdit">
+
+
+      <div class="row" style="padding: 10px 0px 10px 0px;">
+        <div class="col-md-8 col-sm-6 col-xs-12">
+          <input placeholder="Search by customer, contract, project name" name="search" [(ngModel)]="search" class="col-5 form-control">
+
+          <!-- <mat-form-field>
+            <mat-label>Select Customer</mat-label>
+            <mat-select (selectionChange)="selected_customerToTable($event.value)">
+              <mat-option *ngFor="let data of customerData" [value]="data.customerId">{{data.customerName}}</mat-option>
+
+            </mat-select>
+          </mat-form-field> -->
+        </div>
+        <div class="col-md-2 col-xs-12">
+          <!-- <mat-form-field>
+            <mat-label>Select Contract</mat-label>
+            <mat-select [disabled]="contractDisableToTable" (selectionChange)="selected_contractToTable($event.value)">
+              <mat-option *ngFor="let contract of contractIdGet" [value]="contract.contractid">{{contract.contractname}}
+              </mat-option>
+
+            </mat-select>
+          </mat-form-field> -->
+        </div>
+        <div class="col-md-2 col-sm-6 col-xs-12" *ngIf="role">
+          <button class="btn float-right" style="background-color: #1d62a7;color: white;" (click)="editHere()"
+            data-toggle="modal" data-target="#myModal">Create Project</button>
+        </div>
+      </div>
+
+      <!-- {{dataProject[0].projectRateCard.projectValue}} -->
+      <div class="table-responsive" style="padding-top: 15px;">
+        <table class="table" style="text-align: center;">
+          <thead class="tbldata" style="background-color: #1d62a7;color: white;">
+            <!-- <th>Project ID</th> -->
+            <th>Customer</th>
+            <th>Contract</th>
+            <th>Project Name</th>
+            <!-- <th>Description</th> -->
+            <th>Start Date</th>
+            <th>End Date</th>
+            <!-- <th>Category</th>
+            <th>Delivery Location</th> -->
+            <!-- <th>Resource Count</th> -->
+            <th *ngIf="role">Delete</th>
+            <th>More Info</th>
+            <!-- <th></th> -->
+
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let projectdata of dataProject|searchProject:search | paginate: { itemsPerPage: ipppd, currentPage:pd, id:'pd' }; "
+              [class.active]="projectdata.financeStatus =='Approved'"
+              [class.reject]="projectdata.financeStatus =='Rejected' || projectdata.buStatus == 'Rejected'">
+              <!-- <td>{{projectdata.projectId}}</td> -->
+              <!-- <td>{{projectdata.customerId}}</td>
+              <td>{{projectdata.contractId}}</td> -->
+              <td>{{projectdata.customerId}}</td>
+              <td>{{projectdata.contractId}}</td>
+
+              <td>{{projectdata.projectName}}</td>
+              <!-- <td>{{projectdata.projectDescription}}</td> -->
+              <td>{{projectdata.startDate | date:'dd-MM-yyyy'}}</td>
+              <td>{{projectdata.endDate | date:'dd-MM-yyyy'}}</td>
+              <!-- <td>{{projectdata.servicecategory}}</td>
+              <td>{{projectdata.deliveryLocation}}</td> -->
+
+              <!-- <td>{{projectdata.projectResourceMapping.resourceCount}}</td> -->
+
+              <td *ngIf="role"> <i class="fa fa-trash cursorPoint" style="color: #1d62a7;"
+                  (click)="deleteProject(projectdata.projectId)"></i>
+              </td>
+              <!-- <td><button class="btn btn-sm" style="background-color: #1d62a7;color: white;"
+                  (click)="moreinfo(projectdata.projectId)">More Info</button></td> -->
+              <td><img src="assets/moreinfo.jpg" height="20px" width="20px" style="cursor: pointer;"
+                  (click)="moreinfo(projectdata.projectId)"></td>
+
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <span class="m-2" style="font-size: 16px;">Items per page</span>
+      <select [(ngModel)]="ipppd" (change)="pd=1">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+      </select>
+      <pagination-controls (pageChange)="pd = $event" id="pd" style="float:right"></pagination-controls>
+    </div>
+
+    <!-- more Info -->
+    <div *ngIf="!hideToEdit">
+
+
+
+      <div class="mx-auto" style="padding:0px 30px;">
+        <div class="float-right" style="padding-bottom: 50px;cursor: pointer;" *ngIf="role && roleEdit">
+          <i class="fa fa-edit" (click)="edit()" data-toggle="modal" data-target="#editModel"
+            style="color: #1d62a7;font-size: 20px;"></i>
+        </div>
+        <!-- <span style="font-size: 17px;"><b>More Info</b></span> -->
+
+
+        <hr>
+        <div class="data mx-auto">
+          <form #statusUpdate="ngForm">
+            <div class="row">
+              <div class="col-4">
+                <p *ngIf="getIdData.buStatus!=null"><b>Bu Approval Status :</b>{{getIdData.buStatus}}</p>
+                <p *ngIf="getIdData.buStatus=='Approved' && getIdData.financeStatus!=null"><b>Finance Approval Status
+                    :</b>{{getIdData.financeStatus}}</p>
+              </div>
+              <div class="col-4">
+                <div *ngIf="reasonForBU">
+                  <b>Reason :</b> {{reason}}
+                </div>
+
+              </div>
+              <div class="col-4 float-right">
+                <div class="row" *ngIf="roleStatus">
+                  <p><button class="btn btn-sm" (click)="approveBU()"
+                      style="background-color: #1d62a7;color: white;">Approve</button></p>&nbsp;&nbsp;&nbsp;
+                  <p><button class="btn btn-sm" data-toggle="modal" data-target="#rejectBUModal"
+                      style="background-color: red;color: white;">Reject</button></p>
+                </div>
+
+                <div class="row" *ngIf="roleFinance">
+                  <p><button class="btn btn-sm" (click)="approveFinance()"
+                      style="background-color: #1d62a7;color: white;">Approve</button></p>&nbsp;&nbsp;&nbsp;
+                  <p><button class="btn btn-sm" data-toggle="modal" data-target="#rejectFinanceModal"
+                      style="background-color: red;color: white;">Reject</button></p>
+                </div>
+
+              </div>
+            </div>
+          </form>
+          <hr>
+          <div class="row">
+            <label class="col-4" *ngIf="getIdData.customerId!=null"><b>Customer -</b>{{custId}}
+              ({{getIdData.customerId}}) </label>
+            <label class="col-4" *ngIf="getIdData.contractId!=null"><b>Contract -</b>{{contId}}
+              ({{getIdData.contractId}})</label>
+          </div>
+        </div>
+
+
+        <form #updateProject="ngForm">
+
+
+
+
+          <div class="card shadow">
+            <div class="header shadow">
+              <p style="font-size: 17px;text-align: center;"><b>Project Basic Info</b></p>
+            </div>
+            <div class="row" style="padding: 15px 15px 0px;">
+              <div class="col-md-4 col-sm-4 col-xs-12">
+                <table class="table table-borderless ">
+                  <tr>
+                    <th class="tblpad colonWidth">Project Name</th>:
+                    <td class="tblpad colonWidth" *ngIf="getIdData.projectName!=null">{{getIdData.projectName}}</td>
+                    <!-- <td class="tblpad colonWidth" *ngIf="!tblupdate"><input class="form-control" name="projectname"
+                        [(ngModel)]="getIdData.projectName" #name="ngModel" required disableOptionCentering>
+                      <div *ngIf="name.invalid && name.touched" style="color: red;">
+                        <p *ngIf="name.errors.required">Name is Required</p>
+                      </div>
+
+                    </td> -->
+                  </tr>
+                  <tr>
+                    <th class="tblpad colonWidth">Project Type</th>:
+                    <td class="tblpad colonWidth" *ngIf="getIdData.projectType!=null">{{getIdData.projectType}}</td>
+                    <!-- <td class="tblpad colonWidth" *ngIf="!tblupdate"> -->
+
+                    <!-- <select class="form-control" name="isinternal" [(ngModel)]="getIdData.isInternal">
+                                              <option value="true">Yes</option>
+                                              <option value="false">No</option>
+                                            </select> -->
+                    <!-- <div *ngIf="editIsCustomer">
+                        {{getIdData.projectType}}
+
+                      </div>
+                      <div *ngIf="editIsNotCustomer">
+
+
+                        <mat-form-field>
+
+                          <mat-select name="projectType" [(ngModel)]="getIdData.projectType" #internal="ngModel"
+                            required disableOptionCentering>
+                            <mat-option *ngFor="let data of projectTypedata" value="{{data.projectType}}">
+                              {{data.projectType}}</mat-option>
+
+
+                          </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="internal.invalid && internal.touched" style="color: red;">
+                          <p *ngIf="internal.errors.required">Project Type is Required</p>
+                        </div>
+
+                      </div> -->
+                    <!-- </td> -->
+
+                  </tr>
+
+                  <tr>
+                    <th class="tblpad colonWidth">Tasks</th>:
+                    <td class="tblpad colonWidth" *ngIf="getIdData.tasks.length!=0"> {{getIdData.tasks }}
+                      {{getIdData.additionalTasks}}</td>
+                    <!-- <td class="tblpad colonWidth" *ngIf="!tblupdate">
+                      <mat-form-field> -->
+                    <!-- <mat-label *ngIf="taskHide">{{getIdData.tasks }}</mat-label> -->
+                    <!-- <mat-select name="tasks" [(ngModel)]="getIdData.tasks" #task="ngModel" required multiple
+                          disableOptionCentering>
+                          <mat-option *ngFor="let tasks of taskList" [value]="tasks.projecttask">{{tasks.projecttask}}
+                          </mat-option>
+
+                        </mat-select>
+                      </mat-form-field>
+                      <div *ngIf="task.invalid && task.touched" style="color: red;">
+                        <p *ngIf="task.errors.required">Tasks are Required</p>
+                      </div>
+                    </td> -->
+
+                  </tr>
+                  <tr>
+                    <th class="tblpad colonWidth">Description</th>:
+                    <td class="tblpad colonWidth" *ngIf="getIdData.projectDescription!=null">
+                      {{getIdData.projectDescription}}</td>
+                    <!-- <td class="tblpad colonWidth" *ngIf="!tblupdate"><textarea class="form-control" name="description"
+                        [(ngModel)]="getIdData.projectDescription" rows="4" #description="ngModel" required></textarea>
+                      <div *ngIf="description.invalid && description.touched" style="color: red;">
+                        <p *ngIf="description.errors.required">Description is Required</p>
+                      </div>
+                    </td> -->
+
+                  </tr>
+                </table>
+              </div>
+              <div class="col-md-4 col-sm-4 col-xs-12">
+                <table class="table table-borderless">
+                  <tr>
+                    <th class="tblpad colonWidth">Start Date</th>:
+                    <td class="tblpad colonWidth" *ngIf="getIdData.startDate!=null">
+                      {{getIdData.startDate | date:'dd-MM-yyyy'}}</td>
+                    <!-- <td class="tblpad colonWidth" *ngIf="!tblupdate">
+
+
+                      <mat-form-field>
+                        <input matInput [min]="minStartDate" [max]="maxStartDate" [matDatepicker]="picker"
+                          [disabled]="disableDate" name="startdate" [(ngModel)]="getIdData.startDate"
+                          placeholder="Start date" (click)="picker.open()" onkeydown="return false"
+                          disableOptionCentering>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+
+
+                    </td> -->
+                  </tr>
+
+                  <tr>
+                    <th class="tblpad colonWidth">BU Head</th>:
+                    <td class="tblpad colonWidth"> {{buHead[0].firstname}} {{buHead[0].lastname}}
+                      ({{buHead[0].employeeId}})</td>
+                    <!-- <td class="tblpad colonWidth" *ngIf="!tblupdate">{{buHead[0].firstname}} {{buHead[0].lastname}}
+                      ({{buHead[0].employeeId}}) -->
+                    <!--<mat-form-field>
+                           <mat-label *ngIf="taskHide">{{getIdData.tasks }}</mat-label> -->
+                    <!-- <mat-select name="buHead" [(ngModel)]="getIdData.buHead" #bu="ngModel" required>
+                          <mat-option *ngFor="let bu of buListArr" [value]="bu.buHead">{{bu.buHeadName}}
+                            ({{bu.buName}})
+                          </mat-option>
+
+                        </mat-select>
+                      </mat-form-field>
+                      <div *ngIf="bu.invalid && bu.touched" style="color: red;">
+                        <p *ngIf="bu.errors.required">Business unit is Required</p>
+                      </div> -->
+                    <!-- </td> -->
+
+                  </tr>
+                  <tr>
+                    <th class="tblpad colonWidth">Delivery Location</th>:
+                    <td class="tblpad colonWidth" *ngIf="getIdData.deliveryLocation!=null">
+                      {{getIdData.deliveryLocation}}</td>
+                    <!-- <td class="tblpad colonWidth" *ngIf="!tblupdate"> -->
+
+                    <!-- <mat-form-field> -->
+                    <!-- <mat-label *ngIf="deliveryHide">{{getIdData.deliveryLocation}}</mat-label> -->
+                    <!-- <mat-select name="deliverylocation" [(ngModel)]="getIdData.deliveryLocation" #delivery="ngModel"
+                          required disableOptionCentering>
+                          <mat-option *ngFor="let delivery of deliveryLoc" [value]="delivery.deliverylocationName">
+                            {{delivery.deliverylocationName}}</mat-option>
+
+                        </mat-select>
+                      </mat-form-field>
+                      <div *ngIf="delivery.invalid && delivery.touched" style="color: red;">
+                        <p *ngIf="delivery.errors.required">Delivery Location is Required</p>
+                      </div>
+                    </td> -->
+
+                  </tr>
+
+
+
+
+                </table>
+              </div>
+              <div class="col-md-4 col-sm-4 col-xs-12">
+                <table class="table table-borderless">
+                  <tr>
+                    <th class="tblpad colonWidth">End Date</th>:
+                    <td class="tblpad colonWidth" *ngIf="getIdData.endDate!=null">
+                      {{getIdData.endDate| date:'dd-MM-yyyy'}}</td>
+                    <!-- <td class="tblpad colonWidth" *ngIf="!tblupdate">
+
+
+                      <mat-form-field>
+                        <input matInput [min]="getIdData.startDate" [max]="maxStartDate" [matDatepicker]="picker1"
+                          [disabled]="disableDate" name="enddate" [(ngModel)]="getIdData.endDate" placeholder="End date"
+                          (click)="picker1.open()" onkeydown="return false" disableOptionCentering>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                      </mat-form-field>
+
+
+                    </td> -->
+
+                  </tr>
+                  <tr>
+                    <th class="tblpad colonWidth">SBU Head</th>:
+                    <td class="tblpad colonWidth">{{sbuHead[0].firstname}} {{sbuHead[0].lastname}}
+                      ({{sbuHead[0].employeeId}}) </td>
+                    <!-- <td class="tblpad colonWidth" *ngIf="!tblupdate">{{sbuHead[0].firstname}} {{sbuHead[0].lastname}}
+                      ({{sbuHead[0].employeeId}}) -->
+                    <!-- <mat-form-field>
+                        <mat-label *ngIf="taskHide">{{getIdData.tasks }}</mat-label> -->
+                    <!-- <mat-select name="sbuHead" [(ngModel)]="getIdData.sbuHead" #sbu="ngModel" required>
+                          <mat-option *ngFor="let sbu of sbuListArr" [value]="sbu.sbuHead">{{sbu.sbuHeadName}}
+                            ({{sbu.name}})
+                          </mat-option>
+
+                        </mat-select>
+                      </mat-form-field>
+                      <div *ngIf="sbu.invalid && sbu.touched" style="color: red;">
+                        <p *ngIf="sbu.errors.required">Sub Business unit is Required</p>
+                      </div> -->
+                    <!-- </td> -->
+
+                  </tr>
+                  <tr>
+                    <th class="tblpad colonWidth">Location Type</th>:
+                    <td class="tblpad colonWidth" *ngIf="getIdData.locationType!=null">{{getIdData.locationType}}</td>
+                    <!-- <td class="tblpad colonWidth" *ngIf="!tblupdate">
+                      <mat-form-field> -->
+                    <!-- <mat-label *ngIf="locHide">{{getIdData.locationType}}</mat-label> -->
+                    <!-- <mat-select name="locationtype" [(ngModel)]="getIdData.locationType" #loctype="ngModel" required
+                          disableOptionCentering>
+                          <mat-option *ngFor="let location of locTypes" [value]="location.locationType">
+                            {{location.locationType}}</mat-option>
+
+                        </mat-select>
+                      </mat-form-field>
+                      <div *ngIf="loctype.invalid && loctype.touched" style="color: red;">
+                        <p *ngIf="loctype.errors.required">Location Type is Required</p>
+                      </div>
+
+
+                    </td> -->
+
+                  </tr>
+
+
+
+
+
+                </table>
+              </div>
+            </div>
+
+
+            <!-- <div>
+              <div style="padding: 0px 15px;">
+                  <table class="table table-borderless">
+                      <tr>
+                          <th class="tblpad">Description</th>:
+                          <td class="tblpad" *ngIf="tblupdate" class="col-6">{{getIdData.projectDescription}}</td>
+                          <td class="tblpad" *ngIf="!tblupdate" class="col-6"><textarea class="form-control" name="description"
+                              [(ngModel)]="getIdData.projectDescription" rows="2" #description="ngModel" required></textarea>
+                            <div *ngIf="description.invalid && description.touched" style="color: red;">
+                              <p *ngIf="description.errors.required">Description is Required</p>
+                            </div>
+                          </td>
+          
+                        </tr>
+                    </table>
+              </div>
+
+            </div> -->
+
+
+
+
+          </div>
+
+
+
+
+          <div class="row" style="margin-top: 30px;">
+
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="card shadow">
+                <div class="header shadow">
+                  <p style="font-size: 17px;text-align: center;"><b>Financials</b></p>
+                </div>
+                <div class="data">
+                  <table class="table table-borderless">
+                    <tr>
+                      <th class="tblpad colonWidthFinancials">Billing Type</th>:
+                      <td class="tblpad colonWidthFinancials" *ngIf="getIdData.projectRatecard.billingType!=null">
+                        {{getIdData.projectRatecard.billingType}}</td>
+                      <!-- <td class="tblpad colonWidthFinancials" *ngIf="!tblupdate">
+
+
+                        <mat-form-field> -->
+                      <!-- <mat-label *ngIf="billHide">{{getIdData.projectRatecard.billingType}}</mat-label> -->
+                      <!-- <mat-select name="billingtype" [(ngModel)]="getIdData.projectRatecard.billingType"
+                            #bill="ngModel" required disableOptionCentering>
+                            <mat-option *ngFor="let billing of billingTypes" [value]="billing.name">{{billing.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="bill.invalid && bill.touched" style="color: red;">
+                          <p *ngIf="bill.errors.required">Billing Type is Required</p>
+                        </div>
+                      </td> -->
+                    </tr>
+                    <tr>
+                      <th class="tblpad colonWidthFinancials">Project Value</th>:
+                      <td class="tblpad colonWidthFinancials" *ngIf="getIdData.projectRatecard.projectValue!=null">
+                        {{getIdData.projectRatecard.projectValue}}</td>
+                      <!-- <td class="tblpad colonWidthFinancials" *ngIf="!tblupdate">
+                        <p *ngIf="showBalance" style="font-size: 10px;">Remaining Value :&nbsp;&nbsp;<span
+                            *ngIf="greenShow" style="color: green;">{{valueToShow| number:'1.0-0'}}</span><span
+                            *ngIf="redShow" style="color: red;">{{valueToShow| number:'1.0-0'}}</span> </p>
+                        <input type="number" class="form-control" name="value"
+                          [(ngModel)]="getIdData.projectRatecard.projectValue" #value="ngModel" required min="0"
+                          (change)="valueChange($event)">
+                        <p *ngIf="0>valueToShow" style="color: red;">Value is not enough</p>
+                        <p *ngIf="errorToEnter" style="color: red;">Project value should not exceed the
+                          {{valueToShow+editprojectvalue| number:'1.0-0'}} </p>
+
+                        <div *ngIf="value.invalid && value.touched" style="color: red;">
+                          <p *ngIf="value.errors.required">Value is Required</p>
+                          <p *ngIf="value.errors.min">Negative Values are not allowed</p>
+
+                        </div>
+
+
+                      </td> -->
+
+                    </tr>
+
+                    <tr>
+                      <th class="tblpad colonWidthFinancials">Rate Type</th>:
+                      <td class="tblpad colonWidthFinancials" *ngIf="getIdData.projectRatecard.rateType!=null">
+                        {{getIdData.projectRatecard.rateType}}
+                      </td>
+                      <!-- <td class="tblpad colonWidthFinancials" *ngIf="!tblupdate">
+                        <mat-form-field> -->
+                      <!-- <mat-label *ngIf="rateHide">{{getIdData.projectRatecard.rateType}}</mat-label> -->
+                      <!-- <mat-select name="ratetype" [(ngModel)]="getIdData.projectRatecard.rateType" #rate="ngModel"
+                            required disableOptionCentering>
+                            <mat-option *ngFor="let rate of rateTypes" [value]="rate.rateType">{{rate.rateType}}
+                            </mat-option>
+
+                          </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="rate.invalid && rate.touched" style="color: red;">
+                          <p *ngIf="rate.errors.required">Rate Card is Required</p>
+                        </div>
+                      </td> -->
+
+                    </tr>
+                    <tr>
+                      <th class="tblpad colonWidthFinancials">Service Type</th>:
+                      <td class="tblpad colonWidthFinancials" *ngIf="getIdData.projectRatecard.serviceType!=null">
+                        {{getIdData.projectRatecard.serviceType}}</td>
+                      <!-- <td class="tblpad colonWidthFinancials" *ngIf="!tblupdate">
+
+                        <mat-form-field>
+                           <mat-label *ngIf="serviceHide">{{getIdData.projectRatecard.serviceType}}</mat-label> -->
+                      <!--  <mat-select name="servicetype" [(ngModel)]="getIdData.projectRatecard.serviceType"
+                            #type="ngModel" disableOptionCentering>
+                            <mat-option *ngFor="let service of serviceTypes" [value]="service.serviceTypeName">
+                              {{service.serviceTypeName}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="type.invalid && type.touched" style="color: red;">
+                          <p *ngIf="type.errors.required">Service Type is Required</p>
+                        </div>
+
+
+                      </td> -->
+
+                    </tr>
+                    <tr>
+                      <th class="tblpad colonWidthFinancials">Service Category</th>:
+                      <td class="tblpad colonWidthFinancials" *ngIf="getIdData.servicecategory!=null">
+                        {{getIdData.servicecategory}}</td>
+                      <!-- <td class="tblpad colonWidthFinancials" *ngIf="!tblupdate">
+
+                        <mat-form-field> -->
+                      <!-- <mat-label *ngIf="catHide">{{getIdData.servicecategory}}</mat-label> -->
+                      <!-- <mat-select name="servicecategory" [(ngModel)]="getIdData.servicecategory" #service="ngModel"
+                            required disableOptionCentering>
+                            <mat-option *ngFor="let servicecat of serviceCategoryList"
+                              [value]="servicecat.serviceategoryName">
+                              {{servicecat.serviceategoryName}}</mat-option>
+
+                          </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="service.invalid && service.touched" style="color: red;">
+                          <p *ngIf="service.errors.required">Service Category is Required</p>
+                        </div>
+
+
+                      </td> -->
+
+                    </tr>
+
+
+
+
+
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="card shadow">
+                <div class="header shadow">
+                  <p style="font-size: 17px;text-align: center;"><b>Key Resources</b></p>
+                </div>
+                <div class="data" style="height: 195px;">
+                  <table class="table table-borderless">
+                    <tr>
+                      <th class="tblpad colonWidthresource">Manager</th>:
+                      <td class="tblpad colonWidthresource"
+                        *ngIf="getIdData.projectResourceMapping.projectManager!=null">
+                        {{managers[0].firstname}} {{managers[0].lastname}} ({{managers[0].employeeId}})</td>
+                      <!-- <td class="tblpad colonWidthresource" *ngIf="!tblupdate">
+                        <mat-form-field>
+                          <mat-label>Project Manager</mat-label>
+                          <mat-select name="manager" [(ngModel)]="getIdData.projectResourceMapping.projectManager"
+                            #manager="ngModel" required disableOptionCentering>
+                            <mat-option *ngFor="let manager of managerdata" [value]="manager.employeeId">
+                              {{manager.firstname}} {{manager.lastname}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+
+                        <div *ngIf="manager.invalid && manager.touched" style="color: red;">
+                          <p *ngIf="manager.errors.required">Manager name is Required</p>
+                        </div>
+
+                      </td> -->
+
+                    </tr>
+                    <tr>
+                      <th class="tblpad colonWidthresource">Technical Lead</th>:
+                      <td class="tblpad colonWidthresource" *ngIf="getIdData.projectResourceMapping.techLead!=null">
+                        {{techlead[0].firstname}} {{techlead[0].lastname}} ({{techlead[0].employeeId}})</td>
+                      <!-- <td class="tblpad colonWidthresource" *ngIf="!tblupdate">
+
+
+                        <mat-form-field>
+                          <mat-label>Technical Lead</mat-label>
+                          <mat-select name="techlead" [(ngModel)]="getIdData.projectResourceMapping.techLead"
+                            #techlead="ngModel" required disableOptionCentering>
+                            <mat-option *ngFor="let tech of empObjTech" [value]="tech.employeeId">
+                              {{tech.firstname}} {{tech.lastname}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="techlead.invalid && techlead.touched" style="color: red;">
+                          <p *ngIf="techlead.errors.required">Tech lead is Required</p>
+                        </div>
+                      </td> -->
+
+                    </tr>
+                    <tr>
+                      <th class="tblpad colonWidthresource">Project Tech Stack</th>:
+                      <td class="tblpad colonWidthresource"
+                        *ngIf="getIdData.projectResourceMapping.techStack.length!=0">
+                        {{getIdData.projectResourceMapping.techStack }}</td>
+                      <!-- <td class="tblpad colonWidthresource" *ngIf="!tblupdate"> -->
+
+
+
+                      <!-- <mat-form-field> -->
+                      <!-- <mat-label *ngIf="techHide">{{getIdData.projectResourceMapping.techStack }}</mat-label> -->
+                      <!-- <mat-select name="projecttechstack" [(ngModel)]="getIdData.projectResourceMapping.techStack"
+                            #stack="ngModel" required multiple disableOptionCentering>
+                            <mat-option *ngFor="let tech of techStacks" [value]="tech.technology">{{tech.technology}}
+                            </mat-option>
+                          </mat-select>
+                        </!-->
+                      <!-- <div *ngIf="stack.invalid && stack.touched" style="color: red;">
+                          <p *ngIf="stack.errors.required">Tech Stacks are Required</p>
+                        </div>
+
+
+                      </td> -->
+
+                    </tr>
+
+                    <!-- <tr>
+                      <th class="tblpad colonWidthresource">Number of Resources</th>:
+                      <td class="tblpad colonWidthresource" *ngIf="tblupdate">{{getIdData.projectResourceMapping.resourceCount}}</td>
+                      <td class="tblpad colonWidthresource" *ngIf="!tblupdate"><input class="form-control" name="resourcecount"
+                          [(ngModel)]="getIdData.projectResourceMapping.resourceCount" #resource="ngModel" required>
+                        <p *ngIf="0>getIdData.projectResourceMapping.resourceCount" style="color: red;">Negative
+                          resources not allowed</p>
+
+                        <div *ngIf="resource.invalid && resource.touched" style="color: red;">
+                          <p *ngIf="resource.errors.required">Resources count are Required</p>
+                        </div>
+                      </td>
+
+                    </tr> -->
+                    <!-- <tr>
+                      <th class="tblpad colonWidthresource">Mapped Resources</th>:
+                      <td class="tblpad colonWidthresource" *ngIf="mappedMessage">Resources are not mapped yet!</td>
+                      <td class="tblpad colonWidthresource" *ngIf="!mappedMessage">
+                        <div *ngFor="let map of rmgresource">
+                          {{map.firstname}} {{map.lastname}} ({{map.employeeId}}) -->
+                    <!-- <span
+                            *ngIf="map.resourceType== 'Specific'">{{getNames(map.resource.employeeId)}}
+                            ({{map.resource.employeeId}})</span>
+                          <span *ngIf="map.resourceType== 'Generic'">{{getNames(map.resource.empId)}}
+                            ({{map.resource.empId}})</span> -->
+                    <!-- </div>
+                      </td> -->
+                    <!-- <td class="tblpad colonWidthresource" *ngIf="!tblupdate">
+                        <mat-form-field>
+
+                          <mat-select name="resources" [(ngModel)]="getIdData.projectResourceMapping.resources"
+                            #resourceMap="ngModel" required disableOptionCentering multiple>
+                            <mat-option *ngFor="let emp of empsorteddata" [value]="emp.employeeId">
+                              {{emp.firstname}}
+                              {{emp.lastname}} ({{emp.employeeId}})
+                            </mat-option>
+
+                          </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="resourceMap.invalid && resourceMap.touched" style="color: red;">
+                          <p *ngIf="resourceMap.errors.required">Resources are Required</p>
+                        </div>
+                      </td> -->
+                    <!-- </tr> -->
+
+
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="card shadow">
+            <div class="header shadow">
+              <p style="font-size: 17px;text-align: center;"><b>Project Milestones</b></p>
+            </div>
+            <div class="data">
+              <div *ngIf="mileStonesArray.length!=0" class="table-responsive" style="padding-top: 15px;">
+                <table class="table table-borderless ">
+                  <thead class="tbldata" style="background-color: #1d62a7;color: white;">
+                    <th>Milestone Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Biling Amount</th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let mile of mileStonesArray">
+                      <td>{{mile.milestoneName}}</td>
+                      <td>{{mile.startDate}}</td>
+                      <td>{{mile.endDate}}</td>
+                      <td>{{mile.billingAmount}}</td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="card shadow">
+            <div class="header shadow">
+              <p style="font-size: 17px;text-align: center;"><b>Resources</b></p>
+            </div>
+            <div class="data">
+
+              <div *ngIf="rmgresource.length!=0" class="table-responsive" style="padding-top: 15px;">
+                <table class="table" style="text-align: center;">
+                  <thead class="tbldata" style="background-color: #1d62a7;color: white;">
+                    <th>Employee Id</th>
+                    <th>Employee Name</th>
+                    <th>Designation</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let map of rmgresource">
+                      <td>{{map.employeeId}}</td>
+                      <td>{{map.firstname}} {{map.lastname}}</td>
+                      <td>{{map.title}}</td>
+                      <td>{{map.startDate | date:'dd-MM-yyyy'}}</td>
+                      <td>{{map.endDate | date:'dd-MM-yyyy'}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- <div class="float-right" *ngIf="!tblupdate">
+            <button type="submit" class="btn" style="background-color: #1d62a7;color: white;"
+              (click)="updateproject(updateProject.value)"
+              [disabled]="updateProject.invalid || 0>valueToShow || errorToEnter || 0>getIdData.projectResourceMapping.resourceCount">Update</button>&nbsp;&nbsp;
+            <button class="btn" style="background-color: #1d62a7;color: white;" (click)="cancel()">Cancel</button>
+          </div> -->
+        </form>
+
+
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+<!-- Create project Starts -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="project">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Project Creation</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancelSave(project)">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <mat-form-field>
+                <mat-label>Select Customer</mat-label>
+                <mat-select formControlName="customerChange" (selectionChange)="selected_customer($event.value)"
+                  [disabled]="onShow" disableOptionCentering>
+                  <mat-option *ngFor="let data of customerData" [value]="data.customerId">{{data.customerName}}
+                  </mat-option>
+
+                </mat-select>
+              </mat-form-field>
+              <div style="color:red"
+                *ngIf="project.get('customerChange').invalid && project.get('customerChange').touched">
+                <span *ngIf="project.get('customerChange').errors.required">Please select customer</span>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <mat-form-field>
+                <mat-label>Select Contract</mat-label>
+                <mat-select formControlName="contractChange" [disabled]="contractDisable"
+                  (selectionChange)="getContractId($event.value)" disableOptionCentering>
+                  <mat-option *ngFor="let contract of contractIdGet" [value]="contract.contractid">
+                    {{contract.contractname}}
+                  </mat-option>
+
+                </mat-select>
+              </mat-form-field>
+              <div style="color:red"
+                *ngIf="project.get('contractChange').invalid && project.get('contractChange').touched">
+                <span *ngIf="project.get('contractChange').errors.required && contractIdGet!=null">Please select
+                  contract</span>
+                <p *ngIf="contractIdGet==null">No Contract under selected customer</p>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <span *ngIf="cusconeditHide"><b>
+                  <p (click)="cusConEdit();project.reset()" style="cursor: pointer;"><img src="assets/pe.png"
+                      width="25px" height="25px">Click Here</p>To Edit Customer and Contract
+                </b>&nbsp;&nbsp;</span>
+            </div>
+
+          </div>
+
+          <div *ngIf="!show">
+
+
+
+            <nav>
+              <div class="row navInModel">
+                <div class="nav nav-tabs mx-auto" id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link active" id="basicTab" data-toggle="tab" href="#basicTabref" role="tab"
+                    aria-controls="basicTabref" aria-selected="true">Basic Info</a>
+                  <a class="nav-item nav-link" id="Financials" data-toggle="tab" href="#FinancialsRef" role="tab"
+                    aria-controls="FinancialsRef" aria-selected="false">Location & Financials</a>
+                  <a class="nav-item nav-link" id="resourceTab" data-toggle="tab" href="#resourceTabref" role="tab"
+                    aria-controls="resourceTabref" aria-selected="false">Resources</a>
+                  <a class="nav-item nav-link" id="taskTab" data-toggle="tab" href="#taskTabref" role="tab"
+                    aria-controls="taskTabref" aria-selected="false">Tasks</a>
+                  <a class="nav-item nav-link" id="mileStoneTab" data-toggle="tab" href="#mileStoneTabref" role="tab"
+                    aria-controls="mileStoneTabref" aria-selected="true">Milestones</a>
+                </div>
+              </div>
+
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="basicTabref" role="tabpanel" aria-labelledby="basicTab">
+                <div class="row" style="padding-bottom: 10px;">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Project Name</mat-label>
+                      <input matInput formControlName="projectName">
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('projectName').invalid && project.get('projectName').touched">
+                      <span *ngIf="project.get('projectName').errors.required">Project Name is required</span>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12" style="margin-top: 22px;">
+                    
+
+                    <div *ngIf="isCustomer">
+                      
+
+                      <label>Project Type&nbsp;</label>: &nbsp;{{contractDataTo.contractType}}
+                    </div>
+                    <div *ngIf="isNotCustomer">
+
+
+                      
+                      <mat-form-field>
+                        <mat-label>Project Type</mat-label>
+
+                        <mat-select formControlName="projectType" disableOptionCentering>
+                          <mat-option *ngFor="let data of projectTypedata" value="{{data.projectType}}">
+                            {{data.projectType}}
+                          </mat-option>
+                          <!-- <mat-option value="Enablement">Enablement</mat-option> -->
+                        </mat-select>
+                      </mat-form-field>
+                      <div style="color:red"
+                        *ngIf="project.get('projectType').invalid && project.get('projectType').touched">
+                        <span *ngIf="project.get('projectType').errors.required">Please Select project type</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+
+
+                    <br>
+                    <mat-form-field>
+                      <input matInput [min]="minStartDate" [max]="maxStartDate" [matDatepicker]="picker"
+                        [disabled]="disableDate" formControlName="projectStartDate" placeholder="Start date"
+                        (click)="picker.open()" onkeydown="return false">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <div style="color:red"
+                      *ngIf="project.get('projectStartDate').invalid && project.get('projectStartDate').touched">
+                      <span *ngIf="project.get('projectStartDate').errors.required">Start date is required</span>
+                    </div>
+
+
+
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <input matInput [min]="project.value.projectStartDate" [max]="maxStartDate"
+                        [matDatepicker]="picker1" [disabled]="disableDate" formControlName="projectEndDate"
+                        placeholder="End date" (click)="picker1.open()" onkeydown="return false">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('projectEndDate').invalid && project.get('projectEndDate').touched">
+                      <span *ngIf="project.get('projectEndDate').errors.required">End date is required</span>
+                    </div>
+
+
+
+                  </div>
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Project Manager</mat-label>
+                      <mat-select formControlName="projectManager" disableOptionCentering>
+                        <mat-option *ngFor="let manager of managerdata" [value]="manager.employeeId">
+                          {{manager.firstname}} {{manager.lastname}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <div style="color:red"
+                      *ngIf="project.get('projectManager').invalid && project.get('projectManager').touched">
+                      <span *ngIf="project.get('projectManager').errors.required">Project Manager Name is
+                        required</span>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Technical Lead</mat-label>
+                      <mat-select formControlName="projectTechnicalLead" disableOptionCentering>
+                        <mat-option *ngFor="let tech of empObjTech" [value]="tech.employeeId">
+                          {{tech.firstname}} {{tech.lastname}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <div style="color:red"
+                      *ngIf="project.get('projectTechnicalLead').invalid && project.get('projectTechnicalLead').touched">
+                      <span *ngIf="project.get('projectTechnicalLead').errors.required">Project Technical Lead is
+                        required</span>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Color</mat-label>
+                      <input type="color" matInput formControlName="projectColor">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+
+                    <label>Description</label>
+                    <textarea class="form-control" formControlName="projectDescription" rows="3"></textarea>
+                    <div style="color:red"
+                      *ngIf="project.get('projectDescription').invalid && project.get('projectDescription').touched">
+                      <span *ngIf="project.get('projectDescription').errors.required">Project Description is
+                        required</span>
+                    </div>
+
+                  </div>
+
+
+
+                </div>
+              </div>
+              <div class="tab-pane fade" id="FinancialsRef" role="tabpanel" aria-labelledby="Financials">
+                <div class="row" style="padding-bottom: 10px;">
+
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Delivery Location</mat-label>
+                      <mat-select formControlName="projectDelivaryLocation" disableOptionCentering>
+                        <mat-option *ngFor="let delivery of deliveryLoc" [value]="delivery.deliverylocationName">
+                          {{delivery.deliverylocationName}}</mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('projectDelivaryLocation').invalid && project.get('projectDelivaryLocation').touched">
+                      <span *ngIf="project.get('projectDelivaryLocation').errors.required">Project Delivary Location is
+                        required</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Location Type</mat-label>
+                      <mat-select formControlName="locationType" disableOptionCentering>
+                        <mat-option *ngFor="let location of locTypes" [value]="location.locationType">
+                          {{location.locationType}}</mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+
+
+                    <div style="color:red"
+                      *ngIf="project.get('locationType').invalid && project.get('locationType').touched">
+                      <span *ngIf="project.get('locationType').errors.required">Location Type is required</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <p *ngIf="showBalance" style="font-size: 10px;">Remaining Value :&nbsp;&nbsp;<span *ngIf="greenShow"
+                        style="color: green;">{{valueToShow| number:'1.0-0'}}</span><span *ngIf="redShow"
+                        style="color: red;">{{valueToShow| number:'1.0-0'}}</span> </p>
+                    <mat-form-field>
+                      <mat-label>Project Value</mat-label>
+
+                      <input matInput type="number" formControlName="projectValue">
+                    </mat-form-field>
+
+                    <div style="color:red"
+                      *ngIf="project.get('projectValue').invalid && project.get('projectValue').touched">
+                      <span *ngIf="project.get('projectValue').errors.required">Project Value is required</span>
+                      <span *ngIf="project['controls']['projectValue'].errors.max">Project value should not exceed the
+                        {{valueToShow| number:'1.0-0'}}</span>
+                      <span *ngIf="project.get('projectValue').errors.min">Negative Values are not allowed</span>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Billing Type</mat-label>
+                      <mat-select formControlName="billingType" disableOptionCentering>
+                        <mat-option *ngFor="let bill of billingTypes" [value]="bill.name">{{bill.name}}</mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('billingType').invalid && project.get('billingType').touched">
+                      <span *ngIf="project.get('billingType').errors.required">Billing Type is required</span>
+                    </div>
+                  </div>
+
+
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Service Type</mat-label>
+                      <mat-select formControlName="serviceType" disableOptionCentering>
+                        <mat-option *ngFor="let service of serviceTypes" [value]="service.serviceTypeName">
+                          {{service.serviceTypeName}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+
+                    <div style="color:red"
+                      *ngIf="project.get('serviceType').invalid && project.get('serviceType').touched">
+                      <span *ngIf="project.get('serviceType').errors.required">Service Type is required</span>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Rate Type</mat-label>
+                      <mat-select formControlName="rateType" disableOptionCentering>
+                        <mat-option *ngFor="let rate of rateTypes" [value]="rate.rateType">{{rate.rateType}}
+                        </mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                    <div style="color:red" *ngIf="project.get('rateType').invalid && project.get('rateType').touched">
+                      <span *ngIf="project.get('rateType').errors.required">Rate Type is required</span>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Project Tech Stack</mat-label>
+                      <mat-select formControlName="projectTechStack" multiple disableOptionCentering>
+                        <mat-option *ngFor="let techstack of techStacks" [value]="techstack.technology">
+                          {{techstack.technology}}
+                        </mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('projectTechStack').invalid && project.get('projectTechStack').touched">
+                      <span *ngIf="project.get('projectTechStack').errors.required">ProjectTechStack is required</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Service Category</mat-label>
+                      <mat-select formControlName="serviceCategory" disableOptionCentering>
+                        <mat-option *ngFor="let servicecat of serviceCategoryList"
+                          [value]="servicecat.serviceategoryName">
+                          {{servicecat.serviceategoryName}}</mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('serviceCategory').invalid && project.get('serviceCategory').touched">
+                      <span *ngIf="project.get('serviceCategory').errors.required">Service Category is required</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="resourceTabref" role="tabpanel" aria-labelledby="resourceTab">
+
+                <div *ngIf='project.value.projectStartDate!=null && project.value.projectEndDate!=null'>
+                  <div class="row" style="padding-bottom: 10px;">
+
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                      <br>
+                      <mat-form-field>
+                        <mat-label>Skills</mat-label>
+                        <mat-select (selectionChange)="skillBasedEmployess($event.value)" multiple
+                          disableOptionCentering>
+                          <mat-option value="all">All Employees
+                          </mat-option>
+                          <mat-option *ngFor="let tasks of skillInfoList" [value]="tasks.skill_name"
+                            [disabled]="allEmps">
+                            {{tasks.skill_name}}
+                          </mat-option>
+
+                        </mat-select>
+                      </mat-form-field>
+                      <!-- <div style="color:red" *ngIf="project.get('tasks').invalid && project.get('tasks').touched">
+                        <span *ngIf="project.get('tasks').errors.required">Skills are required</span>
+                      </div> -->
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                      <br>
+                      <mat-form-field>
+                        <mat-label>Resources</mat-label>
+                        <input formControlName="resourceId" (change)="toCheckAvailability($event)" list="browsers"
+                          matInput />
+                        <datalist id="browsers">
+                          <option *ngFor="let em of empall" value="{{em.empId}}">{{em.name|titlecase}}</option>
+                        </datalist>
+                      </mat-form-field>
+                      <p *ngIf="noRecords">No Employees found On this skill</p>
+                    </div>
+                  </div>
+                  <div *ngIf="availabilityArray.length!=[]">
+                    <table class="table table-borderless">
+                      <thead>
+                        <th>Employee Name</th>
+                        <th>Allocated Project</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Allocated Hours</th>
+                      </thead>
+                      <tr *ngFor="let dataEmp of availabilityArray">
+                        <td>{{getNames(dataEmp.empId)}}</td>
+                        <td>{{getprojectName(dataEmp.projectId)}}</td>
+                        <td>{{dataEmp.startDate}}</td>
+                        <td>{{dataEmp.endDate}}</td>
+                        <td>{{dataEmp.hoursOfAllocation}}</td>
+                      </tr>
+
+                    </table>
+                  </div>
+                  <div *ngIf="dontAllowResource && project.value.resourceId!=null">
+                    <div class="row" style="padding-bottom: 10px;">
+
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+
+
+                        <br>
+                        <mat-form-field>
+                          <input matInput [min]="project.value.projectStartDate" [max]="project.value.projectEndDate"
+                            [matDatepicker]="picker3" [disabled]="disableDate" formControlName="resourceStartDate"
+                            placeholder="Start date" (click)="picker3.open()" onkeydown="return false">
+                          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                          <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+
+                        <!-- <div style="color:red"
+                        *ngIf="project.get('projectStartDate').invalid && project.get('projectStartDate').touched">
+                        <span *ngIf="project.get('projectStartDate').errors.required">Start date is required</span>
+                      </div> -->
+
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <br>
+                        <mat-form-field>
+                          <input matInput [min]="project.value.resourceStartDate" [max]="project.value.projectEndDate"
+                            [matDatepicker]="picker4" formControlName="resourceEndDate" [disabled]="disableDate"
+                            placeholder="End date" (click)="picker4.open()" onkeydown="return false">
+                          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                          <mat-datepicker #picker4></mat-datepicker>
+                        </mat-form-field>
+                        <!-- <div style="color:red"
+                        *ngIf="project.get('projectEndDate').invalid && project.get('projectEndDate').touched">
+                        <span *ngIf="project.get('projectEndDate').errors.required">End date is required</span>
+                      </div> -->
+
+
+
+                      </div>
+                    </div>
+                    <div class="row" style="padding-bottom: 10px;">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <br>
+                        <mat-form-field>
+                          <mat-label>Bill Rate</mat-label>
+                          <input formControlName="billRate" matInput disableOptionCentering>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <br>
+                        <mat-form-field>
+                          <mat-label>Hours of allocation</mat-label>
+                          <input type="number" formControlName="numberOfHours" matInput disableOptionCentering>
+                        </mat-form-field>
+                        <div style="color: red;" *ngIf=" project.value.numberOfHours + checkHours > 16">Not
+                          more than 16 hours.</div>
+                      </div>
+
+                    </div>
+                    <button class="btn bttn float-right" style="margin-right: 20px;margin-top: -26px;"
+                      (click)="resourceMapping()"
+                      [disabled]="project.value.resourceId==null || project.value.resourceId=='' || project.value.resourceStartDate==null || project.value.resourceEndDate==null || project.value.billRate==null ||project.value.numberOfHours==null || project.value.numberOfHours + checkHours > 16">Add</button>
+                  </div>
+                  <div class="mx-auto" style="color: red;" *ngIf="!dontAllowResource">
+                    <p>This resource is allocated to above projects. Please select other resource.</p>
+                  </div>
+                  <div *ngIf="resourceArray.length!=[]">
+                    <table class="table table-borderless">
+                      <thead>
+                        <th>Employee Id</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Bill Rate</th>
+                        <th>Allocated Hours</th>
+                      </thead>
+                      <tbody>
+                        <tr class="resourceStyle" *ngFor="let resourcedata of resourceArray;let i=index">
+
+                          <td>{{resourcedata.empId}}</td>
+                          <td>{{resourcedata.startDate | date: 'dd-MM-yyyy'}}</td>
+                          <td>{{resourcedata.endDate | date: 'dd-MM-yyyy'}}</td>
+                          <td>{{resourcedata.billRate}}</td>
+                          <td>{{resourcedata.numberOfHours}}</td>
+
+                          <td (click)="cancelResource(i)" class="cursorPoint"><span
+                              style="font-size: 20px;">&times;</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-8 mx-auto" style="margin-top: 20px;"
+                  *ngIf='project.value.projectStartDate==null || project.value.projectEndDate==null'>
+                  <p>Please select project dates to allocate resources</p>
+
+                </div>
+
+
+
+
+              </div>
+              <div class="tab-pane fade" id="taskTabref" role="tabpanel" aria-labelledby="taskTab">
+                <div style="padding-bottom: 10px;">
+
+
+                  <div class="col-12">
+                    <br>
+                    <div class="row">
+                      <div class="col-md-5 col-sm-12 col-xs-12">
+                        <mat-form-field>
+                          <mat-label>Select</mat-label>
+                          <mat-select formControlName="tasks" (selectionChange)="addtask($event.value)" multiple
+                            disableOptionCentering>
+                            <mat-option value="other">Other</mat-option>
+                            <mat-option *ngFor="let tasks of taskList" [value]="tasks.projecttask"
+                              [disabled]="otherTask">{{tasks.projecttask}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+
+                      </div>
+                      <div class="col-md-7 col-sm-12 col-xs-12" *ngIf="otherTask">
+                        <div class="input-group mt-3">
+                          <input type="text" class="form-control" formControlName="otherTask" placeholder="Add Task">
+                          <div class="input-group-append">
+                            <button class="btn srch" type="button" (click)="addTask()">
+                              <i class="fa fa-plus"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <!-- <button class="btn bttn" style="margin-left: 55px;"
+                        (click)="addtask(project.get('tasks').value)">Add Task</button> -->
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-xs-12">
+                        <p class="heading">Common Task</p>
+                        <div class="showTasks" *ngFor="let taskData of project.value.tasks">
+                          <div class="row" style="border-bottom: 2px solid white;">
+                            <span class="col-10" *ngIf="taskData!='other'">{{taskData}}</span>
+                            <span class="col-2 cursorPoint" *ngIf="taskData!='other'" (click)="removeTask(taskData)"
+                              style="text-align: right;">&times;</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-xs-12">
+                        <p class="heading">Additional Task</p>
+                        <div class="showTasks" *ngFor="let taskData of otherTaskValue">
+                          <div class="row" style="border-bottom: 2px solid white;">
+                            <span class="col-10">{{taskData}}</span>
+                            <span class="col-2 cursorPoint" (click)="removeother(taskData)"
+                              style="text-align: right;">&times;</span>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <!-- <div style="color:red" *ngIf="project.get('tasks').invalid && project.get('tasks').touched">
+                      <span *ngIf="project.get('tasks').errors.required">Tasks are required</span>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="mileStoneTabref" role="tabpanel" aria-labelledby="mileStoneTab">
+                <div *ngIf='project.value.projectStartDate!=null && project.value.projectEndDate!=null && project.value.projectValue != ""'>
+
+                  <div class="row" style="padding-bottom: 10px;">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <br>
+                      <mat-form-field>
+                        <input matInput formControlName="mileName" placeholder="Milestone Name">
+
+                      </mat-form-field>
+                      <!-- <div style="color:red"
+                      *ngIf="project.get('projectEndDate').invalid && project.get('projectEndDate').touched">
+                      <span *ngIf="project.get('projectEndDate').errors.required">End date is required</span>
+                    </div> -->
+
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+
+                      <br>
+                      <mat-form-field>
+                        <input matInput [min]="project.value.projectStartDate" [max]="project.value.projectEndDate"
+                          [matDatepicker]="picker5" [disabled]="disableDate" formControlName="mileStartDate"
+                          placeholder="Start date" (click)="picker5.open()" onkeydown="return false">
+                        <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                        <mat-datepicker #picker5></mat-datepicker>
+                      </mat-form-field>
+
+                      <!-- <div style="color:red"
+                      *ngIf="project.get('projectStartDate').invalid && project.get('projectStartDate').touched">
+                      <span *ngIf="project.get('projectStartDate').errors.required">Start date is required</span>
+                    </div> -->
+
+
+
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <br>
+                      <mat-form-field>
+                        <input matInput [min]="project.value.mileStartDate" [max]="project.value.projectEndDate"
+                          [matDatepicker]="picker6" formControlName="mileEndDate" [disabled]="disableDate"
+                          placeholder="End date" (click)="picker6.open()" onkeydown="return false">
+                        <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                        <mat-datepicker #picker6></mat-datepicker>
+                      </mat-form-field>
+                      <!-- <div style="color:red"
+                      *ngIf="project.get('projectEndDate').invalid && project.get('projectEndDate').touched">
+                      <span *ngIf="project.get('projectEndDate').errors.required">End date is required</span>
+                    </div> -->
+
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <br>
+                     
+                      <mat-form-field>
+                        <input matInput formControlName="mileBillingAmount"  (change)='milebillingValidation($event.target.value)' placeholder="Milestone billing amount">
+
+                      </mat-form-field>
+                      <div style="color:red"
+                      *ngIf="showErrorBilling">
+                      <div  style="font-size: 14px;">Amount should not exceed {{project.value.projectValue}}.</div>
+                    </div>
+
+
+
+                    </div>
+                  </div>
+                  <div class="float-right" style="margin-top: 30px;">
+                    <button class="btn srch btnMileStone" (click)="addMileStone()"
+                      [disabled]='project.value.mileName == null || project.value.mileStartDate==null || project.value.mileEndDate == null || showErrorBilling == true'>Add
+                      Milestone</button>
+                  </div>
+                  <table class="table table-borderless" *ngIf='mileStonesArray.length!=[]'>
+                    <thead>
+                      <th>Name</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Billing Amount</th>
+
+                    </thead>
+                    <tbody>
+                      <tr class="resourceStyle" *ngFor="let mile of mileStonesArray;let i=index">
+                        <td>{{mile.milestoneName}}</td>
+                        <td>{{mile.startDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>{{mile.endDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>{{mile.billingAmount}}</td>
+
+                        <td (click)="removeMileStone(i)" class="cursorPoint"><span
+                            style="font-size: 20px;">&times;</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-8 mx-auto" style="margin-top: 20px;"
+                  *ngIf='project.value.projectStartDate==null || project.value.projectEndDate==null || project.value.projectValue == ""'>
+                  <p>Please select project dates and project value to add Milestone.</p>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+          </div>
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn" style="background-color: #1d62a7;color: white;"
+            (click)="createProject(project.value)" data-dismiss="modal" [disabled]="project.invalid">Create &
+            Submit</button>
+          <button type="button" class="btn" (click)="cancelSave(project)"
+            style="background-color: #1d62a7;color: white;" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Update project -->
+<div class="modal" id="editModel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="project">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Update Project</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancelSave(project)">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <mat-form-field>
+                <mat-label>Select Customer</mat-label>
+                <mat-select formControlName="customerChange" (selectionChange)="selected_customer($event.value)"
+                  [disabled]="onShow" disableOptionCentering>
+                  <mat-option *ngFor="let data of customerData" [value]="data.customerId">{{data.customerName}}
+                  </mat-option>
+
+                </mat-select>
+              </mat-form-field>
+              <div style="color:red"
+                *ngIf="project.get('customerChange').invalid && project.get('customerChange').touched">
+                <span *ngIf="project.get('customerChange').errors.required">Please select customer</span>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <mat-form-field>
+                <mat-label>Select Contract</mat-label>
+                <mat-select formControlName="contractChange" [disabled]="contractDisable"
+                  (selectionChange)="getContractId($event.value)" disableOptionCentering>
+                  <mat-option *ngFor="let contract of contractIdGet" [value]="contract.contractid">
+                    {{contract.contractname}}
+                  </mat-option>
+
+                </mat-select>
+              </mat-form-field>
+              <div style="color:red"
+                *ngIf="project.get('contractChange').invalid && project.get('contractChange').touched">
+                <span *ngIf="project.get('contractChange').errors.required && contractIdGet!=null">Please select
+                  contract</span>
+                <p *ngIf="contractIdGet==null">No Contract under selected customer</p>
+              </div>
+            </div>
+            <!-- <div class="col-md-4 col-sm-6 col-xs-12">
+              <span *ngIf="cusconeditHide"><b>
+                  <p (click)="cusConEdit();project.reset()" style="cursor: pointer;"><img src="assets/pe.png"
+                      width="25px" height="25px">Click Here</p>To Edit Customer and Contract
+                </b>&nbsp;&nbsp;</span>
+            </div> -->
+
+          </div>
+
+          <div *ngIf="!show">
+
+
+
+            <nav>
+              <div class="row navInModel">
+                <div class="nav nav-tabs mx-auto" id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link active" id="basicTab1" data-toggle="tab" href="#basicTabref1" role="tab"
+                    aria-controls="basicTabref1" aria-selected="true">Basic Info</a>
+                  <a class="nav-item nav-link" id="Financials1" data-toggle="tab" href="#FinancialsRef1" role="tab"
+                    aria-controls="FinancialsRef1" aria-selected="false">Location & Financials</a>
+                  <a class="nav-item nav-link" id="resourceTab1" data-toggle="tab" href="#resourceTabref1" role="tab"
+                    aria-controls="resourceTabref1" aria-selected="false">Resources</a>
+                  <a class="nav-item nav-link" id="taskTab1" data-toggle="tab" href="#taskTabref1" role="tab"
+                    aria-controls="taskTabref1" aria-selected="false">Tasks</a>
+                  <a class="nav-item nav-link" id="mileStoneTab1" data-toggle="tab" href="#mileStoneTabref1" role="tab"
+                    aria-controls="mileStoneTabref1" aria-selected="true">Milestones</a>
+                </div>
+              </div>
+
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="basicTabref1" role="tabpanel" aria-labelledby="basicTab1">
+                <div class="row" style="padding-bottom: 10px;">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Project Name</mat-label>
+                      <input matInput formControlName="projectName">
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('projectName').invalid && project.get('projectName').touched">
+                      <span *ngIf="project.get('projectName').errors.required">Project Name is required</span>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+
+                    <div *ngIf="isCustomer">
+                      <br>
+
+                      <label>Project Type&nbsp;</label>: &nbsp;{{contractDataTo.contractType}}
+                    </div>
+                    <div *ngIf="isNotCustomer">
+
+
+                      <br>
+                      <mat-form-field>
+                        <mat-label>Project Type</mat-label>
+
+                        <mat-select formControlName="projectType" disableOptionCentering>
+                          <mat-option *ngFor="let data of projectTypedata" value="{{data.projectType}}">
+                            {{data.projectType}}
+                          </mat-option>
+                          <!-- <mat-option value="Enablement">Enablement</mat-option> -->
+                        </mat-select>
+                      </mat-form-field>
+                      <div style="color:red"
+                        *ngIf="project.get('projectType').invalid && project.get('projectType').touched">
+                        <span *ngIf="project.get('projectType').errors.required">Please Select project type</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+
+
+                    <br>
+                    <mat-form-field>
+                      <input matInput [min]="minStartDate" [max]="maxStartDate" [matDatepicker]="picker"
+                        [disabled]="disableDate" formControlName="projectStartDate" placeholder="Start date"
+                        (click)="picker.open()" onkeydown="return false">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <div style="color:red"
+                      *ngIf="project.get('projectStartDate').invalid && project.get('projectStartDate').touched">
+                      <span *ngIf="project.get('projectStartDate').errors.required">Start date is required</span>
+                    </div>
+
+
+
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <input matInput [min]="project.value.projectStartDate" [max]="maxStartDate"
+                        [matDatepicker]="picker1" [disabled]="disableDate" formControlName="projectEndDate"
+                        placeholder="End date" (click)="picker1.open()" onkeydown="return false">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('projectEndDate').invalid && project.get('projectEndDate').touched">
+                      <span *ngIf="project.get('projectEndDate').errors.required">End date is required</span>
+                    </div>
+
+
+
+                  </div>
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Project Manager</mat-label>
+                      <mat-select formControlName="projectManager" disableOptionCentering>
+                        <mat-option *ngFor="let manager of managerdata" [value]="manager.employeeId">
+                          {{manager.firstname}} {{manager.lastname}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <div style="color:red"
+                      *ngIf="project.get('projectManager').invalid && project.get('projectManager').touched">
+                      <span *ngIf="project.get('projectManager').errors.required">Project Manager Name is
+                        required</span>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Technical Lead</mat-label>
+                      <mat-select formControlName="projectTechnicalLead" disableOptionCentering>
+                        <mat-option *ngFor="let tech of empObjTech" [value]="tech.employeeId">
+                          {{tech.firstname}} {{tech.lastname}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <div style="color:red"
+                      *ngIf="project.get('projectTechnicalLead').invalid && project.get('projectTechnicalLead').touched">
+                      <span *ngIf="project.get('projectTechnicalLead').errors.required">Project Technical Lead is
+                        required</span>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Color</mat-label>
+                      <input type="color" matInput formControlName="projectColor">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+
+                    <label>Description</label>
+                    <textarea class="form-control" formControlName="projectDescription" rows="3"></textarea>
+                    <div style="color:red"
+                      *ngIf="project.get('projectDescription').invalid && project.get('projectDescription').touched">
+                      <span *ngIf="project.get('projectDescription').errors.required">Project Description is
+                        required</span>
+                    </div>
+
+                  </div>
+
+
+
+                </div>
+              </div>
+              <div class="tab-pane fade" id="FinancialsRef1" role="tabpanel" aria-labelledby="Financials1">
+                <div class="row" style="padding-bottom: 10px;">
+
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Delivery Location</mat-label>
+                      <mat-select formControlName="projectDelivaryLocation" disableOptionCentering>
+                        <mat-option *ngFor="let delivery of deliveryLoc" [value]="delivery.deliverylocationName">
+                          {{delivery.deliverylocationName}}</mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('projectDelivaryLocation').invalid && project.get('projectDelivaryLocation').touched">
+                      <span *ngIf="project.get('projectDelivaryLocation').errors.required">Project Delivary Location is
+                        required</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Location Type</mat-label>
+                      <mat-select formControlName="locationType" disableOptionCentering>
+                        <mat-option *ngFor="let location of locTypes" [value]="location.locationType">
+                          {{location.locationType}}</mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+
+
+                    <div style="color:red"
+                      *ngIf="project.get('locationType').invalid && project.get('locationType').touched">
+                      <span *ngIf="project.get('locationType').errors.required">Location Type is required</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <p *ngIf="showBalance" style="font-size: 10px;">Remaining Value :&nbsp;&nbsp;<span *ngIf="greenShow"
+                        style="color: green;">{{valueToShow| number:'1.0-0'}}</span><span *ngIf="redShow"
+                        style="color: red;">{{valueToShow| number:'1.0-0'}}</span> </p>
+                    <mat-form-field>
+                      <mat-label>Project Value</mat-label>
+                      <input matInput type="number" formControlName="projectValue">
+                    </mat-form-field>
+
+                    <div style="color:red"
+                      *ngIf="project.get('projectValue').invalid && project.get('projectValue').touched">
+                      <span *ngIf="project.get('projectValue').errors.required">Project Value is required</span>
+                      <span *ngIf="project['controls']['projectValue'].errors.max">Project value should not exceed the
+                        {{valueToShow| number:'1.0-0'}}</span>
+                      <span *ngIf="project.get('projectValue').errors.min">Negative Values are not allowed</span>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Billing Type</mat-label>
+                      <mat-select formControlName="billingType" disableOptionCentering>
+                        <mat-option *ngFor="let bill of billingTypes" [value]="bill.name">{{bill.name}}</mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('billingType').invalid && project.get('billingType').touched">
+                      <span *ngIf="project.get('billingType').errors.required">Billing Type is required</span>
+                    </div>
+                  </div>
+
+
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Service Type</mat-label>
+                      <mat-select formControlName="serviceType" disableOptionCentering>
+                        <mat-option *ngFor="let service of serviceTypes" [value]="service.serviceTypeName">
+                          {{service.serviceTypeName}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+
+                    <div style="color:red"
+                      *ngIf="project.get('serviceType').invalid && project.get('serviceType').touched">
+                      <span *ngIf="project.get('serviceType').errors.required">Service Type is required</span>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Rate Type</mat-label>
+                      <mat-select formControlName="rateType" disableOptionCentering>
+                        <mat-option *ngFor="let rate of rateTypes" [value]="rate.rateType">{{rate.rateType}}
+                        </mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                    <div style="color:red" *ngIf="project.get('rateType').invalid && project.get('rateType').touched">
+                      <span *ngIf="project.get('rateType').errors.required">Rate Type is required</span>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="row" style="padding-bottom: 10px;">
+
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Project Tech Stack</mat-label>
+                      <mat-select formControlName="projectTechStack" multiple disableOptionCentering>
+                        <mat-option *ngFor="let techstack of techStacks" [value]="techstack.technology">
+                          {{techstack.technology}}
+                        </mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('projectTechStack').invalid && project.get('projectTechStack').touched">
+                      <span *ngIf="project.get('projectTechStack').errors.required">ProjectTechStack is required</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>Service Category</mat-label>
+                      <mat-select formControlName="serviceCategory" disableOptionCentering>
+                        <mat-option *ngFor="let servicecat of serviceCategoryList"
+                          [value]="servicecat.serviceategoryName">
+                          {{servicecat.serviceategoryName}}</mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                    <div style="color:red"
+                      *ngIf="project.get('serviceCategory').invalid && project.get('serviceCategory').touched">
+                      <span *ngIf="project.get('serviceCategory').errors.required">Service Category is required</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="resourceTabref1" role="tabpanel" aria-labelledby="resourceTab1">
+                <!-- update -->
+                <div *ngIf='project.value.projectStartDate!=null && project.value.projectEndDate!=null'>
+                  <div class="row" style="padding-bottom: 10px;">
+
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                      <br>
+                      <mat-form-field>
+                        <mat-label>Skills</mat-label>
+                        <mat-select (selectionChange)="skillBasedEmployess($event.value)" multiple
+                          disableOptionCentering>
+                          <mat-option value="all">All Employees
+                          </mat-option>
+                          <mat-option *ngFor="let tasks of skillInfoList" [value]="tasks.skill_name"
+                            [disabled]="allEmps">
+                            {{tasks.skill_name}}
+                          </mat-option>
+
+                        </mat-select>
+                      </mat-form-field>
+                      <div style="color:red" *ngIf="project.get('tasks').invalid && project.get('tasks').touched">
+                        <span *ngIf="project.get('tasks').errors.required">Tasks are required</span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                      <br>
+                      <mat-form-field>
+                        <mat-label>Resources</mat-label>
+                        <input formControlName="resourceId" (change)="toCheckAvailability($event)" list="browsers"
+                          matInput />
+                        <datalist id="browsers">
+                          <option *ngFor="let em of empall" value="{{em.empId}}">{{em.name|titlecase}}</option>
+                        </datalist>
+                      </mat-form-field>
+                      <p *ngIf="noRecords">No Employees found On this skill</p>
+                    </div>
+                  </div>
+                  <div *ngIf="availabilityArray.length!=[]">
+                    <table class="table table-borderless">
+                      <thead>
+                        <th>Employee Name</th>
+                        <th>Allocated Project</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Allocated Hours</th>
+                      </thead>
+                      <tr *ngFor="let dataEmp of availabilityArray">
+                        <td>{{getNames(dataEmp.empId)}}</td>
+                        <td>{{getprojectName(dataEmp.projectId)}}</td>
+                        <td>{{dataEmp.startDate}}</td>
+                        <td>{{dataEmp.endDate}}</td>
+                        <td>{{dataEmp.hoursOfAllocation}}</td>
+                      </tr>
+
+                    </table>
+                  </div>
+                  <div *ngIf="dontAllowResource && project.value.resourceId!=null">
+                    <div class="row" style="padding-bottom: 10px;">
+
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+
+
+                        <br>
+                        <mat-form-field>
+                          <input matInput [min]="project.value.projectStartDate" [max]="project.value.projectEndDate"
+                            [matDatepicker]="picker3" [disabled]="disableDate" formControlName="resourceStartDate"
+                            placeholder="Start date" (click)="picker3.open()" onkeydown="return false">
+                          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                          <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+
+                        <!-- <div style="color:red"
+        *ngIf="project.get('projectStartDate').invalid && project.get('projectStartDate').touched">
+        <span *ngIf="project.get('projectStartDate').errors.required">Start date is required</span>
+      </div> -->
+
+
+
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <br>
+                        <mat-form-field>
+                          <input matInput [min]="project.value.resourceStartDate" [max]="project.value.projectEndDate"
+                            [matDatepicker]="picker4" formControlName="resourceEndDate" [disabled]="disableDate"
+                            placeholder="End date" (click)="picker4.open()" onkeydown="return false">
+                          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                          <mat-datepicker #picker4></mat-datepicker>
+                        </mat-form-field>
+                        <!-- <div style="color:red"
+        *ngIf="project.get('projectEndDate').invalid && project.get('projectEndDate').touched">
+        <span *ngIf="project.get('projectEndDate').errors.required">End date is required</span>
+      </div> -->
+
+
+
+                      </div>
+                    </div>
+                    <div class="row" style="padding-bottom: 10px;">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <br>
+                        <mat-form-field>
+                          <mat-label>Bill Rate</mat-label>
+                          <input formControlName="billRate" matInput disableOptionCentering>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12 my-auto">
+                        <br>
+                        <mat-form-field>
+                          <mat-label>Hours of allocation</mat-label>
+                          <input formControlName="numberOfHours" (change)='hourschange($event.target.value)' matInput
+                            disableOptionCentering>
+                        </mat-form-field>
+                        <div style="color: red;" *ngIf="showErrorHours">Not
+                          more than 16 hours.</div>
+                      </div>
+                    </div>
+                    <button class="btn bttn float-right" style="margin-right: 20px;margin-top: -26px;"
+                      (click)="resourceMapping()"
+                      [disabled]="project.value.resourceId==null || project.value.resourceId=='' || project.value.resourceStartDate==null || project.value.resourceEndDate==null || project.value.billRate==null ||project.value.numberOfHours==null || showErrorHours">Add</button>
+                  </div>
+                  <div class="mx-auto" style="color: red;" *ngIf="!dontAllowResource">
+                    <p>This resource is allocated to above projects. Please select other resource.</p>
+                  </div>
+                  <table class="table table-borderless" *ngIf="resourceArray.length!=[] || rmgresource.length!=[]">
+                    <thead>
+                      <th>Employee Id</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Bill Rate</th>
+                      <th>Allocated Hours</th>
+                      <th></th>
+
+                    </thead>
+                    <tbody>
+                      <tr class="resourceStyle" *ngFor="let resourcedata of rmgresource;let i=index">
+                        <td>{{resourcedata.employeeId}}</td>
+                        <td><span
+                            *ngIf='!resourcedata.isEditable'>{{resourcedata.startDate | date: 'dd-MM-yyyy'}}</span><span
+                            *ngIf='resourcedata.isEditable'>
+                            <mat-form-field style="width: 80px;">
+                              <input matInput [min]="project.value.projectStartDate"
+                                [max]="project.value.projectEndDate" [matDatepicker]="picker3" [disabled]="disableDate"
+                                formControlName="resourceStartDate" placeholder="Start date" (click)="picker3.open()"
+                                onkeydown="return false">
+                              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                              <mat-datepicker #picker3></mat-datepicker>
+                            </mat-form-field>
+                          </span></td>
+                        <td><span *ngIf='!resourcedata.isEditable'>{{resourcedata.endDate | date: 'dd-MM-yyyy'}}</span>
+                          <span *ngIf='resourcedata.isEditable'>
+                            <mat-form-field style="width: 80px;">
+                              <input matInput [min]="project.value.resourceStartDate"
+                                [max]="project.value.projectEndDate" [matDatepicker]="picker4"
+                                formControlName="resourceEndDate" [disabled]="disableDate" placeholder="End date"
+                                (click)="picker4.open()" onkeydown="return false">
+                              <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                              <mat-datepicker #picker4></mat-datepicker>
+                            </mat-form-field>
+                          </span>
+                        </td>
+                        <td>{{resourcedata.billRate}}</td>
+                        <td><span *ngIf='!resourcedata.isEditable'>{{resourcedata.hoursOfAllocation}}</span>
+                          <span *ngIf='resourcedata.isEditable'>
+                            <mat-form-field style="width: 80px;">
+                              <mat-label>Hours of allocation</mat-label>
+                              <input formControlName="numberOfHours" matInput disableOptionCentering>
+                            </mat-form-field>
+
+                          </span>
+
+                        </td>
+                        <td *ngIf='!resourcedata.isEditable && !editResource'><button class="cursorPoint btn btn-sm"
+                            style="background-color: #1d62a7;color: white;"
+                            (click)="cancelResourceData(i,resourcedata)">Release</button></td>
+                        <td *ngIf='!resourcedata.isEditable && !editResource' class="cursorPoint"
+                          (click)="(resourcedata.isEditable=!resourcedata.isEditable) && changeEditResource(resourcedata)">
+                          <span class="fa fa-edit" style="font-size: 20px;"></span>
+                        </td>
+                        <td *ngIf='resourcedata.isEditable'>
+                          <button class="btn btn-sm srch" (click)="updateResourceEdit(i,resourcedata)">Update</button>
+                          <button class="btn btn-sm srch" (click)="resourcedata.isEditable=!resourcedata.isEditable"
+                            (click)="cancelUpdateEdit()">Cancel</button>
+                        </td>
+
+
+                      </tr>
+                      <tr class="resourceStyle" *ngFor="let resourcedata of resourceArray;let i=index">
+                        <td>{{resourcedata.empId}}</td>
+                        <td>{{resourcedata.startDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>{{resourcedata.endDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>{{resourcedata.billRate}}</td>
+                        <td>{{resourcedata.numberOfHours}}</td>
+                        <td><button (click)="cancelResource(i)" class="cursorPoint btn btn-sm"
+                            style="background-color: #1d62a7;color: white;">Remove</button>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+
+
+
+
+                <div class="col-8 mx-auto" style="margin-top: 20px;"
+                  *ngIf='project.value.projectStartDate==null || project.value.projectEndDate==null'>
+                  <p>Please select project dates to allocate resources.</p>
+                </div>
+
+
+
+
+
+
+              </div>
+              <div class="tab-pane fade" id="taskTabref1" role="tabpanel" aria-labelledby="taskTab1">
+                <div style="padding-bottom: 10px;">
+
+
+                  <div class="col-12">
+                    <br>
+                    <div class="row">
+                      <div class="col-md-5 col-sm-12 col-xs-12">
+
+                        <mat-form-field>
+                          <mat-label>Select</mat-label>
+                          <mat-select formControlName="tasks" (selectionChange)="addtask($event)" multiple
+                            disableOptionCentering>
+                            <mat-option value="other">Other</mat-option>
+                            <mat-option *ngFor="let tasks of taskList" [value]="tasks.projecttask"
+                              [disabled]="otherTask">{{tasks.projecttask}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+
+
+                      </div>
+                      <div class="col-md-7 col-sm-12 col-xs-12" *ngIf="otherTask">
+                        <div class="input-group mt-3">
+                          <input type="text" class="form-control" formControlName="otherTask" placeholder="Add Task">
+                          <div class="input-group-append">
+                            <button class="btn srch" type="button" (click)="addTask()">
+                              <i class="fa fa-plus"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <!-- <button class="btn bttn" style="margin-left: 55px;"
+                        (click)="addtask(project.get('tasks').value)">Add Task</button> -->
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-xs-12">
+                        <p class="heading">Project Tasks</p>
+                        <div class="showTasks" *ngFor="let taskData of project.value.tasks">
+                          <div class="row" style="border-bottom: 2px solid white;">
+                            <span class="col-10" *ngIf="taskData!='other'">{{taskData}}</span>
+                            <span class="col-2 cursorPoint" *ngIf="taskData!='other'" (click)="removeeditTask(taskData)"
+                              style="text-align: right;">&times;</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-xs-12">
+                        <p class="heading">Additional Tasks</p>
+                        <div class="showTasks" *ngFor="let taskData of otherTaskValue">
+                          <div class="row" style="border-bottom: 2px solid white;">
+                            <span class="col-10">{{taskData}}</span>
+                            <span class="col-2 cursorPoint" (click)="removeother(taskData)"
+                              style="text-align: right;">&times;</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <!-- <div style="color:red" *ngIf="project.get('tasks').invalid && project.get('tasks').touched">
+                      <span *ngIf="project.get('tasks').errors.required">Tasks are required</span>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="mileStoneTabref1" role="tabpanel" aria-labelledby="mileStoneTab1">
+                <div *ngIf='project.value.projectStartDate!=null && project.value.projectEndDate!=null && project.value.projectValue!= "" && project.value.projectValue != null'>
+                  <div class="row" style="padding-bottom: 10px;">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <br>
+                      <mat-form-field>
+                        <input matInput formControlName="mileName" placeholder="Milestone Name">
+
+                      </mat-form-field>
+                      <!-- <div style="color:red"
+                        *ngIf="project.get('projectEndDate').invalid && project.get('projectEndDate').touched">
+                        <span *ngIf="project.get('projectEndDate').errors.required">End date is required</span>
+                      </div> -->
+
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+
+                      <br>
+                      <mat-form-field>
+                        <input matInput [min]="project.value.projectStartDate" [max]="project.value.projectEndDate"
+                          [matDatepicker]="picker5" [disabled]="disableDate" formControlName="mileStartDate"
+                          placeholder="Start date" (click)="picker5.open()" onkeydown="return false">
+                        <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                        <mat-datepicker #picker5></mat-datepicker>
+                      </mat-form-field>
+
+                      <!-- <div style="color:red"
+                        *ngIf="project.get('projectStartDate').invalid && project.get('projectStartDate').touched">
+                        <span *ngIf="project.get('projectStartDate').errors.required">Start date is required</span>
+                      </div> -->
+
+
+
+                    </div>
+
+
+
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <br>
+                      <mat-form-field>
+                        <input matInput [min]="project.value.mileStartDate" [max]="project.value.projectEndDate"
+                          [matDatepicker]="picker6" formControlName="mileEndDate" [disabled]="disableDate"
+                          placeholder="End date" (click)="picker6.open()" onkeydown="return false">
+                        <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                        <mat-datepicker #picker6></mat-datepicker>
+                      </mat-form-field>
+                      <!-- <div style="color:red"
+                        *ngIf="project.get('projectEndDate').invalid && project.get('projectEndDate').touched">
+                        <span *ngIf="project.get('projectEndDate').errors.required">End date is required</span>
+                      </div> -->
+
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <br>
+                     
+                      <mat-form-field>
+                        <input matInput formControlName="mileBillingAmount"  (change)='milebillingValidation($event.target.value)' placeholder="Milestone billing amount">
+
+                      </mat-form-field>
+                      <div style="color:red"
+                      >
+                      <div *ngIf="showErrorBilling " style="font-size: 14px;">Amount should not exceed {{project.value.projectValue}}.</div>
+
+                    </div>
+
+
+
+                    </div>
+                  </div>
+                  <div class="float-right" style="margin-top: 30px;">
+                    <button class="btn srch btnMileStone" (click)="addMileStone()"
+                      [disabled]="project.value.mileName ==null || project.value.mileStartDate == null || project.value.mileEndDate==null || project.value.mileBillingAmount == null || showErrorBilling == true">Add
+                      Milestone</button>
+                  </div>
+                  <table class="table table-borderless" *ngIf="mileStonesArray.length!=[]">
+                    <thead>
+                      <th>Name</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Biling Amount</th>
+
+                    </thead>
+                    <tbody>
+                      <!-- <tr class="resourceStyle" *ngFor="let mile of getIdData.mileStones;let i=index">
+                        <td>{{mile.milestoneName}}</td>
+                        <td>{{mile.startDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>{{mile.endDate | date: 'dd-MM-yyyy'}}</td>
+                        <td (click)="removeMileStone(i)" class="cursorPoint"><span style="font-size: 20px;">&times;</span>
+                      </tr> -->
+                      <tr class="resourceStyle" *ngFor="let mile of mileStonesArray;let i=index">
+                        <td>{{mile.milestoneName}}</td>
+                        <td>{{mile.startDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>{{mile.endDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>{{mile.billingAmount}}</td>
+                        <td (click)="removeMileStone(i)" class="cursorPoint"><span
+                            style="font-size: 20px;">&times;</span></td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+
+                <div class="col-8 mx-auto" style="margin-top: 20px;"
+                  *ngIf='project.value.projectStartDate==null || project.value.projectEndDate==null || project.value.projectValue == null'>
+                  <p>Please select project dates and project value to add Milestone.</p>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+          </div>
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn" style="background-color: #1d62a7;color: white;" (click)="updateproject()"
+            data-dismiss="modal">Update &
+            Submit</button>
+          <button type="button" class="btn" (click)="cancelSave(project)"
+            style="background-color: #1d62a7;color: white;" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- reject modal -->
+
+<div class="modal fade" id="rejectBUModal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form #rejectComment="ngForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rejectBUModal">Reject Reason</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="rejectComment.reset();">
+            <p aria-hidden="true">&times;</p>
+          </button>
+        </div>
+        <div class="modal-body">
+          <textarea row="10" cols="50" class="form-control active" name="comments" [(ngModel)]="comments"
+            #commentReason="ngModel" required>
+
+               </textarea>
+          <div *ngIf="commentReason.invalid && commentReason.touched" style="color: red;">
+            <p *ngIf="commentReason.errors.required">Please enter reason to reject</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" style="background-color: #1d62a7;color: white;" data-dismiss="modal"
+            (click)="rejectComment.reset();">Close</button>
+          <button type="submit" class="btn" style="background-color: #1d62a7;color: white;"
+            [disabled]="rejectComment.invalid" (click)="rejectBU(rejectComment.value)"
+            data-dismiss="modal">Reject</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="rejectFinanceModal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form #rejectComment="ngForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rejectFinanceModal">Reject Reason</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="rejectComment.reset();">
+            <p aria-hidden="true">&times;</p>
+          </button>
+        </div>
+        <div class="modal-body">
+          <textarea row="10" cols="50" class="form-control active" name="comments" [(ngModel)]="comments"
+            #commentReason="ngModel" required>
+
+                 </textarea>
+          <div *ngIf="commentReason.invalid && commentReason.touched" style="color: red;">
+            <p *ngIf="commentReason.errors.required">Please enter reason to reject</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" style="background-color: #1d62a7;color: white;" data-dismiss="modal"
+            (click)="rejectComment.reset();">Close</button>
+          <button type="submit" class="btn" style="background-color: #1d62a7;color: white;"
+            [disabled]="rejectComment.invalid" (click)="rejectFinance(rejectComment.value)"
+            data-dismiss="modal">Reject</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<!-- Create project ends -->

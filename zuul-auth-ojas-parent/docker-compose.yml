@@ -1,0 +1,480 @@
+version: '2.2'
+services:
+  api-gateway:
+    image: api-gateway
+    ports:
+     - "8089:8089"
+    mem_limit: 400m
+  auth-center:
+    image: auth-center
+    depends_on:
+     - api-gateway
+    ports:    
+    - "8081:8081"
+    mem_limit: 400m
+  ojas-obs-cost-center:
+   image :  ojas-obs-cost-center
+   depends_on:
+   - auth-center
+   ports:
+   - "8013:8013"
+   mem_limit: 400m
+  ojas-obs-businessunit:
+   image : ojas-obs-businessunit
+   depends_on:
+   - auth-center
+   ports:
+   - "8015:8015"
+   mem_limit: 400m
+  ojas-obs-online-passport :
+    image : ojas-obs-online-passport
+    depends_on:
+    - auth-center
+    ports:
+    - "8012:8012"
+    mem_limit: 400m
+#  ojas-obs-online-gpa:
+#    image : ojas-obs-online-gpa
+#    depends_on:
+#    - auth-center
+#    ports:
+#    - "8018:8018"
+#    mem_limit: 400m
+  ojas-obs-online-employeestatus-service :
+    image : ojas-obs-online-employeestatus-service
+    depends_on:
+    - auth-center
+    ports:
+    - "8017:8017"
+    mem_limit: 400m
+  ojas-obs-educationtype :
+   image : ojas-obs-educationtype
+   depends_on:
+   - auth-center
+   ports:
+   - "8016:8016"
+   mem_limit: 400m
+  ojas-obs-rolemanagement:
+   image : ojas-obs-rolemanagement
+   depends_on:
+   - auth-center
+   ports:
+   - "8020:8020"
+   mem_limit: 400m
+  ojas-obs-subbusinessunit :
+   image : ojas-obs-subbusinessunit
+   depends_on:
+   - auth-center
+   ports:
+   - "8021:8021"
+   mem_limit: 400m
+  ojas-obs-gender:
+    image : ojas-obs-gender
+    depends_on:
+    - auth-center
+    ports:
+    - "8010:8010"
+    mem_limit: 400m
+  ojas-obs-resource-type:
+   image : ojas-obs-resource-type
+   depends_on:
+   - auth-center
+   ports:
+   - "8022:8022"
+   mem_limit: 400m
+  ojas-obs-designation:
+    image : ojas-obs-designation
+    depends_on:
+    - auth-center
+    ports:
+    - "8011:8011"
+    mem_limit: 400m
+  ojas-obs-online-separationtype-service:
+   image : ojas-obs-online-separationtype-service
+   depends_on:
+   - auth-center
+   ports:
+   - "8019:8019"
+   mem_limit: 400m
+  ojas-obs-states :
+   image : ojas-obs-states
+   depends_on:
+   - auth-center
+   ports:
+   - "8014:8014"
+   mem_limit: 400m
+  ojas-obs-skill:
+    image : ojas-obs-skill
+    depends_on:
+     - auth-center
+    ports:
+     - "8023:8023"
+    mem_limit: 400m
+  ojas-obs-bankdetails:
+    image: ojas-obs-bankdetails
+    depends_on:
+    - auth-center
+    ports:
+    - "9000:9000"
+    mem_limit: 400m
+  ojas-obs-employee-education-details:
+    image: ojas-obs-employee-education-details
+    depends_on:
+    - auth-center
+    ports:
+    - "8525:8525"
+    mem_limit: 400m
+  ojas-obs-dependentdetails:
+    image: ojas-obs-dependentdetails
+    depends_on:
+    - auth-center
+    ports:
+    - "8090:8090"
+    mem_limit: 400m
+#  ojas-obs-employeebu:
+#    image: ojas-obs-employeebu
+#    depends_on:
+#    - auth-center
+#    ports:
+#    - "8087:8087"
+#    mem_limit: 400m
+  ojas-obs-empcertificationdetails:
+    image: ojas-obs-empcertificationdetails
+    depends_on:
+    - auth-center
+    ports:
+    - "8888:8888" 
+    mem_limit: 400m
+  ojas-obs-employeeexperiencedetails:
+     image : ojas-obs-employeeexperiencedetails
+     depends_on:
+     - auth-center
+     ports:
+     - "8092:8092" 
+     mem_limit: 400m 
+  ojas-obs-employeecontactinfo:
+    image: ojas-obs-employeecontactinfo
+    depends_on:
+    - auth-center
+    ports:
+    - "8091:8091"   
+    mem_limit: 400m 
+  ojas-obs-employeeskills:
+    image : ojas-obs-employeeskills
+    depends_on:
+     - auth-center
+    ports:
+    - "8094:8094"  
+    mem_limit: 400m  
+  ojas-obs-employment-details:
+    image : ojas-obs-employment-details
+    depends_on:
+    - auth-center
+    ports:
+    - "8084:8084"
+    mem_limit: 400m
+  ojas-obs-project-details:
+     image: ojas-obs-project-details
+     depends_on:
+     - auth-center
+     ports:
+     - "8083:8083"
+     mem_limit: 400m
+  ojas-obs-kye:
+     image : ojas-obs-kye
+     depends_on:
+     - auth-center
+     ports:
+     - "7070:7070"
+     mem_limit: 400m
+  ojas-obs-employeeinfo:
+     image : ojas-obs-employeeinfo
+     depends_on:
+     - auth-center
+     ports:
+     - "8093:8093"
+     mem_limit: 400m
+  ojas-obs-title:
+     image : ojas-obs-title
+     depends_on:
+     - auth-center
+     ports:
+     - "8095:8095"
+     mem_limit: 400m
+  ojas-obs-resetpassword :
+     image : ojas-obs-resetpassword
+     depends_on:
+     - auth-center
+     ports:
+     - "8096:8096"
+     mem_limit: 400m
+  ojas-obs-reg-forgot : 
+     image : ojas-obs-reg-forgot
+     ports:
+     - "8088:8088"
+     mem_limit: 400m
+  ojas-obs-resignationdetails : 
+     image : ojas-obs-resignationdetails
+     depends_on:
+     - auth-center
+     ports:
+     - "8099:8099"
+     mem_limit: 400m
+  ui-server:
+    image: ui-server
+    ports:
+    - "8000:8000"
+    mem_limit: 400m
+  ojas-obs-services: 
+    image: ojas-obs-services
+    depends_on: 
+     - auth-center
+    ports: 
+    - "8085:8085"
+    mem_limit: 400m
+  ojas-obs-timesheet-management :
+     image: ojas-obs-timesheet-management
+     depends_on:
+     - auth-center
+     ports:
+     - "7071:7071"
+     mem_limit: 400m
+  ojas-obs-psa-project-info:  
+     image: ojas-obs-psa-project-info
+     depends_on:
+     - auth-center
+     ports:
+     - "7072:7072"
+     mem_limit: 400m
+  ojas-obs-action-owner:
+    image:     ojas-obs-action-owner
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7073:7073"
+    mem_limit: 400m
+  ojas-obs-billing-type:
+    image: ojas-obs-billing-type
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7074:7074"
+    mem_limit: 400m
+  ojas-obs-action-type:
+    image: ojas-obs-action-type
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7075:7075"
+    mem_limit: 400m
+  ojas-obs-budget: 
+    image: ojas-obs-budget
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7076:7076"
+    mem_limit: 400m
+  ojas-obs-c2h-status:
+    image: ojas-obs-c2h-status
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7077:7077"
+    mem_limit: 400m
+  ojas-obs-delivery-location: 
+    image: ojas-obs-delivery-location
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7078:7078"
+    mem_limit: 400m
+  ojas-obs-interview-mode:
+    image: ojas-obs-interview-mode
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7079:7079"
+    mem_limit: 400m
+  ojas-obs-interview-result:
+    image:     ojas-obs-interview-result
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7080:7080"
+    mem_limit: 400m
+  ojas-obs-location-type:
+    image: ojas-obs-location-type
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7081:7081"
+    mem_limit: 400m
+  ojas-obs-perm-status:
+    image: ojas-obs-perm-status
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7082:7082"
+    mem_limit: 400m
+  ojas-obs-project-task:
+    image: ojas-obs-project-task
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7083:7083"
+    mem_limit: 400m
+  ojas-obs-project-tech-stack: 
+    image: ojas-obs-project-tech-stack
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7084:7084"
+    mem_limit: 400m
+  ojas-obs-sar-status: 
+    image: ojas-obs-sar-status
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7085:7085"
+    mem_limit: 400m
+  ojas-obs-service-category: 
+    image: ojas-obs-service-category
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7086:7086"
+    mem_limit: 400m
+  ojas-obs-service-type: 
+    image: ojas-obs-service-type
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7087:7087"  
+    mem_limit: 400m     
+    
+  ojas-obs-rate-type: 
+    image: ojas-obs-rate-type
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7088:7088" 
+    mem_limit: 400m
+  ojas-obs-sez:
+    image: ojas-obs-sez
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7089:7089"
+    mem_limit: 400m
+  ojas-obs-contractcompany:
+    image: ojas-obs-contractcompany
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7090:7090"
+    mem_limit: 400m
+  ojas-obs-country:
+    image: ojas-obs-country
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7091:7091"  
+    mem_limit: 400m  
+  ojas-obs-geo:
+    image: ojas-obs-geo
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7092:7092"
+    mem_limit: 400m
+  ojas-obs-gst-location:
+    image: ojas-obs-gst-location  
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7093:7093"  
+    mem_limit: 400m  
+  ojas-obs-sez-location:
+    image: ojas-obs-sez-location 
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7094:7094"  
+    mem_limit: 400m 
+  ojas-obs-document-stage:
+    image: ojas-obs-document-stage  
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7095:7095"  
+    mem_limit: 400m  
+  ojas-obs-documenttype:
+    image: ojas-obs-documenttype
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7096:7096"  
+    mem_limit: 400m     
+  ojas-obs-customer-info:
+    image: ojas-obs-customer-info
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7097:7097"  
+    mem_limit: 400m    
+  ojas-obs-customercontract:
+    image: ojas-obs-customercontract
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7098:7098"  
+    mem_limit: 400m     
+  ojas-obs-psa-customercontactinfo:
+    image: ojas-obs-psa-customercontactinfo  
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7099:7099"  
+    mem_limit: 400m
+  ojas-obs-rmg:
+    image: ojas-obs-rmg  
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7100:7100"  
+    mem_limit: 400m
+  ojas-obs-leavemanagementsystem:
+    image: ojas-obs-leavemanagementsystem  
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7101:7101"  
+    mem_limit: 400m
+  ojas-obs-rmg-employee-experience:
+    image: ojas-obs-rmg-employee-experience  
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7102:7102"  
+    mem_limit: 400m    
+  ojas-obs-calendarholidays:
+    image: ojas-obs-calendarholidays
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7103:7103"  
+    mem_limit: 400m 
+  ojas-obs-projecttype:
+    image: ojas-obs-projecttype
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7104:7104"  
+    mem_limit: 400m 
+  ojas-obs-lms-leave-type:
+    image: ojas-obs-lms-leave-type
+    depends_on: 
+     - auth-center
+    ports: 
+    - "7105:7105"  
+    mem_limit: 400m

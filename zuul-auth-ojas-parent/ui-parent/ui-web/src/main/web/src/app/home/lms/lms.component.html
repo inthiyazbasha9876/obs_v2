@@ -1,0 +1,37 @@
+<div class="app-title">
+  <div>
+    <h1><i class="fa fa-calendar-minus-o"></i>Leave Management System</h1>
+    <p class="pl-4">Ojas Business Suite</p>
+  </div>
+  <ul class="app-breadcrumb breadcrumb">
+
+    <li class="breadcrumb-item active"> <button type="button" class="btn" (click)="navigateTo()"><span><i
+            class="fa fa-home"></i>&nbsp;Dashboard</span></button></li>
+  </ul>
+
+</div>
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light" id="topheader">
+    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav nav-tabs emd_edt">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="leavesummary">Leave Summary</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link  " routerLink="applyleave">Apply Leave</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link  " routerLink="review">Review</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link  " routerLink="leavecalendar">Leave Calendar</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<router-outlet></router-outlet>

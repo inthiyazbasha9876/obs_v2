@@ -1,0 +1,151 @@
+<br>
+<div >
+  <div class="container col-12" >
+    <div class="card shadow" >
+      <div style="padding:20px 20px 0px 20px;">
+        <span style="font-size: 17px;"><b>Resignation Details</b></span>
+      </div>
+      <hr>
+      <div *ngIf="!getbyidstatus">
+        
+      
+      <div class="container col-12" *ngIf="!roleUser"  style="padding-bottom: 20px;">
+        <table class="table">
+          <thead class="table-light">
+            <th scope="col">Employee Id</th>
+            <th scope="col">Resignation Type</th>
+            <th scope="col">Resignation Submitted Date</th>
+            <th scope="col">Final Settlement Date</th>
+            <th scope="col">Leaving Date</th>
+            <th scope="col">State</th>
+            <th scope="col">Edit</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of tabledata | paginate: { itemsPerPage: ippr, currentPage: p }">
+              <td>{{c.employeeId}}</td>
+              <td>{{c.resignationType}}</td>
+              <td>{{c.resignationSubmittedOn |  date: 'MM/dd/yyyy'}}</td>
+              <td>{{c.finalSettlementDate |  date: 'MM/dd/yyyy'}}</td>
+              <td>{{c.leavingDate |  date: 'MM/dd/yyyy'}}</td>
+              <td>{{c.state}}</td>
+              <td>
+                <img src="assets/pe.png" width="30" data-toggle="modal" data-target="#exampleModalCenter">
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+        <span class="m-2">Items per page</span>
+        <select [(ngModel)]="ippr" (change)="p=1">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+        </select>
+        <pagination-controls (pageChange)="p = $event" style="float:right"></pagination-controls>
+      </div>
+    </div>
+
+      
+      <div class="container" *ngIf="roleUser"   style="padding-bottom: 20px;">
+        
+        <form  [formGroup]="resignationform">
+           
+          <div class="form-group mb-0">
+            <label for=""><b>Leaving Reason :</b></label>
+            <textarea style="width: 60%" class="form-control col-lg-10 " formControlName="leavingreason"
+              rows="3" required></textarea>
+          </div>
+          <div *ngIf="resignationform.get('leavingreason').invalid &&resignationform.get('leavingreason').touched ">
+            <div style="color:red" *ngIf="resignationform.get('leavingreason').errors.required">Leaving Reason is required</div>
+          </div>
+          <div  class="mt-3">
+          <button type="submit" class="btn"  (click)="saveResignationDetailsadv(resignationform.value)" [disabled]="resignationform.invalid">Submit</button>
+          </div>
+        </form>
+    
+     
+
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<!-- Modal -->
+
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Resignation Updation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateresignationform">
+          <div class="row">
+            <div class="col-6">
+              <label>Employee ID</label>
+              <input type="text" 
+                class="form-control"  formControlName="employeeId" readonly>
+            </div>
+            <div class="col-6">
+              <label>Resignation Type</label>
+              <select  name="resignationType" class="form-control" formControlName="resignationType">
+                <option hidden [value]="" selected disabled>Select an option</option>
+                <option *ngFor="let sepRes of sepList" [value]=sepRes.separationType>{{sepRes.separationType}}
+                </option>
+              </select>
+
+
+            </div>
+          </div>
+          <br>
+          
+          <div class="row">
+            
+            <div class="col-6">
+              <label>Resignation Submitted On:</label>
+              <input type="date" 
+                class="form-control" formControlName="ResignationSubmittedOn">
+            </div>
+            <div class="col-6">
+              <label>Final Settlement Date:</label>
+              <input type="date"  class="form-control" formControlName="FinalSettlementDate"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <label>Leaving Date:</label>
+              <input type="date" class="form-control" 
+                class="form-control" formControlName="leavingDate" >
+
+            </div>
+            <div class="col-6">
+              <label>State:</label>
+             <select  class="form-control" formControlName="State" >
+                <option value="Applied">applied</option>
+                <option value="Approved">approved</option>
+                <option value="Resigned">resigned</option>
+                <option value="Decline">decline</option>
+              </select>
+            </div> 
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-target="#exampleModalCenter"  (click)="udateResignation(updateresignationform.value)" data-dismiss="modal">Update</button>
+        <button type="button" class="btn" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

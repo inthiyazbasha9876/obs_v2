@@ -1,0 +1,237 @@
+<div class="master">
+    <div class="row">
+      <p class="heading">Review Leave Applications</p>
+      <span class="ml-auto" *ngIf="rolemanager">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" (click)="myApplications()" data-toggle="pill" role="tab" aria-controls="pills-home"
+              aria-selected="true">My Applications</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="teamApplications()" data-toggle="pill" role="tab" aria-controls="pills-profile"
+              aria-selected="false">Team Applications</a>
+          </li>
+        </ul>
+      </span>
+    </div>
+  
+    <div class="card">
+      <div class="row" *ngIf="managercard">
+        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+          <label>Search For Employee Applications</label>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search by EmployeeId, Employee Name">
+            <div class="input-group-append">
+              <button class="btn srch" type="button">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 col-xl-8">
+          <br>
+          <div class="row">
+            <div class="ml-auto">
+              <ul class="nav nav-pills mb-3 inner" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" (click)="getpendingapplications()" data-toggle="pill" role="tab"
+                    aria-controls="pills-home" aria-selected="true">Active</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" (click)="getcompletedapplications()" data-toggle="pill" role="tab"
+                    aria-controls="pills-profile" aria-selected="false">Complete</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row" *ngIf="roleuser">
+        <h3 class="heading2" *ngIf="pending">All Pending Leave Applications</h3>
+        <h3 class="heading2" *ngIf="completed">All Completed Leave Applications</h3>
+        <div class="ml-auto btn-group">
+          <ul class="nav nav-pills mb-3 inner" id="pills-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" (click)="getpendingapplications()" data-toggle="pill" role="tab"
+                aria-controls="pills-home" aria-selected="true">Active</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" (click)="getcompletedapplications()" data-toggle="pill" role="tab"
+                aria-controls="pills-profile" aria-selected="false">Complete</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+  
+      <div id="datamaster">
+        <div class="row data" *ngFor="let f of appliedLeaves; let i=index">
+          <a href="#appliedLeaves-{{ i }}" data-toggle="collapse" class="col-12">
+            <div class="row">
+              <div class="col-5">
+                <div class="row">
+                  <img *ngIf="f.empInfo.image!=null" src="data:image/png;base64,{{f.empInfo.image}}">
+                  <div *ngIf="f.empInfo.image==null">
+                    <p class="txt my-auto">
+                      {{f.empInfo.firstname | slice:0:1 | uppercase }}{{f.empInfo.lastname | slice:0:1 | uppercase }}</p>
+                  </div>
+                  <div>
+                    <h5>{{f.empInfo.firstname|titlecase}} {{f.empInfo.lastname|titlecase}}</h5>
+                    <h6>{{f.empInfo.employeeId}}</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-7">
+                <span
+                  class="details">{{f.leaveInfo.leaveType|titlecase}}&nbsp;:&nbsp;{{f.leaveInfo.countNumOfDays}}&nbsp;days
+                  &nbsp;
+                  <b>-</b>
+                  &nbsp;{{f.leaveInfo.fromDate}}&nbsp; to &nbsp;{{f.leaveInfo.toDate}}</span><span class="float-right"><i
+                    class="fa fa-hand-o-down hand"></i></span>
+                <p>{{f.leaveInfo.leaveReason}}</p>
+              </div>
+            </div>
+          </a>
+          <div id="appliedLeaves-{{ i }}" class="collapse cdata col-12" data-parent="#datamaster">
+            <div>
+              <div class="row">
+                <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                  <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3">
+                      <p class="innerheadings">Leave Type</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-1 col-lg-1 col-xl-1">
+                      <p>:</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 col-xl-8">
+                      <p>{{f.leaveInfo.leaveType}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                  <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3">
+                      <p class="innerheadings">Number Of Days</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-1 col-lg-1 col-xl-1">
+                      <p>:</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 col-xl-8">
+                      <p>{{f.leaveInfo.countNumOfDays}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                  <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3">
+                      <p class="innerheadings">From</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-1 col-lg-1 col-xl-1">
+                      <p>:</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 col-xl-8">
+                      <p>{{f.leaveInfo.fromDate}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                  <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3">
+                      <p class="innerheadings">To</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-1 col-lg-1 col-xl-1">
+                      <p>:</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 col-xl-8">
+                      <p>{{f.leaveInfo.toDate}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                  <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3">
+                      <p class="innerheadings">Applied On</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-1 col-lg-1 col-xl-1">
+                      <p>:</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 col-xl-8">
+                      <p>{{f.leaveInfo.appliedOn}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                  <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3">
+                      <p class="innerheadings">Status</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-1 col-lg-1 col-xl-1">
+                      <p>:</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 col-xl-8">
+                      <p>{{f.leaveInfo.status|titlecase}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                  <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3">
+                      <p class="innerheadings">Leave Reason</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-1 col-lg-1 col-xl-1">
+                      <p>:</p>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 col-xl-8">
+                      <p>{{f.leaveInfo.leaveReason}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="row">
+                      <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3">
+                        <p class="innerheadings">Apply Type</p>
+                      </div>
+                      <div class="col-sm-12 col-xs-12 col-md-1 col-lg-1 col-xl-1">
+                        <p>:</p>
+                      </div>
+                      <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 col-xl-8">
+                        <p *ngIf="f.leaveInfo.applyType=='leaveapply'">Leave Application</p>
+                        <p *ngIf="f.leaveInfo.applyType=='leavegrant'">Leave Grant Application</p>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6" *ngIf="rejectForm">
+                      <form [formGroup]="rejectComments">
+                        <textarea rows="3" cols="40" class="form-control" name="reason" formControlName="comments"></textarea>
+                        <br>
+                        <button class="btn bttn" (click)="rejectsubmit(f.leaveInfo,rejectComments.value)"
+                          [disabled]="rejectComments.invalid">Submit</button>
+                        <button class="btn bttn" (click)="rejectcancel()">Cancel</button>
+                      </form>
+                    </div>
+              </div>
+              <div class="row">
+                <button class="btn bttn mx-auto"
+                  [ngStyle]="{'display':f.leaveInfo.status === 'pending' ? 'block' : 'none' }"
+                  *ngIf="withdraw" (click)="withdrawapp(f.leaveInfo)">Withdraw</button>
+                <button class="btn bttn mx-auto"
+                  [ngStyle]="{'display':f.leaveInfo.status === 'pending' ? 'block' : 'none' }" *ngIf="approveReject"
+                  (click)="approve(f.leaveInfo)">Approve</button>
+                <button class="btn bttn mx-auto"
+                  [ngStyle]="{'display':f.leaveInfo.status === 'pending' ? 'block' : 'none' }" *ngIf="approveReject"
+                  (click)="reject()">Reject</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

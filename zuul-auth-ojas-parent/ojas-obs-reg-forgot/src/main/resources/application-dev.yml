@@ -1,0 +1,23 @@
+
+
+# Here 'test' is the database name
+
+server:
+  port: 8088
+
+spring:
+  datasource:
+
+    url: jdbc:mysql://52.188.186.190:3306/ojas_obs
+    username: dbubora
+    password: Ojas-1525
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari : 
+      connection-timeout : 500
+      maximum-pool-size : 2
+#    url: jdbc:mysql://localhost:3306/ojas_obs
+#    username: root
+#    password: root
+#    driver-class-name: com.mysql.jdbc.Driver
+resetUrl: http://192.168.1.48:8000/#/forgot
+siteUrl : http://192.168.1.48:8000/#/login

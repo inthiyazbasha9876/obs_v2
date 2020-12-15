@@ -1,0 +1,416 @@
+<div class="bgColor shadow in">
+    <div class="col-md-12">
+        <span style="font-size: 18px;"><h5>Resource Management Approvals</h5></span>
+        
+      </div>
+    <hr>
+    <button class="btn btn-primary float-right" style="background-color: #1d62a7;color: white;" *ngIf="backhide" (click)="back()">Back</button>
+    <div class="row" *ngIf="hidedtab">
+        <div class="col-md-5">
+          <input type="text" class="form-control" name="key" [(ngModel)]="search" size="20" placeholder="Search">
+        </div>
+      </div>
+      <br>
+    <div *ngIf="hidedtab">
+    
+        <div class="table table-responsive">
+    
+          <table class="table text-center tablefontsize" style="border-radius: 3px;font-size:14px">
+    
+            <thead style="background-color: #1d62a7; color: cornsilk; ">
+                <th>Booking Id</th>
+    
+                <th>Resource Type</th>
+                <th>Project Id</th>
+                <th>Project Name</th>
+    
+                 <th>Status</th>
+      
+            
+               <th>More Info</th>
+    
+            </thead>
+            <tbody>
+                <tr *ngFor="let resouceProposal of rmgProposal|rmgpipe:search | paginate: { itemsPerPage: pages, currentPage:pd, id:'pd' };let i=index">
+                    <td>{{resouceProposal.bookingId}}</td>
+                    <td>{{resouceProposal.resourceType}}</td>
+                    <td>{{resouceProposal.projectId}}</td>
+                    <td>{{resouceProposal.projectName}}</td>
+                    <td>{{resouceProposal.status}}</td>
+                
+              
+               
+          
+               
+                <td><img src="assets/moreinfo.jpg" height="20px" width="20px" style="cursor: pointer;"
+                    (click)="bookmore(resouceProposal.bookingId)"></td>
+    
+                    </tr>
+           
+    
+           
+            </tbody>
+    
+          </table>
+    
+        </div>
+    
+        <div>
+          <span class="m-2">Items per page</span>
+          <select [(ngModel)]="pages">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+          </select>
+          <pagination-controls (pageChange)="pd = $event" id="pd" style="float:right"></pagination-controls>
+    
+    </div>
+    </div>
+    
+         <!-- Book card start -->
+    
+    
+    
+    <!-- book more -->
+    <div *ngIf="approvemoreid">
+        <div class="card mt-5">
+            <div class="header shadow">
+              <b>Approvals</b>
+        
+            </div>
+            <div style="padding:20px;">
+              <div class="row">
+        
+                <span class="row col-4">
+                  <span class="col-5">
+                    <label>Booking Id </label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-6">
+                    <span>
+                    {{dataOfResource.bookingId}}</span>
+                  </span>
+                </span>
+                <span class="row col-4">
+                  <span class="col-5">
+                    <label>Project Id </label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-6">
+                    <span>
+                    {{dataOfResource.projectId}}</span>
+                  </span>
+                </span>
+                <span class="row col-4">
+                  <span class="col-5">
+                    <label>Resource Type </label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-6">
+                    <span>
+                    {{dataOfResource.resourceType}}</span>
+                  </span>
+                </span>
+                <span class="row col-4">
+                  <span class="col-5">
+                    <label>Status </label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-6">
+                    <span>
+                    {{dataOfResource.status}}</span>
+                  </span>
+                </span>
+              </div>
+              <div *ngIf="specificMoreInfo">
+                <div *ngFor="let r of specificDataSp">
+    
+                    <div class="row" style="background-color: #ebe9e9;">
+
+                      <span class="row col-4">
+                        <span class="col-5">
+                          <label>Employee Id </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{r.employeeId}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4">
+                        <span class="col-5">
+                          <label>Start Date </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{r.startDate|date}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4">
+                        <span class="col-5">
+                          <label>End Date </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{r.endDate|date}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4">
+                        <span class="col-5">
+                          <label>Bill Rate </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{r.billRate}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4" *ngIf="hideAlternative">
+                        <span class="col-md-5">
+                          <label>Alternative Employee Id </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{r.alternateemployeeId}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4">
+                        <span class="col-5">
+                          <label>Reason </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{r.reason}}</span>
+                        </span>
+                      </span>
+                      <!-- <div class="col-md-3">
+                        <label>Employee Id </label>: {{r.employeeId}}
+                      </div>
+                      
+                      <div class="col-md-3">
+                        <label>Start Date :</label> {{r.startDate|date}}
+                      </div>
+                      <div class="col-md-3">
+                        <label>End Date :</label> {{r.endDate|date}}
+                      </div>
+                      <div class="col-md-3">
+                          <label>Bill Rate :</label> {{r.billRate}}
+                        </div>
+                        <div class="col-md-3"  *ngIf="hideAlternative">
+                          <label>Alternative Employee Id :</label> {{r.alternateemployeeId}}
+                        </div>
+                        <div class="col-md-3">
+                          <label>Reason :</label> {{r.reason}}
+                        </div> -->
+          
+                    </div>
+                   
+                    
+                    <hr>
+          
+                  </div>
+            </div>
+            <div *ngIf="!specificMoreInfo">
+                <div *ngFor="let resourceDataArray of specificDataSp">
+    
+                    <div class="row" style="background-color: #ebe9e9;">
+          
+                      <span class="row col-4" >
+                        <span class="col-5">
+                          <label>Resource Skill </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{resourceDataArray.resourceSkills}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4" >
+                        <span class="col-5">
+                          <label>Resource Experience </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{resourceDataArray.resourceExperience}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4" >
+                        <span class="col-5">
+                          <label>Start Date </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{resourceDataArray.startDate|date}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4" >
+                        <span class="col-5">
+                          <label>End Date </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{resourceDataArray.endDate|date}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4" >
+                        <span class="col-5">
+                          <label>Resource Count </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{resourceDataArray.resourceCount}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4" >
+                        <span class="col-5">
+                          <label>Bill Rate </label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{resourceDataArray.billRate}}</span>
+                        </span>
+                      </span>
+
+                        <!-- <div class="col-md-3">
+                            <label>Resourse Skill :</label> {{resourceDataArray.resourceSkills}}
+                          </div>
+                          <div class="col-md-3">
+                            <label>Resourse Experience :
+                              </label>{{resourceDataArray.resourceExperience}}
+                          </div>
+                      
+                      <div class="col-md-3">
+                        <label>Start Date :</label> {{resourceDataArray.startDate|date}}
+                      </div>
+                      <div class="col-md-3">
+                        <label>End Date :</label> {{resourceDataArray.endDate|date}}
+                      </div>
+          
+                    </div>
+                    <div class="row" style="background-color: #ebe9e9;">
+                      <div class="col-md-3">
+                        <label>Resourse Count :</label> {{resourceDataArray.resourceCount}}
+                      </div>
+                      
+                      <div class="col-md-3">
+                        <label>Resourse Cost :</label> {{resourceDataArray.billRate}}
+                      </div> -->
+                      
+
+          
+                    </div>
+
+                    <div class="row" *ngFor="let mappingArray of resourceDataArray.rmggenericresourcemap">
+                     
+                      <span class="row col-4" >
+                        <span class="col-5">
+                          <label>Mapping Employee Id</label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{mappingArray.empId}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4" >
+                        <span class="col-5">
+                          <label>Mapping Start Date</label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{mappingArray.startDate}}</span>
+                        </span>
+                      </span>
+                      <span class="row col-4" >
+                        <span class="col-5">
+                          <label>Mapping End Date</label>
+                        </span>
+                        <span class="col-1">
+                          :
+                        </span>
+                        <span class="col-6">
+                          <span>
+                          {{mappingArray.endDate}}</span>
+                        </span>
+                      </span>
+                      <!-- <div class="col-md-3">
+                        <label>Mapping Employee Id :</label> {{mappingArray.empId}}
+                      </div>
+                      <div class="col-md-3">
+                        <label>Mapping Start Date :</label> {{mappingArray.startDate}}
+                      </div>
+                      <div class="col-md-3">
+                        <label>Mapping End Date :</label> {{mappingArray.endDate}}
+                      </div> -->
+
+                     </div>
+                    <hr>
+          
+                  </div>
+            </div>
+            </div>
+          </div>
+    
+      </div>
+    
+    </div>
+    
+    
+      <!--modal starts-->
+    
+    
+    
+    <!--modal ends-->
+    
+    
+    
+     
+    

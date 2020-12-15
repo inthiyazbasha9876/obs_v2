@@ -1,0 +1,42 @@
+.leave
+{
+    background-color: white;
+    padding: 25px;
+    box-shadow: 5px 10px;
+}
+mat-form-field{
+    width: 100%;
+}
+.row{
+    margin:9px
+}
+
+.search{
+    width: 100%;
+    padding: 7px 7px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.header{
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    font-style: initial;
+
+}
+
+.nav-pills{
+    background: #FFFFFF;
+    cursor: pointer;
+    color: black;
+  }
+  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #FFFFFF;
+    background-color:#1D62A7;
+    border-color: #1D62A7;
+    border-radius:5px 5px 0px 0px !important;
+}
+.master{
+    margin:10px 30px 10px 30px;
+}

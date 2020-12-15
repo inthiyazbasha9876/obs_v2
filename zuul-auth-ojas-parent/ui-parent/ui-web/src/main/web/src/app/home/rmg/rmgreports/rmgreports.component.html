@@ -1,0 +1,85 @@
+<div>
+    <div class="app-title">
+            <div>
+              <h1><i class="fa fa-cogs"></i>&nbsp;RMG Report</h1>
+              <p class="pl-4">Ojas Business Suite</p>
+            </div>
+            <ul class="app-breadcrumb breadcrumb">
+              <li class="breadcrumb-item active"> <button type="button" class="btn" (click)="navigateTo()"><span><i
+                  class="fa fa-home"></i>&nbsp;Dashboard</span></button></li>
+            </ul>
+          </div>
+  
+    
+  
+  
+  <div class="card">
+  <div class="row" style="margin:10px;">
+    
+    <div class="col-3">
+      <h4>Select Services</h4>
+      <mat-form-field>
+          <mat-label>Select ResourceType</mat-label>
+          <mat-select (selectionChange)="selected_service($event.value)" disableOptionCentering>
+              <mat-option *ngFor="let s of finalservices" [value]="s">{{s}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+  </div>
+  
+  <div class="col-3" *ngIf="selectService">
+      <h4>Select Fields</h4>
+      <mat-form-field>
+          <mat-label>Select Fields</mat-label>
+          <mat-select [(ngModel)]="selected_fields" (selectionChange)="selected_fields_fun()" #field="ngModel" multiple autocomplete="off">
+                  
+                         <div style="padding: 15px; text-transform: capitalize;"><input type="checkbox"  [(ngModel)]="uncheck" (click)="selectAll(checkAll.checked, field, fkey)" #checkAll>&nbsp;&nbsp;Select All</div> 
+                          <!-- <mat-option (click)="selectAll(yearSelect, years)" #checkAll> Select All-->
+                         
+              <mat-option *ngFor="let f of fkey" [value]="f">{{f.display|replace:'_':' '|titlecase}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+  </div>
+  <div class="doc col-3" *ngIf="status">
+        <abbr title="Download PDF"><i class="fa fa-file-pdf-o m-3" style="color:red; font-size:38px;" (click)="download_pdf()"
+                  aria-hidden="true"></i></abbr>
+                  
+          <abbr class="pdf" title="Export Excel"><i class="fa fa-file-excel-o" style="color:green; font-size:38px;" (click)="download_excel()"
+                  aria-hidden="true"></i></abbr>
+      </div>
+  
+  </div>
+  
+  
+  </div>
+  <div class="doc">
+  <div class="row" *ngIf="status" >
+  <div class="table-responsive">
+      <table class="table text-center" id="my_table" style="border-radius: 3px; font-size:15px">
+          <thead>
+              <th *ngFor="let header of table_heading" style="vertical-align: top;" class="table-light">{{header.display|replace:'_':' '|titlecase}}</th>
+          </thead>          
+          <tbody >
+              <tr *ngFor="let d of table_data  | paginate: { itemsPerPage: ippr, currentPage: p } "
+                  class="table-secondary" style="font-size: 13px; text-transform: capitalize;">
+                  <td *ngFor="let g of table_heading">{{d[g.value]}} </td>
+              </tr>
+          </tbody>
+      </table>
+      
+    </div>
+  </div>
+  </div>
+  
+  <span *ngIf="pstatus">Items per page</span>
+  <select [(ngModel)]="ippr" (change)="ipps()" *ngIf="pstatus" >
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+      <option value="20">20</option>
+      <option value="25">25</option>
+  </select>
+  <pagination-controls (pageChange)="p = $event" style="float:right" *ngIf="pstatus"></pagination-controls>
+  </div>
+    
+  
+

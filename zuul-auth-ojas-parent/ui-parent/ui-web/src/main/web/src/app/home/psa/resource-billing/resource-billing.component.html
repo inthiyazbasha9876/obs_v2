@@ -1,0 +1,456 @@
+<div class="shadow in">
+
+    <div class="col-md-12">
+        <span style="font-size: 18px;">
+            <h5>Resource Monthly Billing</h5>
+        </span>
+    </div>
+
+    <hr>
+
+    <div class="sel" *ngIf="resSelection">
+
+        <div class="row para">
+            <div class="col-md-2 ">
+                <mat-form-field>
+                    <mat-label>Select Project to filter</mat-label>
+                    <mat-select (selectionChange)="getResource($event)" disableOptionCentering>
+                        <mat-option *ngFor="let p of projects" [value]="p.projectId">
+                            {{p.projectName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 row">
+                <div class="my-auto" *ngIf="reports">
+                    <button class="btn" (click)="previousMonth()"><i class="fa fa-angle-double-left my-auto" aria-hidden="true"></i></button>
+                    <span>{{firstday|date:'MMMM-yyyy'}}</span>
+                    <button class="btn"  (click)="nextMonth()"><i class="fa fa-angle-double-right my-auto" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <div class="col-md-7 row">
+                <button class="btn bttn my-auto ml-auto" data-toggle="modal" data-target="#exampleModalCenter"
+                    *ngIf="reports">Get Reports</button>
+            </div>
+
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog  modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header sticky-top">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Resource Billing Reports</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body dis" id="reports">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="card" *ngIf="customerDetials!=null">
+                                        <p class="inner">Customer Details</p>
+                                        <!-- <pre>{{customerDetials|json}}</pre> -->
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Customer Name</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{customerDetials.customerName}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Customer Id</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{customerDetials.customerId}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Services</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p *ngFor="let i of customerDetials.servicetype">
+                                                            {{i.servicetypeid}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="card" *ngIf="contractDetails!=null">
+                                        <p class="inner">Contract Details</p>
+                                        <!-- <pre>{{contractDetails|json}}</pre> -->
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Contract Name</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{contractDetails.contractname}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Contract Id</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{contractDetails.contractid}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Start Date</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{contractDetails.startdate|date:'yyyy-MM-dd'}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>End Date</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{contractDetails.enddate|date:'yyyy-MM-dd'}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Contract Owner</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{contractDetails.contractowner}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Contract Value</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{contractDetails.contractvalue}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Contract Type</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{contractDetails.contractType}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="card" *ngIf="projectDetials!=null">
+                                        <p class="inner">Porject Details</p>
+                                        <!-- <pre>{{projectDetials|json}}</pre> -->
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Project Name</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        {{projectDetials.projectName}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Project Id</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        {{projectDetials.projectId}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Start Date</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        {{projectDetials.startDate|date:'yyyy-MM-dd'}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>End Date</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        {{projectDetials.endDate|date:'yyyy-MM-dd'}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Porject Value</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        {{projectDetials.projectRatecard.projectValue}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Billing Type</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        :
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        {{projectDetials.projectRatecard.billingType}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 table-responsive">
+                                    <div class="card">
+                                        <table  class="table table-bordered">
+                                            <thead class="thead-dark">
+                                                <th>Employee Id</th>
+                                                <th>Employee Name</th>
+                                                <th>Logged Hours</th>
+                                                <th>Bill Rate</th>
+                                                <th>Billed Amount</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let i of resourceList">
+                                                    <td>{{i.employeeId}}</td>
+                                                    <td>{{i.employeeName}}</td>
+                                                    <td>{{i.hours}}</td>
+                                                    <td>{{i.billRate}}</td>
+                                                    <td>{{(i.billRate)*i.hours|number:'2.1-2'}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4">Total Amount</td>
+                                                    <td>{{totalAmount|number:'2.1-2'}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary bttn" (click)="downloadReport()">Download Pdf</button>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" *ngIf="reviewTxt">
+            <div class="card review mx-auto row">
+                <p class="mx-auto my-auto">Please select the project to get the resource list</p>
+            </div>
+        </div>
+
+        <div class=row *ngIf="tabletext">
+            <div class="card review mx-auto row">
+                <p class="mx-auto my-auto">No resources are allocated for this project</p>
+            </div>
+        </div>
+        <div class="row table-responsive" *ngIf="resTable">
+            <table class="table">
+                <thead  class="text-center">
+                    <th>Employee Id</th>
+                    <th>Employee Name</th>
+                    <th>Porject Id</th>
+                    <th>Porject Name</th>
+                    <th>Logged Hours</th>
+                    <th>Bill Rate</th>
+                    <th>Billed Amount</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of resourceList" class="text-center">
+                        <td>{{i.employeeId}}</td>
+                        <td>{{i.employeeName}}</td>
+                        <td>{{i.projectId}}</td>
+                        <td>{{i.projectName}}</td>
+                        <td>{{i.hours}}</td>
+                        <td>{{i.billRate}}</td>
+                        <td>{{(i.billRate)*i.hours|number:'2.1-2'}}</td>
+                        <td><button class="btn bttn btn-small" (click)="viewResource(i)">View</button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">Total Amount</td>
+                        <td class="text-center">{{totalAmount|number:'2.1-2'}}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="sel" *ngIf="billTable" class="hello">
+
+        <div class="row txt" >
+            <p>Monthly billing of {{employeeName}} ({{employeeId}}) - {{projectName|titlecase}}
+                ({{projectId}})</p>
+            <i class="fa fa-times ml-auto" (click)="close()" aria-hidden="true"></i>
+        </div>
+
+        <div class="card">
+            <div class="row">
+                <div class="col-md-2 datesel">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" placeholder="From date" (click)="picker.open()"
+                            [(ngModel)]="fromDate" onkeydown="return false" disableOptionCentering>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2  datesel">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker1" placeholder="To date" (click)="picker1.open()"
+                            [(ngModel)]="toDate" onkeydown="return false" disableOptionCentering>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 ">
+                    <button class="btn bttn mt-3" (click)="getDatesAmount()">Get</button>
+                </div>
+                <div class="col-md-5 col-xl-5 col-lg-5 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <i class="fa fa-download ml-auto" style="margin-top: 15px" title="download pdf" *ngIf="recordsTable"
+                            (click)="downloadPdf()" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="recordsTable">
+                <table id="tabelData" class="table" style="width: 50%;">
+                    <thead class="text-center">
+                        <th>Activity</th>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Logged hours</th>
+                        <th>Billed Amount</th>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let i of recordsList">
+                            <td>{{i.activityType}}</td>
+                            <td>{{i.date|date:'yyyy-MM-dd'}}</td>
+                            <td>{{i.date|date:'EEEE'}}</td>
+                            <td>{{i.hoursLogged}}</td>
+                            <td>{{(billRate)*i.hoursLogged|number:'2.1-2'}} &#8377;</td>
+                        </tr>
+                        <tr>
+                            <td>Total Amount</td>
+                            <td colspan="3"></td>
+                            <td>{{resourceTotalAmount|number:'2.1-2'}} &#8377;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="!recordsTable" class="row review">
+                <p class="mx-auto my-auto">No record found from {{fromDate|date:'yyyy-MM-dd'}} to
+                    {{toDate|date:'yyyy-MM-dd'}}</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>

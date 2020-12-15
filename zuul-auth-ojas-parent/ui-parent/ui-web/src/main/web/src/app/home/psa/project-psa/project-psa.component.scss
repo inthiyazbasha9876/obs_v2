@@ -1,0 +1,128 @@
+span{
+    font-size: 12px;
+}
+
+
+
+.header{
+    padding: 10px;
+    background-color: #fafafa;
+    margin-bottom: 10px;
+    
+}
+p{
+    margin-bottom: 0;
+}
+.styleTo{
+    padding: 5px;
+    background-color: #fafafa;
+}
+.data{
+    padding: 15px;
+}
+
+.table tr.active td{
+    background-color: rgb(178, 241, 202);
+    color: black;
+  }
+  
+  .table tr.reject td{
+    background-color: rgb(253, 204, 204);
+    color: black
+  }
+
+  .borderTo{
+      border: 1px solid black;
+      padding: 10px;
+      margin:1px;
+  }
+
+  .tblpad {
+    padding: 3px !important;
+}
+
+.table th{
+    color:black !important;
+}
+.tbldata th{
+    color:white !important;
+}
+.colonWidth{
+    width: 160px;
+}
+.colonWidthresource{
+    width: 240px;
+}
+.colonWidthFinancials{
+    width: 230px;
+}
+
+
+a {
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.nav-tabs .nav-link {
+     border: none !important; 
+     border-top-left-radius: none !important; 
+    border-top-right-radius: none !important;
+}
+.navInModel{
+    background-color: #1d62a7;
+    padding-top: 9px;
+}
+
+@media (min-width: 576px){
+    .modal-dialog {
+        max-width: 760px !important;
+        margin: 1.75rem auto;
+    }
+}
+
+.showTasks span{
+    background-color: #fafafa;
+    font-size: 20px !important;
+}
+
+.nav-tabs {
+     border-bottom:none !important; 
+}
+.cursorPoint{
+    cursor: pointer;
+}
+
+.bttn{
+    background-color: #1d62a7;
+    color:white;
+}
+
+
+.mat-select-panel {
+    margin: 33px !important;
+}
+
+.resourceStyle span{
+    font-size: 16px;
+    padding-left: 15px;
+}
+
+.srch{
+    color:white;
+    background: #1D62A7;
+    border-color:#1D62A7;
+  }
+  .srch:hover{
+    color:white;
+    background: #1D62A7;
+    border-color:#1D62A7;
+  }
+
+  .heading{
+      font-size: 18px;
+      font-weight: 600;
+  }
+  .btnMileStone{
+   margin-top: -30px;
+  }

@@ -1,0 +1,780 @@
+<div class="row">
+    <div class="col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12 shadow">
+        <div class="sidenav">
+
+
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                <img src="assets/logo-02.svg" (click)="managerRole2()" routerLink="dashboard" class="logo_image">
+                <div class="app-sidebar__user">
+                    <div class="mt-2 picStyle">
+                        <span><abbr *ngIf="pic1" title="change profile pic">
+                                <img  [src]="profilepic" class="pro" height="70px" width="70px">
+
+                                    <input (change)="imageCompress($event)" accept="image/*" type="file"
+                                        class="inputimage" />
+                            </abbr>
+                            <div class="row  text mx-auto" *ngIf="txt">
+                                <abbr title="change profile pic" style="text-decoration: none;">
+                                         <p class="mx-auto my-auto it"><b>{{initials}}</b></p>
+                                        <input (change)="imageCompress($event)" accept="image/*" type="file"
+                                            class="inputimage" />
+                                        
+                                </abbr>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="mt-2 logged my-auto">
+                        <div>{{fName}}
+                            {{lName}}</div>
+                        <div class="text-center">{{loggeduser}}</div>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+                <aside id="basicSidebar" class="pmd-sidebar bg-light pmd-z-depth" role="navigation">
+                    <div *ngIf="role=='ROLE_ADMIN'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" (click)="managerRole2()" href="#masters"
+                                    role="button"><i class="fa fa-laptop"></i>Masters</a>
+                                <ul class="collapse" id="masters" data-parent="#basicSidebar">
+                                    <a class="nav-link" data-toggle="collapse" href="#hrmsmasters" role="button"
+                                        aria-expanded="true" aria-controls="inbox"><i class="fa fa-laptop"></i>HRMS
+                                        Masters</a>
+                                    <ul class="collapse" id="hrmsmasters" data-parent="#masters">
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/costcenter"
+                                                routerLinkActive="active">Cost Center</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/businessunit"
+                                                routerLinkActive="active">Business Unit</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/subbusinessunit"
+                                                routerLinkActive="active">Sub Business Unit</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/emp-education"
+                                                routerLinkActive="active">Employee Education</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/stateList"
+                                                routerLinkActive="active">State List</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/resourceType"
+                                                routerLinkActive="active">Resource Type</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/emp-status"
+                                                routerLinkActive="active">Employee Status</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/separationType"
+                                                routerLinkActive="active">Seperation Type</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/roleManagement"
+                                                routerLinkActive="active">Role Management</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/emp-designation"
+                                                routerLinkActive="active">Employee Designation</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/passportCenters"
+                                                routerLinkActive="active">Passport Centers</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="hrms/hrmsmasters/skills"
+                                                routerLinkActive="active">Skills</a>
+                                        </li>
+                                    </ul>
+                                    <a class="nav-link" data-toggle="collapse" href="#psamasters" role="button"
+                                        aria-expanded="true" aria-controls="inbox"><i class="fa fa-laptop"></i>PSA
+                                        Masters</a>
+                                    <ul class="collapse" id="psamasters" data-parent="#masters">
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/action-owner"
+                                                routerLinkActive="active">Action Owner</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/actionType"
+                                                routerLinkActive="active">Action Type</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/billing-type"
+                                                routerLinkActive="active">Billing Type</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/budgetlist"
+                                                routerLinkActive="active">Budget List</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/c2h"
+                                                routerLinkActive="active">C2H</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/contractcompany"
+                                                routerLinkActive="active">Contract Company</a>
+                                        </li>
+                                       
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/country"
+                                                routerLinkActive="active">Country</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/deliverylocation"
+                                                routerLinkActive="active">Delivery Location</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/documentstage"
+                                                routerLinkActive="active">Document Stage</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/documentType"
+                                                routerLinkActive="active">Document Type</a>
+                                        </li>
+                                      
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/geolocation"
+                                                routerLinkActive="active">Geo Location</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/gstlocation"
+                                                routerLinkActive="active">GST Location</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/interviewmode"
+                                                routerLinkActive="active">Interview Mode</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/interviewresult"
+                                                routerLinkActive="active">Interview Result</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/locationtype"
+                                                routerLinkActive="active">Location Type</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/permstatus"
+                                                routerLinkActive="active">Perm Status</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/projecttask"
+                                                routerLinkActive="active">Project Task</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/projecttechstack"
+                                                routerLinkActive="active">Project Tech Stack</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/ProjectType"
+                                                routerLinkActive="active">ProjectType</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/ratetype"
+                                                routerLinkActive="active">Rate Type</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/sarstatus"
+                                                routerLinkActive="active">SAR Status</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/servicecategory"
+                                                routerLinkActive="active">Service Category</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/servicetype"
+                                                routerLinkActive="active">Service Type</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="psa/psamaster/sezlocation"
+                                                routerLinkActive="active">SEZ Location</a>
+                                        </li>
+                                    </ul>
+                                    <a class="nav-link" data-toggle="collapse" href="#rmgmasters" role="button"
+                                        aria-expanded="true" aria-controls="inbox"><i class="fa fa-laptop"></i>RMG
+                                        Masters</a>
+                                    <ul class="collapse" id="rmgmasters" data-parent="#masters">
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="rmg/experience"
+                                                routerLinkActive="active">Experience</a>
+                                        </li>
+                                    </ul>
+
+                                    <a class="nav-link" data-toggle="collapse" href="#lmsmasters" role="button"
+                                        aria-expanded="true" aria-controls="inbox"><i class="fa fa-laptop"></i>LMS
+                                        Masters</a>
+                                    <ul class="collapse" id="lmsmasters" data-parent="#masters">
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="lms/lmsmasters/holiday"
+                                                routerLinkActive="active">Holidays</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" routerLink="lms/lmsmasters/leavetype"
+                                                routerLinkActive="active">Leave Type</a>
+                                        </li>
+                                    </ul>
+
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="hrms/employee"
+                                    routerLinkActive="active"><i class="fa fa-users"></i>Team-Info</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" href="#reports" role="button"><i
+                                        class="fa fa-file"></i>Reports</a>
+                                <ul class="collapse" id="reports">
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="managerRole2()" routerLink="hrms/hrmsreports"
+                                            routerLinkActive="active"><i class="fa fa-file"></i>HRMS Reports</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="managerRole2()" routerLink="psa/psareports"
+                                            routerLinkActive="active"><i class="fa fa-file"></i>PSA Reports</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="managerRole2()" routerLink="rmg/rmgreports"
+                                            routerLinkActive="active"><i class="fa fa-file"></i>RMG Reports</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_HR'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="hrms/employee"
+                                    routerLinkActive="active"><i class="fa fa-users"></i>Team-Info</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item" *ngIf="managerBtn">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" href="#reports" role="button"><i
+                                        class="fa fa-file"></i>Reports</a>
+                                <ul class="collapse" id="reports">
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="managerRole2()" routerLink="hrms/hrmsreports"
+                                            routerLinkActive="active"><i class="fa fa-file"></i>HRMS Reports</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="managerRole2()" routerLink="psa/psareports"
+                                            routerLinkActive="active"><i class="fa fa-file"></i>PSA Reports</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_SALES'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item" *ngIf="managerBtn">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" href="#reports" role="button"><i
+                                        class="fa fa-file"></i>Reports</a>
+                                <ul class="collapse" id="reports">
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="managerRole2()" routerLink="hrms/hrmsreports"
+                                            routerLinkActive="active"><i class="fa fa-file"></i>HRMS Reports</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="managerRole2()" routerLink="psa/psareports"
+                                            routerLinkActive="active"><i class="fa fa-file"></i>PSA Reports</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_USER'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_MANAGER'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li> -->
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="hrms/employee"
+                                    routerLinkActive="active"><i class="fa fa-users"></i>Team-Info</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_BDM'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item" *ngIf="managerBtn">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_BDMHEAD'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="hrms/employee"
+                                    routerLinkActive="active"><i class="fa fa-users"></i>Team-Info</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item" *ngIf="managerBtn">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_DM'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item" *ngIf="managerBtn">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_FINANCE'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item" *ngIf="managerBtn">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_BUHEAD'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="hrms/employee"
+                                    routerLinkActive="active"><i class="fa fa-users"></i>Team-Info</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item" *ngIf="managerBtn">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_SBUHEAD'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="hrms/employee"
+                                    routerLinkActive="active"><i class="fa fa-users"></i>Team-Info</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item" *ngIf="managerBtn">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="role=='ROLE_STAFFAUGHEAD'">
+                        <ul class="nav flex-column pmd-sidebar-nav">
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="dashboard"
+                                    routerLinkActive="active"><i class="fa fa-dashboard"></i>Dashboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="hrms/employee"
+                                    routerLinkActive="active"><i class="fa fa-users"></i>Team-Info</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole3()"
+                                    routerLink="hrms/employeeedit/{{loggeduser}}" routerLinkActive="active"><i
+                                        class="fa fa-user"></i>My-Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="hrms/orgStructure" routerLinkActive="active"><i
+                                        class="fa fa-handshake-o"></i>Org-Structure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="tms"
+                                    routerLinkActive="active"><i class="fa fa-clock-o"></i>Time Sheets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="lms"
+                                    routerLinkActive="active"><i class="fa fa-calendar-minus-o"></i>LMS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="rmg"
+                                    routerLinkActive="active"><i class="fa fa-tasks"></i>RMG</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="managerRole2()" routerLink="psa"
+                                    routerLinkActive="active"><i class="fa fa-cogs"></i>PSA</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10 col-xl-10 col-md-10 col-sm-12 col-xs-12 size" style="overflow-y: hidden !important;">
+        <router-outlet></router-outlet>
+        <toastr-notification></toastr-notification>
+    </div>
+
+</div>

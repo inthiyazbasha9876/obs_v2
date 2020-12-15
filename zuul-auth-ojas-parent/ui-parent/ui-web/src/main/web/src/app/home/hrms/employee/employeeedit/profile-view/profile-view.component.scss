@@ -1,0 +1,142 @@
+.card{
+    padding:10px;
+}
+
+.card1{
+    margin:17px;
+}
+
+.data{
+    margin-bottom: 10px;
+}
+
+.head2{
+    margin: 0px 2px;
+}
+
+.bttn{
+    border: 1px solid #1D62A7;
+    color:#1D62A7;
+    margin: 3px;
+}
+.bttn1{
+    background-color: #1D62A7;
+    color: white;
+    font-weight: .300;
+    margin: 3px;
+}
+
+.colData{
+    padding:24px 11px 0px 0px;
+    height: 430px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.head{
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid #CECECE;
+    width: fit-content;
+    padding-bottom:5px ;
+}
+
+.row{
+    padding:0px;
+}
+
+.links{
+ font-size: 16px;
+ font-weight: 600;
+ text-align: center;
+ margin-bottom: 0px;
+}
+
+.navbar{
+    background-color: #ededed; 
+}
+
+.nav-link{
+color: rgb(0, 25, 87);
+font-size: medium;
+text-align: left;
+}
+
+.innerhead{
+    color:#000000;
+    font-size: medium;
+    font-weight: 650;
+    opacity: 75%;
+}
+
+i{
+  cursor: pointer;
+}
+
+.pro-headings{
+    font-weight: 550;
+}
+
+.multitext{
+    margin: 5px 0px;
+}
+
+
+.src{
+    border-radius: 3px 0px 0px 3px !important;
+  }
+
+  #skills .skills{
+      padding:0px 15px;
+  }
+  #skills .skillList{
+      margin: 5px 5px;
+      padding:10px;
+      background-color: #F2F2F2;
+  }
+  .txt{
+      margin: 0px 3px;
+  }
+  .txt1{
+    margin: 0px 3px;
+    font-weight: 500;
+}
+
+a{
+    cursor: pointer;
+}
+
+#experience ul,#projects ul{
+    padding:0px 0px 0px 10px;
+}
+
+#experience li,#projects li{
+    margin: 0px 0px 7px 0px;
+    font-size: 14px;
+}
+
+li{
+    font-size: 14px;
+    margin: 0px 0px 7px 0px;
+}
+
+p{
+    line-height: 2;
+}
+.name{
+    font-size: 18px;
+    font-weight: bold;
+}
+// .modal-body p{
+//     margin:0px;
+   
+// }
+// .modal-body{
+//     border:1px solid lightgrey;
+//     //margin:10px
+// }
+
+.modal-header{
+    background-color: white;
+    color: black;
+}

@@ -1,0 +1,40 @@
+server:
+  port: 8525
+  
+eureka:
+ client: 
+  serviceUrl:
+   defaultZone: http://192.168.1.155:8089/eureka
+   
+spring:
+  datasource:
+   url: jdbc:mysql://192.168.1.155:3306/ojas_obs
+   username: dbubora
+   password: Ojas-1525
+   driver-class-name: com.mysql.jdbc.Driver
+   hikari : 
+      connection-timeout : 500
+      maximum-pool-size : 2
+#   url: jdbc:mysql://localhost:3306/ojas_obs?autoReconnect=true&useSSL=false
+#   username: root
+#   password: root
+#   driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  mail:
+    host: smtp.office365.com
+    port: 587
+    username: support-obs@ojas-it.com
+    password: Ojas_OBS
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            trust : 
+#username: support-obs@ojas-it.com
+#password: Ojas1525            
+#ToEmail: ajaykumar.nagulapati@ojas-it.com
+# #ccEmail : saritha.ummani@ojas-it.com
+# ccEmail : sravani.ch@ojas-it.com
+# bccEmail : anusha.kota@ojas-it.com

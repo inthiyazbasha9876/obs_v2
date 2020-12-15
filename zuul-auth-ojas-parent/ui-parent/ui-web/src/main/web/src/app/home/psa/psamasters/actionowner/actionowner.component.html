@@ -1,0 +1,132 @@
+<div class="app-title">
+  <div>
+    <h1><i class="fa fa-th-list"></i>&nbsp;Action Owner</h1>
+    <p class="pl-4">Ojas Business Suite</p>
+  </div>
+  <ul class="app-breadcrumb breadcrumb">
+    <li class="active"> <button type="button" class="btn bttn">
+        <a class="undlne" (click)="navigateTo()"><span><i class="fa fa-home"></i>&nbsp;Dashboard</span></a> </button>
+    </li>
+  </ul>
+</div>
+
+<div class="row" style="margin-bottom: 25px;">
+  <div class="col-4">
+    <form>
+
+      <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search" (input)="searchPage()"
+        [disabled]="searchfield">
+    </form>
+  </div>
+  <div class="col-8 text-right">
+    <button type="submit" (click)="value=!value; clear()" *ngIf="addb" class="btn ">Add Action Owner</button>
+  </div>
+
+
+</div>
+<div class="col-md-1" style="padding-left:40px;">
+
+</div>
+
+<div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
+
+  <form #actionownerForm="ngForm">
+    <table class="table table-condensed tile" style="width:100%">
+      <thead style="background-color: #1d62a7;color:white" class="text-center">
+
+        <tr>
+
+          <th>Action Owner Name</th>
+          <th>Status</th>
+          <th>Edit</th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let actionownerTable of table | filter:key | paginate: { itemsPerPage: pageSize, currentPage: p };  let i=index "
+          class="text-center">
+          <td>
+            <span *ngIf="!actionownerTable.isEditable">
+              {{actionownerTable.actionowner}}
+            </span>
+            <span *ngIf="actionownerTable.isEditable">
+              <input name="actionowner" #actionownerForm="ngModel" required pattern="[A-Za-z]{1}[A-Za-z0-9. ]*"
+                [(ngModel)]="editname" class="form-control">
+              <div style="color:red" *ngIf="actionownerForm.invalid && actionownerForm.touched ">
+
+                <span *ngIf="actionownerForm.errors.required">
+                  Please enter action owner
+                </span>
+                <span *ngIf="actionownerForm.errors.pattern">
+                  Please enter valid name
+                </span>
+              </div>
+            </span>
+          </td>
+          <td>
+            <span *ngIf="actionownerTable.status">Active</span>
+            <span *ngIf="!actionownerTable.status">Inactive</span>
+          </td>
+          <td>
+            <span style="color:#1d62a7;font-size:20px"
+              (click)="actionownerTable.isEditable=!actionownerTable.isEditable"
+              (click)="edit(actionownerTable.actionownerId,actionownerTable.actionowner,actionownerTable.status)"
+              *ngIf="!actionownerTable.isEditable"><i class="fa fa-edit" [class.disabled]="noedit"></i></span>
+            <button class="btn " *ngIf="actionownerTable.isEditable"
+              (click)="updateactionowner(actionownerForm.value);actionownerTable.isEditable=!actionownerTable.isEditable"
+              [disabled]="actionownerForm.invalid">Update</button>&nbsp;
+
+            <button type="submit" class="btn " *ngIf="actionownerTable.isEditable"
+              (click)='actionownerTable.isEditable =!actionownerTable.isEditable' (click)="cancel()">Cancel</button>
+
+            <!-- <span style="color:#1d62a7;font-size:20px"
+            (click)="edit(actionowner.actionownerId,actionowner.status);actionowner.isEditable=!actionowner.isEditable"
+            *ngIf="!actionowner.isEditable"><i class="fa fa-edit"></i></span> -->
+          </td>
+
+        </tr>
+
+
+        <tr *ngIf="value">
+
+          <td>
+            <input name="addactionowner" [(ngModel)]="actionowner" type="text" class="form-control" #role="ngModel"
+              placeholder="Enter action Owner name " required pattern="[A-Za-z]{1}[A-Za-z0-9. ]*">
+            <div *ngIf="role.invalid && role.touched">
+              <span *ngIf="role.errors.required" style="color:red;"> Please enter action owner name </span>
+              <span *ngIf="role.errors.pattern" style="color:red;"> Please enter valid name </span>
+            </div>
+          </td>
+
+          <td *ngIf="value">
+            <button class="btn mr-2" type="submit" [disabled]="actionownerForm.invalid"
+              (click)="setActionowner(actionownerForm.value)">Save</button>&nbsp;
+            <button type="submit" class="btn" (click)=cancelbulist()>Cancel</button>
+
+          </td>
+
+        </tr>
+      </tbody>
+
+
+    </table>
+
+  </form>
+</div>
+
+<pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+<div class="row">
+  <span class="ml-3">Items per page: </span>&nbsp;&nbsp;&nbsp;
+
+
+  <select id="PerPage" class="pull-right" [(ngModel)]="pageSize" (change)="searchPage()">
+    <option [ngValue]="5">5</option>
+    <option [ngValue]="10">10</option>
+    <option [ngValue]="15">15</option>
+    <option [ngValue]="20">20</option>
+    <option [ngValue]="25">25</option>
+  </select>
+
+</div>

@@ -1,0 +1,185 @@
+.row{
+    margin: 0px;
+}
+.card{
+    padding: 10px;
+    margin:8px !important;
+}
+.master{
+    height: calc(100vh - 210px);
+    overflow-y: scroll;
+    position: relative;
+}
+input[type=text], select {
+    width: auto;
+    padding: 7px 7px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  select{
+    box-shadow: none;
+  }
+  .taskName{
+      color:#fff;
+      height: 20px;
+      display: block;
+      text-align: center;
+      &.open{
+        background-color: #8d8b92;
+      }
+      &.inprogress{
+        background-color: #e4b60f;
+      }
+      &.complete{
+          background-color: #36af45;
+      }
+      &.notdone{
+        background-color: #cf4419;
+      }
+      &.one{
+        height: 40px;
+      }
+      &.two{
+        height: 50px;
+      }
+      &.three{
+        height: 60px;
+      }
+      &.four{
+        height: 70px;
+      }
+      &.five{
+        height: 80px;
+      }
+      &.six{
+        height: 90px;
+      }
+      &.seven{
+        height: 100px;
+      }
+      &.eight{
+        height: 110px;
+      }
+    //   padding: 5px 15px;
+  }
+  .taskcolors{
+      color:white;
+      .task{
+          color:black
+      }
+      .open{
+        background-color: #8d8b92;
+      }
+      .inprogress{
+        background-color: #e4b60f;
+      }
+      .complete{
+          background-color: #36af45;
+      }
+      .not-done{
+        background-color: #cf4419;
+      }
+  }
+  .review{
+    width: 100%;
+    height: 300px;
+}
+  .schedule-actions{
+    button{
+        
+        background-color: #fff;
+        color:#1d62a7;
+        padding: 10px 25px;
+        &.active {
+            background-color: #1d62a7;
+            color: #fff; 
+        }
+    }
+   
+  }
+.bttn{
+    border: 1px solid #CCCCCC;
+    box-shadow: none;
+}
+.floating{
+    position: fixed;
+    bottom: 25px;
+    right: 40px;
+
+}
+
+.milestone{
+    //height: 18px;
+    width: 100%;
+    margin :5px 0px 5px 0px;
+    cursor: pointer;
+}
+.milestone:nth-child(1) {
+    margin-top:15px;
+  }
+  .milestone:nth-last-child(1) {
+    margin-bottom:15px;
+  } 
+.milestoneName{
+    color: white;
+    text-align:center;
+}
+
+th{
+padding: 0px !important;
+}
+th p{
+    margin: 0px !important;
+}
+td{
+    padding: 0px !important;
+}
+thead{
+    th{
+        color:#111;
+    }
+}
+
+.week{
+    height: 110px !important;
+    width: 157px !important;
+}
+.table{
+    width: max-content;
+}
+// tbody {
+//     display: block;
+//     height: 1200px;
+//     overflow: auto;
+// }
+// thead{
+//     display: block;
+//     height: 72px;
+//     overflow: auto;
+// }
+.tip {
+    border-bottom: 1px dashed;
+    text-decoration: none
+}
+.tip:hover {
+    cursor: help;
+    position: relative
+}
+.tip span {
+    display: none
+}
+.tip:hover span {
+    border: #c0c0c0 1px dotted;
+    padding: 5px 20px 5px 5px;
+    display: block;
+    z-index: 100;
+    left: 0px;
+    margin: 10px;
+    width: auto;
+    background-color: #c0c0c0;
+    position: absolute;
+    top: 10px;
+    text-decoration: none
+}

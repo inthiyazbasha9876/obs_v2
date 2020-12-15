@@ -1,0 +1,308 @@
+<div class="bgColor shadow in">
+  <div class="col-md-12">
+    <span style="font-size: 18px;">
+      <h5>Resource Management</h5>
+    </span>
+  </div>
+  <hr>
+  <form class="form-inline" style="padding-bottom: 25px;">
+    <div>
+      <input type="text" class="form-control" name="key" [(ngModel)]="searchProduct" size="50" placeholder="Search">
+
+    </div>
+    <div class="my-auto ml-auto">
+      <i class="fa fa-list extraicons m-2" *ngIf="!tabledesgin" (click)="tabledesgin=!tabledesgin" aria-hidden="true"
+        title="Display data in List view"></i>
+      <i class="fa fa-list-alt extraicons" *ngIf="tabledesgin" (click)="tabledesgin=!tabledesgin" aria-hidden="true"
+        title="Display data in Card view"></i>
+    </div>
+  </form>
+
+
+
+
+  <div *ngIf="loading" style="padding-top: 150px;">
+    <div class="loader mx-auto"></div>
+  </div>
+
+  <div *ngIf="!loading && !tabledesgin">
+    <div class="row">
+      <div class="col-md-3 col-xs-12 col-sm-4 col-lg-3"
+        *ngFor="let empbasic of empShortList| rmg:searchProduct;let i=index" style="padding-bottom: 20px;">
+        <div class="card shadow zoom scroll" style="padding: 20px 20px;">
+
+          <div *ngIf="pic1[i]" class="mx-auto">
+            <img src="data:image/png;base64,{{empbasic.image}}" height="100px;" width="100px;"
+              class="mx-auto rounded-circle">
+          </div>
+
+          <div *ngIf='!pic1[i]' class="mx-auto">
+            <div
+              style="border-radius:50%;height:100px; width: 100px; background: rgb(230, 228, 228);; color:rgb(86, 86, 86);"
+              class="row m-2">
+              <p class="mx-auto my-auto">
+                <b>{{empbasic.firstname | slice:0:1 | uppercase }} {{empbasic.lastname |slice:0:1|uppercase}}</b></p>
+            </div>
+          </div>
+          <div class="padToCard">
+            <div class="row cardPad">
+              <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12 rightAlign">
+                <b>Employee ID</b>
+              </div>:
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                {{empbasic.employeeId}}
+              </div>
+            </div>
+
+            <div class="row cardPad">
+              <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12 rightAlign">
+                <b>Name</b>
+              </div>:
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                {{empbasic.firstname}} {{empbasic.lastname}}
+              </div>
+            </div>
+
+            <div class="row cardPad">
+              <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12 rightAlign">
+                <b>Job Title</b>
+              </div>:
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                {{empbasic.title}}
+              </div>
+            </div>
+            <div class="row cardPad">
+              <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12 rightAlign">
+                <b>Email</b>
+              </div>:
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                {{empbasic.officialEmail}}
+              </div>
+            </div>
+          </div>
+
+          <button class="btn mx-auto btn-sm footer" style="background-color: #1d62a7;color: white;padding: 5px 25px;"
+            (click)="showEmpDetails(empbasic)" data-toggle="modal" data-target="#resourceModal">Click on Me!</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="resourceModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <form [formGroup]='resourceAllocation'>
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Project Allocation to {{empDetails.firstname | titlecase}}
+              {{empDetails.lastname | titlecase}}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+          </div>
+          <div class="modal-body">
+            <div *ngIf="availabilityArray.length!=[]">
+              <table class="table table-borderless">
+                <thead class="theading">
+                  <th>Employee Name</th>
+                  <th>Allocated Project</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Allocated Hours</th>
+                </thead>
+                <tr *ngFor="let dataEmp of availabilityArray">
+                  <td>{{getNames(dataEmp.empId)}} </td>
+                  <td>{{getprojectName(dataEmp.projectId)}}</td>
+                  <td>{{dataEmp.startDate}}</td>
+                  <td>{{dataEmp.endDate}}</td>
+                  <td>{{dataEmp.hoursOfAllocation}}</td>
+                </tr>
+
+              </table>
+    
+            </div>
+            <div *ngIf='dontAllowResource' class="row" style="padding-bottom: 10px;padding-left: 20px;">
+              <!-- <mat-form-field>
+                <mat-label>Select Project</mat-label>
+                <mat-select formControlName = 'projectId' (selectionChange)="selectedProject($event.value)"
+                  disableOptionCentering>
+                  <mat-option *ngFor="let project of dataTo" [value]="project.projectId">
+                    {{project.projectName}}
+                  </mat-option>
+
+                </mat-select>
+              </mat-form-field> -->
+
+              <div class="col-6">
+                <mat-form-field>
+                  <mat-label>Select Project</mat-label>
+                  <input formControlName='projectId' (change)="selectedProject($event.target.value)" list="browsers"
+                    matInput />
+                  <datalist id="browsers">
+                    <option style="font-size: 20px;" *ngFor="let project of dataTo" [value]="project.projectId">
+                      {{project.projectName}}</option>
+                  </datalist>
+                </mat-form-field>
+              </div>
+
+
+              <div class="col-6" *ngIf='showFileds' style="margin-top: 12px;"><span style="font-weight: 600;">Project
+                  Name :</span>
+                {{getprojectName(resourceAllocation.value.projectId)}}</div>
+
+            </div>
+            <div *ngIf='showFileds'>
+              <div class="row" style="padding-bottom: 10px;">
+
+                <div class="col-md-6 col-sm-6 col-xs-12">
+
+
+                  <br>
+                  <mat-form-field>
+                    <input matInput [min]="projectStartDate" [max]="projectEndDate" [matDatepicker]="picker3"
+                      formControlName="resourceStartDate" placeholder="Start date" (click)="picker3.open()"
+                      onkeydown="return false">
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                  </mat-form-field>
+
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <br>
+                  <mat-form-field>
+                    <input matInput [min]="resourceAllocation.value.resourceStartDate" [max]="projectEndDate"
+                      [matDatepicker]="picker4" formControlName="resourceEndDate" placeholder="End date"
+                      (click)="picker4.open()" onkeydown="return false">
+                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                    <mat-datepicker #picker4></mat-datepicker>
+                  </mat-form-field>
+
+                </div>
+              </div>
+              <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <br>
+                  <mat-form-field>
+                    <mat-label>Bill Rate</mat-label>
+                    <input formControlName="billRate" matInput disableOptionCentering>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <br>
+                  <mat-form-field>
+                    <mat-label>Hours of allocation</mat-label>
+                    <input type="number" formControlName="numberOfHours" matInput disableOptionCentering>
+                  </mat-form-field>
+
+                  <div style="color: red;" *ngIf="resourceAllocation.value.numberOfHours + checkHours > 16">Not
+                    more than 16 hours.</div>
+
+
+                </div>
+
+              </div>
+              <button class="btn bttn float-right theading"
+                style="margin-right: 20px;margin-top: -26px;color:white;margin-bottom:20px" (click)="resourceMapping()"
+                [disabled]='resourceAllocation.value.resourceStartDate == null || resourceAllocation.value.resourceStartDate == null || resourceAllocation.value.resourceEndDate == null || resourceAllocation.value.billRate == null || resourceAllocation.value.numberOfHours == null || resourceAllocation.value.numberOfHours + checkHours > 16'>Add</button>
+
+
+            </div>
+            <div class="mx-auto" style="color: red;" *ngIf="!dontAllowResource">
+              <p>This resource is allocated to above projects. Please select other resource.</p>
+            </div>
+
+            <div *ngIf='resourceArray.length!=0'>
+              <table class="table table-borderless">
+                <thead class="theading">
+                  <th>Project Id</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Bill Rate</th>
+                  <th>Allocated Hours</th>
+                </thead>
+                <tbody>
+                  <tr class="resourceStyle" *ngFor="let resourcedata of resourceArray;let i=index">
+
+                    <td>{{resourcedata.projectId}}</td>
+                    <td>{{resourcedata.startDate | date: 'dd-MM-yyyy'}}</td>
+                    <td>{{resourcedata.endDate | date: 'dd-MM-yyyy'}}</td>
+                    <td>{{resourcedata.billRate}}</td>
+                    <td>{{resourcedata.numberOfHours}}</td>
+
+                    <td (click)="cancelResource(i)" class="cursorPoint"><span style="font-size: 20px;">&times;</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default theading" [disabled]='resourceArray.length==0' style="color: white;" data-dismiss="modal"
+              (click)="allocateToProject()" >Allocate</button>
+            <button type="button" class="btn btn-default theading" style="color: white;" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+
+  <div *ngIf="!loading && tabledesgin">
+    <table class="table">
+      <thead class="theading text-center" style="padding: 12px !important;">
+        <th>Profile</th>
+        <th (click)="sortid()">Employee Id
+          <span *ngIf="orderid==0"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></span>
+          <span *ngIf="orderid==1"><i class="fa fa-caret-square-o-up" aria-hidden="true"></i></span>
+        </th>
+        <th (click)="sortname()">Employee Name
+          <span *ngIf="ordername==0"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></span>
+          <span *ngIf="ordername==1"><i class="fa fa-caret-square-o-up" aria-hidden="true"></i></span>
+        </th>
+        <th>Job Title</th>
+        <th>Email</th>
+      </thead>
+      <tbody class="text-center">
+        <tr
+          *ngFor="let empbasic of empShortList| rmg:searchProduct| paginate: { itemsPerPage: pages, currentPage:pd, id:'pd' }">
+          <td>
+            <img *ngIf="empbasic.image != null" src="data:image/png;base64,{{empbasic.image}}" height="50px;"
+              width="50px;" class="mx-auto rounded-circle">
+            <div *ngIf="empbasic.image == null"
+              style="border-radius:50%;height:50px; width: 50px; background: rgb(230, 228, 228);; color:rgb(86, 86, 86);"
+              class="row mx-auto">
+              <p class="mx-auto my-auto">
+                <b>{{empbasic.firstname | slice:0:1 | uppercase }} {{empbasic.lastname | slice:0:1 | uppercase}}</b>
+              </p>
+            </div>
+          </td>
+          <td> {{empbasic.employeeId}} </td>
+          <td> {{empbasic.firstname}} {{empbasic.lastname}} </td>
+          <td> {{empbasic.title}} </td>
+          <td> {{empbasic.officialEmail }} </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <span class="m-2 col-1">Items per page</span>
+      <select [(ngModel)]="pages">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+      </select>
+      <pagination-controls (pageChange)="pd = $event" id="pd" style="float:right"></pagination-controls>
+    </div>
+  </div>
+
+  <div>
+    <button *ngIf="isShow" class="toshowBTN btn" (click)="gotoTop()"> <i class="fa fa-sort-asc"></i>Back to top</button>
+  </div>
+</div>

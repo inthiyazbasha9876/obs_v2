@@ -1,0 +1,118 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import '../node_modules/font-awesome/css/font-awesome.min.css';
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-angular-navigations/styles/material.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container { z-index: 9999!important; }
+
+.app-title h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 400;
+  }
+  
+  .app-title p {
+    margin-bottom: 0;
+    font-style: italic;
+  }
+
+  .app-title {
+    margin-bottom: 33px;
+    margin-left: -15px;
+   
+    margin-right: -15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    background-color:  white;
+    padding-bottom: 50px;
+  
+    padding: 13px 30px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+  }
+
+  .app-breadcrumb {
+    margin-bottom: 0;
+    text-align: right;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: capitalize;
+    padding: 0;
+    text-align: left;
+    padding: 0;
+    background-color: transparent;
+  }
+.table th{
+  color: white;
+}  
+
+p{
+  font-size: 14px;
+}
+
+.table td{
+  font-size: 14px;
+}
+b{
+  font-weight: 600;
+}
+
+.table th{
+  font-weight: 600;
+}
+.scrollData{
+  height: 530px;
+  overflow-y: scroll !important;
+  
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1d62a7; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #1d62a7; 
+}
+
+label{
+  font-weight: 600;
+}
+.ngx-pagination .current {
+  background: #1d62a7 !important;
+}
+
+.swal-footer {
+  text-align: center !important;
+
+}
+.iteams{
+  font-weight: 400;
+}
+.swal-button--danger {
+  background-color: #1d62a7 !important;
+}

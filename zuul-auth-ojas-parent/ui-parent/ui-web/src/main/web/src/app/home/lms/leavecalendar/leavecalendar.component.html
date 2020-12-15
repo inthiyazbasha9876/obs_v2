@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-md-5 col-xl-5 col-lg-5 col-sm-12 col-xs-12">
+      <div class="row ">
+        <p class="dismonth">{{displayMonth|date:'MMMM yyyy'}}</p>
+        <div class="ml-auto">
+          <i class="fa fa-angle-double-left" (click)="getPreviousMonth()" aria-hidden="true"></i>
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" (dateChange)="dateSelected($event)" (click)="picker.open()"
+              onkeydown="return false" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <i class="fa fa-angle-double-right" (click)="getNextMonth()" aria-hidden="true"></i>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered calendar">
+            <thead class="text-center">
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let md of monthdays; let i=index">
+                <td *ngFor="let n of dateStart" [hidden]="i!=0"></td>
+                <td *ngFor="let d of md" class="text-center"
+                  [ngStyle]="{'background-color':d.comment === 'onLeave' ? '#76DC14' : '','color':d.comment === 'onLeave' ? 'white' : '' }"
+                  (click)="getDetails(d)">{{d.date|date:'dd'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1 col-xl-1 col-lg-1 row">
+      <div class="vertical mx-auto"></div>
+    </div>
+    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-xs-12">
+      <p class="dis">Leave Details {{selectedDate|date:'dd-MMM-yyyy'}}</p>
+      <div class="row" *ngIf="leaveDetails.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered details">
+            <thead>
+              <th>Employee Id</th>
+              <th>Leave type</th>
+              <th>From date</th>
+              <th>To date</th>
+              <th>No of days</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let l of leaveDetails">
+                <td>{{l.empId}}</td>
+                <td>{{l.leaveType}}</td>
+                <td>{{l.fromDate}}</td>
+                <td>{{l.toDate}}</td>
+                <td>{{l.countNumOfDays}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="mx-auto btn bttn" (click)=" download_excel()">Export Excel</button>
+      </div>
+      <div class="row" style="height:100%" *ngIf="leaveDetails.length==0 && details">
+        <p class="mx-auto my-auto" style="color:lightslategray">You had not applied leave for
+          {{selectedDate|date:'dd-MMM-yyyy'}}</p>
+      </div>
+      <div class="row" style="height:100%" *ngIf="leaveDetails.length==0 && !details">
+        <p class="mx-auto my-auto" style="color:lightslategray">Please click on date to view details</p>
+      </div>
+    </div>
+  </div>

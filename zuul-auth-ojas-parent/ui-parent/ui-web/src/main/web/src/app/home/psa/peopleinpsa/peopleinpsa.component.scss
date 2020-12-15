@@ -1,0 +1,233 @@
+.loader {
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #1d62a7;
+    width: 90px;
+    height: 90px;
+    -webkit-animation: spin 1.5s linear infinite; /* Safari */
+    animation: spin 1.5s linear infinite;
+  
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  // table tr{
+  //   line-height: 14px;
+    
+  // }
+  // table td{
+  //   word-wrap: break-word;
+  //    width:170px;
+  //    display: inline-block;
+  // }
+  
+  // .card{
+   
+  //   overflow: hidden;
+  // }
+  // .scroll {
+  
+  //     overflow-y: auto;
+  // }
+  
+  .toshowBTN{
+   position: fixed;
+   top:0;
+   right:40%;
+   outline: none;
+   padding:5px 40px;
+   background-color:#1d62a7;
+   color: white;
+   border-radius:0px 0px 10px 10px;
+  }
+  
+  .zoom {
+   
+   
+    transition: transform .2s; /* Animation */
+  
+  }
+  
+  .zoom:hover {
+    transform: scale(1.015); 
+  }
+  option[default] {
+    display: none;
+  }
+  select:focus option.holder {
+    display: none;
+  }
+  .margin{
+      margin-left: 10px;
+   
+  }
+  label{
+      font-weight:bold;
+  }
+  nav > .nav.nav-tabs{
+  
+     border: none;
+       color:#fff;
+       background:#272e38;
+       border-radius:0;
+   
+   }
+   nav > div a.nav-item.nav-link,
+   nav > div a.nav-item.nav-link.active
+   {
+     border: none;
+       padding: 10px 10px 10px 17px;
+       color:white;
+       background:#009688;
+       border-radius:0;
+   }
+   
+   nav > div a.nav-item.nav-link.active:after
+    {
+     content: "";
+     position: relative;
+     bottom: -60px;
+     left: -50%;
+     border: 15px solid transparent;
+     border-top-color: #222d32 ;
+   }
+   
+   
+   nav > div a.nav-item.nav-link:hover,
+   nav > div a.nav-item.nav-link:focus
+   {
+     border: none;
+       background: #222d32;
+       color:#fff;
+       border-radius:0;
+       transition:background 0.20s linear;
+   }
+   .left{
+     margin-left: 16px;
+   }
+
+  
+  // /* ----- v CAN BE DELETED v ----- */
+  body {
+  background-color: #78909C;
+  }
+  .demo {
+  padding-top: 600px;
+  padding-bottom: 110px;
+  }
+  .btn-demo {
+  margin: 15px;
+  padding: 10px 15px;
+  border-radius: 0;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  }
+  .btn-demo:focus {
+  outline: 0;
+  }
+  
+  
+  a {
+    color: black;
+    text-decoration: none;
+    background-color: transparent;
+  }
+  .margin{
+    margin-left: 10px;
+  
+  }
+  label{
+    font-weight:bold;
+   }
+   
+   .emd_edt.nav-tabs {
+     border-bottom: 1px solid #999999;
+     .nav-item{
+       a{
+         color: #565656;
+       }
+     }
+    }
+    .nav-item.active, .nav-item:hover{
+      border-bottom: 3px solid  #0062cc;
+     
+      
+      a{
+       color:  #0062cc!important;
+       font-weight: bold;
+       text-decoration: none;
+      }
+    }
+    
+  
+    .undlne{
+      text-decoration: none;
+      color:#212529;
+      font-size: 16px;
+    }
+  
+    .cardPad{
+      padding: 5px;
+      font-size: 14px;
+    }
+    .rightAlign{
+      text-align: right;
+    }
+    .padToCard{
+      padding-bottom: 10px;
+      
+    }
+    .in{
+      padding: 20px;
+  }
+  .bgColor{
+      background-color: white;
+  }
+   
+  // table tr td{
+  //   padding:2px;
+  // }
+
+  
+  .card{
+    height: 375px;
+  }
+  .theading{
+    background-color: #1D62A7;
+  }
+  td{
+    padding: 8px !important;
+  }
+  th{
+    cursor: pointer;
+  }
+  .extraicons{
+    font-size: 25px;
+    color:#1d62a7;
+    cursor: pointer;
+  }
+
+  .footer{
+    position: absolute;
+    bottom: 20px;
+    right: 32%;
+  }
+
+  @media (min-width: 576px){
+    .modal-dialog {
+      max-width: 650px;
+      margin: 1.75rem auto;
+  }
+}
+
+
+  

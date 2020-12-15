@@ -1,0 +1,112 @@
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>&nbsp;Leave Type</h1>
+        <p class="pl-4">Ojas Business Suite</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="active"> <button type="button" class="btn bttn">
+                <a class="undlne" (click)="navigateTo()"><span><i class="fa fa-home"></i>&nbsp;Dashboard</span></a>
+            </button>
+        </li>
+    </ul>
+</div>
+
+<div class="row" style="margin-bottom: 25px;">
+    <div class="col-4">
+        <form>
+
+            <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search"
+                (input)="searchPage()" [disabled]="searchfield">
+        </form>
+    </div>
+    <div class="col-8 text-right">
+        <button type="submit" (click)="value=!value; clear()" *ngIf="addb" class="btn ">Add Leave Type</button>
+    </div>
+
+
+</div>
+
+
+<div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
+
+    <form #leaveTypeform="ngForm">
+        <table class="table table-condensed tile" style="width:100%">
+            <thead style="background-color: #1d62a7;color:white" class="text-center">
+                <tr>
+                    <th>Leave Type</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let leaveTypeTable of leaveTypedata| lms:key |  paginate: { itemsPerPage: pageSize, currentPage: p }; let i=index "
+                    class="text-center">
+                    <td>
+                        <div *ngIf="!leaveTypeTable.isEditable">
+                            {{leaveTypeTable.leaveTypeName}}
+                        </div>
+                        <div *ngIf="leaveTypeTable.isEditable">
+                            <input type="text" name="leaveTypeName" #leaveTypelist="ngModel" required
+                                [(ngModel)]="editname" class="form-control" />
+                            <div style="color:red" *ngIf="leaveTypelist.invalid && leaveTypelist.touched ">
+                                <span *ngIf="leaveTypelist.errors.required">
+                                    Please enter Leave Type
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <span *ngIf="leaveTypeTable.status">Active</span>
+                        <span *ngIf="!leaveTypeTable.status">Inactive</span>
+                    </td>
+
+                    <td> <span style="color:#1d62a7;font-size:20px"
+                            (click)='leaveTypeTable.isEditable =!leaveTypeTable.isEditable'
+                            (click)="edit(leaveTypeTable)" *ngIf="!leaveTypeTable.isEditable"><i class="fa fa-edit"
+                                [class.disabled]="noedit"></i></span>
+
+                        <button class="btn " *ngIf="leaveTypeTable.isEditable"
+                            (click)='leaveTypeTable.isEditable=!leaveTypeTable.isEditable'
+                            (click)="updateLeaveType(leaveTypeform.value)"
+                            [disabled]="leaveTypeform.invalid">Update</button>&nbsp;
+
+                        <button type="submit" class="btn " *ngIf="leaveTypeTable.isEditable"
+                            (click)='leaveTypeTable.isEditable =!leaveTypeTable.isEditable'
+                            (click)="cancel()">Cancel</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td *ngIf="value">
+                        <input name="addleavetype" [(ngModel)]="leaveTypeName" type="text" class="form-control"
+                            #role="ngModel" placeholder="Enter Leave Type" required>
+                        <div *ngIf="role.invalid && role.touched">
+                            <span *ngIf="role.errors.required" style="color:red;"> Please enter Leave Type </span>
+                        </div>
+                    </td>
+                    <td *ngIf="value">
+                        <button class="btn" type="submit" [disabled]="leaveTypeform.invalid"
+                            (click)="setLeaveType(leaveTypeform.value)">Save</button>&nbsp;
+                        <button type="submit" class="btn" (click)=cancelbulist()>Cancel</button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+
+<div class="row">
+    <span class="ml-3">Items per page: </span>&nbsp;&nbsp;&nbsp;
+    <select id="PerPage" class="pull-right" [(ngModel)]="pageSize" (change)="searchPage()">
+        <option [ngValue]="5">5</option>
+        <option [ngValue]="10">10</option>
+        <option [ngValue]="15">15</option>
+        <option [ngValue]="20">20</option>
+        <option [ngValue]="25">25</option>
+    </select>
+</div>

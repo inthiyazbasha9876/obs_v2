@@ -1,0 +1,140 @@
+<div class="row">
+  <div class="col-md-6">
+    <div style="display: block;" class="barchart">
+      <canvas baseChart [datasets]="deployedMonthlyCount_bar " [labels]="deployedMonthlyCount_barLabels"
+        [options]="deployedMonthlyCount_barOptions" [legend]="deployedMonthlyCount_barLegend"
+        [chartType]="deployedMonthlyCount_barType" [colors]="deployedMonthlyCount_barColors">
+      </canvas>
+      <br>
+      <h4 Style="color:#154979;text-align: center">Billable vs Non-Billable</h4>
+      <br>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div style="display: block;" class="barchart">
+      <canvas baseChart [datasets]="skillMonReven_bar " [labels]="skillMonReven_barLabels"
+        [options]="skillMonReven_barOptions" [legend]="skillMonReven_barLegend" [chartType]="skillMonReven_barType"
+        [colors]="skillMonReven_barColors">
+      </canvas>
+      <br>
+      <h4 Style="color:#154979;text-align: center">Skill wise monthly revenue</h4>
+      <br>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <section>
+      <mat-form-field>
+        <mat-label>Employee id</mat-label>
+        <input [(ngModel)]="empId" name="empidname" list="browsers" matInput (change)="getMonthlyPandL(empId)" />
+        <datalist id="browsers">
+          <option *ngFor="let em of searchByempid" value="{{em}}">{{em}}</option>
+        </datalist>
+      </mat-form-field>
+    </section>
+    <div style="display: block;" class="barchart">
+      <canvas baseChart [datasets]="MonthlyPandL_bar " [labels]="MonthlyPandL_barLabels"
+        [legend]="MonthlyPandL_barLegend" [chartType]="MonthlyPandL_barType" [colors]="MonthlyPandL_barColors">
+      </canvas>
+      <br>
+      <h4 Style="color:#154979;text-align: center">Monthly Profit & Loss</h4>
+      <br>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <br>
+    <br>
+    <br>
+    <div style="display: block;" class="barchart">
+      <canvas baseChart [datasets]="OnboardVsRelease_bar " [labels]="OnboardVsRelease_barLabels"
+         [options]="OnboardVsRelease_barOptions"  [legend]="OnboardVsRelease_barLegend"
+         [chartType]="OnboardVsRelease_barType" [colors]="OnboardVsRelease_barColors"
+        (chartClick)="getChartData($event)"> 
+      </canvas>
+      <br>
+      <h4 Style="color:#154979;text-align: center">Monthly Project Onboards Vs Releases</h4>
+      <br>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal scrollData" id="myModal" [ngStyle]="{'display':showModal}">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">{{modalHeading}}</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModal()">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <th>S.No</th>
+            <th>Employee Id</th>
+            <th>Employee Name</th>
+            <th>Project Name</th>
+            <!-- <th>Onboard Date</th>
+            <th>Release Date</th> -->
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of ShowInModal let j=index">
+              <td>{{j+1}}</td>
+              <td>{{i.employeeId}}</td>
+              <td>{{i.empName}}</td>
+              <td>{{i.projectName}}</td>
+              <!-- <td>{{i.startDate}}</td>
+              <td>{{i.endDate}}</td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn text-white" data-dismiss="modal" (click)="closeModal()">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="row">
+      <section class="col">
+        <mat-form-field>
+          <mat-label>Employee id</mat-label>
+          <input [(ngModel)]="emplist" name="emplist" list="browsers1" matInput (change)="getresAlloc(emplist)" />
+          <datalist id="browsers1">
+            <option *ngFor="let s of ResAllocList" value="{{s}}">{{s}}</option>
+          </datalist>
+        </mat-form-field>
+      </section>
+      <section class="col">
+        <mat-form-field>
+          <mat-label>Chart Type</mat-label>
+          <mat-select [(ngModel)]="charttype" name="chart" (ngModelChange)="chartType(charttype)"
+            disableOptionCentering>
+            <mat-option value="pie">Pie</mat-option>
+            <mat-option value="doughnut">Doughnut</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </section>
+    </div>
+    <div style="display: block;">
+      <canvas baseChart [datasets]="ResAlloc_bar" [labels]="ResAlloc_barLabels" [chartType]="ResAlloc_barType"
+      [colors]="ResAlloc_barColors">
+      </canvas>
+      <br>
+      <h4 Style="color:#154979;text-align: center">Availability and Utilization of resource {{emplist}}</h4>
+      <br>
+    </div>
+  </div>
+</div>

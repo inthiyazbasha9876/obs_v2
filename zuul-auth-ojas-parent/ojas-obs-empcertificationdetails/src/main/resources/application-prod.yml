@@ -1,0 +1,19 @@
+server:
+  port: 8888
+eureka:
+ client: 
+  serviceUrl:
+   defaultZone: http://192.168.1.48:8089/eureka  
+spring:
+  datasource:
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    #password: root
+    #username: root 
+    #url: jdbc:mysql://localhost:3306/ojas_certificationdetails
+    url: jdbc:mysql://192.168.1.48:3306/ojas_obs
+    username: dbubora
+    password: Ojas-1525
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari : 
+      connection-timeout : 500
+      maximum-pool-size : 2 

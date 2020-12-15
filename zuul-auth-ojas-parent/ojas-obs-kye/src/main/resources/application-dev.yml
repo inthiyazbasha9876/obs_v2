@@ -1,0 +1,8 @@
+server:
+  port: 7070
+spring:
+  datasource:
+    url: jdbc:mysql://52.188.186.190:3306/ojas_obs
+    username: dbubora
+    password: Ojas-1525
+    driver-class-name: com.mysql.jdbc.Driver  profiles:    active:    - dev

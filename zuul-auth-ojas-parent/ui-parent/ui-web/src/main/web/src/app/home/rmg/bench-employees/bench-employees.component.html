@@ -1,0 +1,176 @@
+<div class="bgColor shadow in">
+  <div class="col-md-12">
+    <span style="font-size: 18px;">
+      <h5>Resource Management</h5>
+    </span>
+  </div>
+  <hr>
+  <form class="form-inline" style="padding-bottom: 25px;">
+    <div>
+      <input type="text" class="form-control" name="key" [(ngModel)]="searchProduct" size="50" placeholder="Search">
+
+    </div>
+    <div class="my-auto ml-auto">
+      <i class="fa fa-list extraicons m-2" *ngIf="!tabledesgin" (click)="tabledesgin=!tabledesgin"
+        aria-hidden="true" title="Display data in List view"></i>
+      <i class="fa fa-list-alt extraicons" *ngIf="tabledesgin" (click)="tabledesgin=!tabledesgin"
+        aria-hidden="true" title="Display data in Card view"></i>
+    </div>
+  </form>
+
+
+
+
+  <div *ngIf="loading" style="padding-top: 150px;">
+    <div class="loader mx-auto"></div>
+  </div>
+
+  <div *ngIf="!loading && !tabledesgin">
+    <div class="row">
+      <div class="col-md-3 col-xs-12 col-sm-4 col-lg-3"
+        *ngFor="let empbasic of empShortList| rmg:searchProduct;let i=index" style="padding-bottom: 20px;">
+        <div class="card shadow zoom scroll" style="padding: 20px 20px;">
+
+          <div *ngIf="pic1[i]" class="mx-auto">
+            <img src="data:image/png;base64,{{empbasic.image}}" height="100px;" width="100px;"
+              class="mx-auto rounded-circle">
+          </div>
+
+          <div *ngIf='!pic1[i]' class="mx-auto">
+            <div
+              style="border-radius:50%;height:100px; width: 100px; background: rgb(230, 228, 228);; color:rgb(86, 86, 86);"
+              class="row m-2">
+              <p class="mx-auto my-auto">
+                <b>{{empbasic.fullName | slice:0:1 | uppercase }}</b></p>
+            </div>
+          </div>
+
+
+          <!-- <table class="table table-borderless">
+                  <tr>
+                    <th>EmployeeID:</th>
+                    <td>{{empbasic.employeeId}}</td>
+                  </tr>
+                  <tr>
+                    <th>Name:</th>
+                    <td>{{empbasic.firstname}} {{empbasic.lastname}}</td>
+                  </tr>
+                  <tr>
+                    <th>Status:</th>
+                    <td>{{empbasic.status}}</td>
+                  </tr>
+               
+                  <tr>
+                    <th>Email:</th>
+                    <td>{{empbasic.email}}</td>
+                  </tr>
+                  <tr>
+                    <th>Mobile:</th>
+                    <td>{{empbasic.personalMobileNo}}</td>
+                  </tr>
+                </table> -->
+          <div class="padToCard">
+            <div class="row cardPad">
+              <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12 rightAlign">
+                <b>Employee ID</b>
+              </div>:
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                {{empbasic.employeeId}}
+              </div>
+            </div>
+
+            <div class="row cardPad">
+              <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12 rightAlign">
+                <b>Name</b>
+              </div>:
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                {{empbasic.fullName}}
+              </div>
+            </div>
+            <div class="row cardPad">
+              <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12 rightAlign">
+                <b>Status</b>
+              </div>:
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                {{empbasic.employmentStatus}}
+              </div>
+            </div>
+            <div class="row cardPad">
+              <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12 rightAlign">
+                <b>Gender</b>
+              </div>:
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                {{empbasic.gender}}
+              </div>
+            </div>
+            <div class="row cardPad">
+              <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12 rightAlign">
+                <b>Resource Category</b>
+              </div>:
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                {{empbasic.resourceCategory }}
+              </div>
+            </div>
+          </div>
+
+          <!-- <button class="btn mx-auto btn-sm" style="background-color: #1d62a7;color: white;padding: 5px 25px;"
+                  [routerLink]="['employeeedit/',empbasic.employeeId]">Book</button>
+       -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && tabledesgin">
+    <table class="table">
+      <thead class="theading text-center" style="padding: 12px !important;">
+        <th>Profile</th>
+        <th  (click)="sortid()">Employee Id
+          <span *ngIf="orderid==0"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></span>
+          <span *ngIf="orderid==1"><i class="fa fa-caret-square-o-up" aria-hidden="true"></i></span>
+        </th>
+        <th  (click)="sortname()">Employee Name
+          <span *ngIf="ordername==0"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></span>
+          <span *ngIf="ordername==1"><i class="fa fa-caret-square-o-up" aria-hidden="true"></i></span>
+        </th>
+        <th>Status</th>
+        <th>Resource Category</th>
+      </thead>
+      <tbody class="text-center">
+        <tr
+          *ngFor="let empbasic of empShortList| rmg:searchProduct| paginate: { itemsPerPage: pages, currentPage:pd, id:'pd' }">
+          <td>
+            <img *ngIf="empbasic.image != null" src="data:image/png;base64,{{empbasic.image}}" height="50px;"
+              width="50px;" class="mx-auto rounded-circle">
+            <div *ngIf="empbasic.image == null"
+              style="border-radius:50%;height:50px; width: 50px; background: rgb(230, 228, 228);; color:rgb(86, 86, 86);"
+              class="row mx-auto">
+              <p class="mx-auto my-auto">
+                <b>{{empbasic.fullName | slice:0:1 | uppercase }}</b>
+              </p>
+            </div>
+          </td>
+          <td> {{empbasic.employeeId}} </td>
+          <td> {{empbasic.fullName}} </td>
+          <td> {{empbasic.employmentStatus}} </td>
+          <td> {{empbasic.resourceCategory }} </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <span class="m-2 col-1">Items per page</span>
+      <select [(ngModel)]="pages">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+      </select>
+      <pagination-controls (pageChange)="pd = $event" id="pd" style="float:right"></pagination-controls>
+  </div>
+  </div>
+
+  <div>
+    <button *ngIf="isShow" class="toshowBTN btn" (click)="gotoTop()"> <i class="fa fa-sort-asc"></i>Back to top</button>
+  </div>
+</div>

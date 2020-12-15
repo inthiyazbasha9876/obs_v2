@@ -1,0 +1,316 @@
+<div class="card master">
+    <div class="row floating">
+        <select (change)="selectedDisplayType()" [(ngModel)]="dateType">
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+        </select>
+        <button class="btn bttn" (click)="previous()"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+        <button class="btn bttn" (click)="next()"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+    </div>
+    <div class="schedule-actions my-3">
+        <div class="btn-group">
+
+            <button type="button" class="btn btn-primary" [ngClass]="{'active': resourceView}"
+                (click)="getResource()">View All Resources</button>
+        </div>
+        <button type="button" class="btn btn-primary float-right" [ngClass]="{'active': projectView}"
+            (click)="getAllProjects()">View All Projects Milestones</button>
+    </div>
+    <div class="projects-block" *ngIf="projectView">
+        <span data-toggle="collapse" data-target="#demo" class="bg-primary p-2 my-4 text-white">
+            <i class="fa fa-tasks" aria-hidden="true"></i> View All Project Tasks
+        </span>
+        <table class="table table-bordered mt-4">
+            <thead>
+                <th class="week">
+                    <!-- <select class="mb-2 ml-1">
+                        <option value="projects">Projects</option>
+                        <option value="people">Resource</option>
+                    </select> -->
+                    <div class="text-center">
+                        <h6>Project Name</h6>
+                        <p id="demo" class="collapse">
+                            All Project Tasks
+                        </p>
+                    </div>
+                </th>
+                <th *ngFor="let date of dates" class="week">
+                    <p class="text-center">{{date|date:'EEE'}}</p>
+                    <p class="text-center">{{date|date:'dd MMM yyyy'}}</p>
+                </th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of allProjects">
+                    <td class="text-center week tip" style="vertical-align: middle;">{{p.projectName|titlecase}}
+
+                        <span *ngIf="p.tasks.length>=1"><b>All Tasks</b><br>{{p.tasks}}</span><span
+                            *ngIf="p.tasks.length==0">No Tasks Added</span>
+
+                        <p id="demo" class="collapse">
+                            <b *ngIf="p.tasks.length>=1">{{p.tasks}}</b><b *ngIf="p.tasks.length==0">No Tasks Added</b>
+                        </p>
+                    </td>
+                    <td *ngFor="let d of dates; let i=index" class="week" data-toggle="modal"
+                        data-target="#milestonemodal" (click)="create(d,p)">
+                        <section *ngFor="let m of p.milestones; let j=index"
+                            [ngStyle]="{'background-color':display(m,d) ? p.projectColor : 'none' }" class="milestone"
+                            (click)="edit(m,$event,p)" data-toggle="modal" data-target="#milestonemodal">
+                            <span *ngIf="display(m,d)" class="milestoneNames">{{m.milestoneName}}</span>
+                        </section>
+                    </td>
+
+                    <!--milestone modal-->
+                    <div class="modal fade" id="milestonemodal" tabindex="-1" role="dialog"
+                        aria-labelledby="milestonemodalTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="milestonemodalTitle"><span *ngIf="createModal">Create
+                                            Milestone</span><span *ngIf="!createModal">Edit Milestone</span></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form [formGroup]="milestoneFrom">
+                                        <div class="row mb-2">
+                                            <div class="col-md-6">
+                                                <mat-form-field>
+                                                    <mat-label>Milestone Name <sup>*</sup></mat-label>
+                                                    <input formControlName="mileStoneName" matInput>
+                                                </mat-form-field>
+                                                <span style="color:red"
+                                                    *ngIf="milestoneFrom.get('mileStoneName').invalid && milestoneFrom.get('mileStoneName').touched ">
+                                                    <span *ngIf="milestoneFrom.get('mileStoneName').errors.required">
+                                                        Name is mandatory.
+                                                    </span>
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-6">
+                                                <mat-form-field>
+                                                    <input matInput [matDatepicker]="start"
+                                                        placeholder="Choose a Startdate"
+                                                        formControlName="mileStoneStartDate" (click)="start.open()"
+                                                        onkeydown="return false">
+                                                    <mat-datepicker-toggle matSuffix [for]="start">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker [dateClass]="dateClass" #start></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field>
+                                                    <input matInput [matDatepicker]="end" placeholder="Choose a Enddate"
+                                                        formControlName="mileStoneEndDate" (click)="end.open()"
+                                                        onkeydown="return false">
+                                                    <mat-datepicker-toggle matSuffix [for]="end">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker [dateClass]="dateClass" #end></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary"
+                                        (click)="createMileStone(milestoneFrom.value)" *ngIf="createModal"
+                                        [disabled]="milestoneFrom.invalid">Create</button>
+                                    <button type="button" class="btn btn-primary"
+                                        (click)="updateMileStone(milestoneFrom.value)" *ngIf="!createModal"
+                                        [disabled]="milestoneFrom.invalid">Update</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+    <div class="projects-block" *ngIf="resourceView">
+
+        <div class="row">
+            <div class="col-sm-3">
+                <mat-form-field>
+                    <mat-label>Select Project to filter</mat-label>
+                    <mat-select disableOptionCentering [(ngModel)]="selectedValue">
+                        <mat-option *ngFor="let p of allProjects" [value]="p.projectId"
+                            (click)="getResourcesid(p.projectId)">
+                            {{p.projectName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-7">
+                <div class="mt-3 taskcolors">
+                    <span class="task px-2">Task Status : </span>
+                    <span class="open px-4 py-2">Open</span>
+                    <span class="inprogress px-3 py-2">In-progress</span>
+                    <span class="complete px-3 py-2">Completed</span>
+                    <span class="not-done px-3 py-2">Not Done</span>
+                </div>
+
+            </div>
+        </div>
+        <table class="table table-bordered" *ngIf="reviewTxt">
+            <thead>
+                <th class="week">
+                    <div class="text-center">
+                        <h6>Resource Name</h6>
+                        <h6>(Resource Id)</h6>
+                    </div>
+                </th>
+                <th *ngFor="let date of dates" class="week">
+                    <p class="text-center">{{date|date:'EEE'}}</p>
+                    <p class="text-center">{{date|date:'dd MMM yyyy'}}</p>
+                </th>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let p of alldata">
+                    <td class="text-center week" style="vertical-align: middle;">
+                        {{getEmpName(p.employeeId)}}({{p.employeeId}})</td>
+                    <td *ngFor="let d of dates; let i=index" class="week" data-toggle="modal" data-target="#taskmodal"
+                        (click)="createtask(d,p)">
+
+                        <section *ngFor="let m of p.projectTasks ; let j=index" class="milestone"
+                            [ngStyle]="{'background-color':displaytask(m,d) ? ' rgb(50, 85, 4)' : 'none' }"
+                            (click)="updatetask(m,$event,p)" data-toggle="modal" data-target="#taskmodal">
+                            <span *ngIf="displaytask(m,d)" class="taskName"
+                                [ngClass]="{ open: m.taskStatus=='Open',inprogress: m.taskStatus=='In-Progress',complete: m.taskStatus=='Completed',one: m.hoursPerDay==1,two: m.hoursPerDay==2,three: m.hoursPerDay==3,four: m.hoursPerDay==4,five: m.hoursPerDay==5,six: m.hoursPerDay==6,seven: m.hoursPerDay==7,eight: m.hoursPerDay==8,notdone:m.taskEndDate<=currentday}">{{m.taskName}}
+                                ({{m.hoursPerDay}}h) </span>
+                        </section>
+                    </td>
+
+                    <!--task modal-->
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row" *ngIf="projectcount">
+            <div class="card review mx-auto row">
+                <p class="mx-auto my-auto">No Resource Found</p>
+            </div>
+        </div>
+        <table class="table table-bordered" *ngIf="projectResource">
+            <thead>
+                <th class="week">
+                    <div class="text-center">
+                        <h6>Resource Name</h6>
+                        <h6>(Resource Id)</h6>
+                    </div>
+                </th>
+                <th *ngFor="let date of dates" class="week">
+                    <p class="text-center">{{date|date:'EEE'}}</p>
+                    <p class="text-center">{{date|date:'dd MMM yyyy'}}</p>
+                </th>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let p of allResouceValues">
+                    <td class="text-center week" style="vertical-align: middle;">
+                        {{getEmpName(p.rmgspecific[0].employeeId)}} ({{p.rmgspecific[0].employeeId}})</td>
+                    <td *ngFor="let d of dates; let i=index" class="week" data-toggle="modal" data-target="#taskmodal"
+                        (click)="projectcreatetask(d,p)">
+
+                        <section *ngFor="let m of p.rmgspecific ; let j=index" class="milestone">
+                            <section *ngFor="let x of m.projectTasks"
+                                [ngStyle]="{'background-color':displaytask(x,d) ? 'rgb(50, 85, 4)' : 'none' }"
+                                data-toggle="modal" data-target="#taskmodal" (click)="projectupdatetask(x,$event,p)">
+                                <span *ngIf="displaytask(x,d)" class="taskName"
+                                    [ngClass]="{ open: x.taskStatus=='Open',inprogress: x.taskStatus=='In-Progress',complete: x.taskStatus=='Completed',one: x.hoursPerDay==1,two: x.hoursPerDay==2,three: x.hoursPerDay==3,four: x.hoursPerDay==4,five: x.hoursPerDay==5,six: x.hoursPerDay==6,seven: x.hoursPerDay==7,eight: x.hoursPerDay==8}">{{x.taskName}}
+                                    ({{x.hoursPerDay}}h)</span></section>
+
+                        </section>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="taskmodal" tabindex="-1" role="dialog" aria-labelledby="milestonemodalTitle"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="milestonemodalTitle"><span *ngIf="createModal">Create
+                                Task</span><span *ngIf="!createModal">Edit Task</span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="TaskForm">
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <mat-form-field>
+                                        <mat-label>Task Name <sup>*</sup></mat-label>
+                                        <input formControlName="taskName" matInput>
+                                    </mat-form-field>
+                                    <!-- <span style="color:red"
+                                                    *ngIf="TaskForm.get('taskName').invalid && TaskForm.get('taskName').touched ">
+                                                    <span *ngIf="TaskForm.get('taskName').errors.required">
+                                                        Name is mandatory.
+                                                    </span>
+                                                </span> -->
+
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="start" placeholder="Choose a Startdate"
+                                            formControlName="taskStartDate" (click)="start.open()"
+                                            onkeydown="return false">
+                                        <mat-datepicker-toggle matSuffix [for]="start">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker [dateClass]="dateClass" #start></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="end" placeholder="Choose a Enddate"
+                                            formControlName="taskEndDate" (click)="end.open()" onkeydown="return false">
+                                        <mat-datepicker-toggle matSuffix [for]="end">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker [dateClass]="dateClass" #end></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <mat-form-field>
+                                        <mat-label>Task Status</mat-label>
+
+                                        <mat-select formControlName="taskStatus">
+                                            <mat-option value="Open">Open</mat-option>
+                                            <mat-option value="In-Progress">In-Progress</mat-option>
+                                            <mat-option value="Completed">Completed</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Task Hours</mat-label>
+                                        <input matInput type="number" min="1" max="8" formControlName="hoursPerDay"
+                                            placeholder="Enter Task Hours">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" (click)="createNewTask(TaskForm.value)"
+                            *ngIf="createModal">Create</button>
+                        <button type="button" class="btn btn-primary" (click)="UpdateNewTask(TaskForm.value)"
+                            *ngIf="!createModal">Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

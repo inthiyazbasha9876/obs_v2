@@ -1,0 +1,2025 @@
+<div class="bgColor shadow in">
+  <h5>Customer Management System</h5>
+
+  <hr>
+  <div  *ngIf="!moreInfo">
+
+    <div class="float-right" *ngIf="usersatatus">
+        <button class="btn " style=" float: right;background-color: #1d62a7;color:white ;"  data-toggle="modal"
+        data-target="#myModal">Create Customer</button>
+    </div>
+
+    <div class="col-5">
+
+      <input type="search" class="form-control " placeholder="Search " [(ngModel)]="search">
+    </div>
+
+    <div class="table table-responsive" style="padding-top:15px">
+
+      <table class="table text-center tablefontsize" style="border-radius: 3px;font-size:14px">
+
+        <thead style="background-color: #1d62a7; color: cornsilk; ">
+          <th>Customer ID</th>
+          <th>Customer Name</th>
+          <th>Services</th>
+          <th>Account Payable</th>
+          <th>BDM </th>
+          <th>Account Manager</th>
+          <th>More Info</th>
+          <th>Delete</th>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let data of customerarray | customersearchpipe : search | paginate: { itemsPerPage: pages, currentPage:pd, id:'pd' };let i=index ">
+            <td>{{data.customerId}}</td>
+            <td>{{data.customerName}}</td>
+            <td><span *ngFor="let service of data.servicetype"><span
+                  *ngIf="service.servicestatus">{{service.servicetypeid}}</span><br></span></td>
+
+            <td>{{data.billinginfo.apcontactName}}</td>
+            <td>{{data.billinginfo.bdmconatctName}}</td>
+            <td>{{data.billinginfo.amconatctName}}</td>
+            <td><img src="assets/moreinfo.jpg" height="20px" width="20px" style="cursor: pointer;"
+                (click)="moreInfo=!moreInfo;selecteddata(data.customerId)"></td>
+
+            <td><i class="fa fa-trash" style="background-color: #1d62a7;color:white ;"
+                (click)="deleteCustomer(data.customerId)"></i></td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+    <div>
+      <span class="m-2">Items per page</span>
+      <select [(ngModel)]="pages" (change)="pd=1">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+      </select>
+      <pagination-controls (pageChange)="pd = $event" id="pd" style="float:right"></pagination-controls>
+
+
+    </div>
+  </div>
+
+
+  <div *ngIf="moreInfo">
+
+    <div class="in">
+      <div class="row">
+        <div>
+          <h5>{{updatecustomerarray1[0].customerName|uppercase}} Details</h5>
+        </div>
+        <button class="btn bttn btn-sm ml-auto" (click)="moreInfo=!moreInfo">Back</button>
+      </div>
+      <hr>
+      <div class="row" *ngIf="usersatatus">
+
+        <i class="fa fa-edit ml-auto" style="font-size: 18px;" style="color: #1d62a7;font-size: 20px;" (click)="edit()"
+          data-toggle="modal" data-target="#myModal1" aria-hidden="true"></i>
+      </div><br>
+      <div class="row marBtom">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card shadow">
+            <div class="header shadow">
+              <b>Customer Details</b>
+            </div>
+            <div class="in">
+              <div class="row">
+
+                <span class="row col-4">
+                  <span class="col-4">
+                    <label>Customer Id</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].customerId}}</span>
+                  </span>
+                </span>
+
+                <span class="row col-4">
+                  <span class="col-4">
+                    <label>Customer Name</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].customerName}}</span>
+                  </span>
+                </span>
+
+                <span class="row col-4">
+                  <span class="col-4">
+                    <label>Services</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span *ngFor="let a of updatecustomerarray1[0].servicetype">{{a.servicetypeid}}</span>
+                  </span>
+                </span>
+              </div>
+              <div class="row">
+                <span class="row col-4">
+                  <span class="col-4">
+                    <label>GST Location</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].customergst.location|titlecase}}</span>
+                  </span>
+                </span>
+                <span class="row col-4">
+                  <span class="col-4">
+                    <label>Customer PAN </label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].pannumber}}</span>
+                  </span>
+                </span>
+                <span class="row col-4">
+                  <span class="col-4">
+                    <label>Customer TAN</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].tannumber}}</span>
+                  </span>
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="row marBtom">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card shadow">
+            <div class="header shadow">
+              <b>Billing Info</b>
+            </div>
+            <div class="in">
+              <div class="row">
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>AP Contact Name</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].billinginfo.apcontactName}}</span>
+                  </span>
+                </span>
+
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>AP Email</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].billinginfo.apEmail}}</span>
+                  </span>
+                </span>
+
+              </div>
+              <div class="row">
+
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>AP Phone Number</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].billinginfo.phoneNumber}}</span>
+                  </span>
+                </span>
+
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>BDM Contact Name</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].billinginfo.bdmconatctName}}</span>
+                  </span>
+                </span>
+              </div>
+              <div class="row">
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>BDM Email</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].billinginfo.bdmEmail}}</span>
+                  </span>
+                </span>
+
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>AM Contact Name</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].billinginfo.amconatctName}}</span>
+                  </span>
+                </span>
+
+              </div>
+              <div class="row">
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>AM Email</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].billinginfo.amEmail}}</span>
+                  </span>
+                </span>
+
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>TDS</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].tds}} %</span>
+                  </span>
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card shadow">
+            <div class="header shadow">
+              <b>Registered Address</b>
+            </div>
+            <div class="in">
+              <div class="row">
+
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>City</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].registeredaddress.citylocation}}</span>
+                  </span>
+                </span>
+
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>State</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].registeredaddress.stateslocation}} </span>
+                  </span>
+                </span>
+
+
+              </div>
+              <div class="row">
+
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>Pin Code</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].registeredaddress .registeredpincode}}</span>
+                  </span>
+                </span>
+
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>Country</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{updatecustomerarray1[0].countries}} </span>
+                  </span>
+                </span>
+
+              </div>
+              <div class="row">
+
+                <span class="row col-6">
+                  <span class="col-4">
+                    <label>Geo Region</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>&nbsp;{{updatecustomerarray1[0].geolocations}} </span>
+                  </span>
+                </span>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+
+
+      </div>
+      <div class="row marBtom">
+        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-xs-6">
+          <div class="card shadow">
+            <div *ngFor="let address of updatecustomerarray1[0].shippingaddress ;let i=index">
+              <div class="header shadow">
+
+                <b>Shipping Address </b>
+              </div>
+              <div class="in">
+                <div class="row">
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>AddressLine1</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.shippingaddressLine1}} </span>
+                    </span>
+                  </span>
+
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>AddressLine2</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.shippingaddressLine2}} </span>
+                    </span>
+                  </span>
+
+                </div>
+                <div class="row">
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>City</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.citylocation}} </span>
+                    </span>
+                  </span>
+
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>State</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.stateslocation}} </span>
+                    </span>
+                  </span>
+
+
+                </div>
+                <div class="row">
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>Pin Code</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.pincode}} </span>
+                    </span>
+                  </span>
+
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>SEZ</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span *ngIf="address.issez==true">Yes</span><span *ngIf="address.issez==false">no</span>
+                    </span>
+                  </span>
+
+
+                </div>
+                <div class="row">
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>GST No</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.gstnumber}} </span>
+                    </span>
+                  </span>
+
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>Def Address</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span *ngIf="address.defaultaddressstatus==true">Yes</span><span
+                        *ngIf="address.defaultaddressstatus==false">No</span>
+                    </span>
+                  </span>
+
+                </div>
+                <!-- <div class="row">
+                 <span   style="margin-left: -20px" >
+                      <span class="col-2">
+                          <label>GST Location</label>
+                        </span>
+                        <span class="col-2" style="margin-left: -5px;">
+                            :
+                        </span>
+                       <span class="col-6" >
+                          <span>{{address.gstlocation}}</span>
+                        </span> 
+                      </span>
+                </div> -->
+                <span class="row col-6">
+                  <span class="col-4" style="margin-left: -10px">
+                    <label>GST Location</label>
+                  </span>
+                  <span class="col-1">
+                    :
+                  </span>
+                  <span class="col-7">
+                    <span>{{address.gstlocation}}</span>
+                  </span>
+                </span>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-xs-6">
+          <div class="card shadow">
+            <div *ngFor="let address of updatecustomerarray1[0].billingaddress let i=index">
+              <div class="header shadow">
+                <b>Billing Address</b>
+              </div>
+
+              <div class="in">
+                <div class="row">
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>AddressLine1</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.billingaddressLine1}} </span>
+                    </span>
+                  </span>
+
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>AddressLine2</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.billingaddressLine2}} </span>
+                    </span>
+                  </span>
+
+
+
+                </div>
+                <div class="row">
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>City</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.citylocation}} </span>
+                    </span>
+                  </span>
+
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>State</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.stateslocation}} </span>
+                    </span>
+                  </span>
+
+
+
+                </div>
+                <div class="row">
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>Pin Code</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span>{{address.pincode}} </span>
+                    </span>
+                  </span>
+
+
+                  <span class="row col-6">
+                    <span class="col-4">
+                      <label>Def Address</label>
+                    </span>
+                    <span class="col-1">
+                      :
+                    </span>
+                    <span class="col-7">
+                      <span *ngIf="address.defaultaddressstatus==true">Yes</span><span
+                        *ngIf="address.defaultaddressstatus==false">No</span>
+                    </span>
+                  </span>
+
+
+
+                </div>
+
+
+
+
+              </div>
+
+
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<div class="container">
+
+
+
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal" #someModal>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Customer Creation</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="clearcreateform()">&times;</button>
+        </div>
+        <form [formGroup]="CustomerForm">
+          <!-- Modal body -->
+          <div class="modal-body">
+
+            <div class="row">
+              <div class="col-6">
+                <label class="label1">Customer Name</label>
+                <input type="text" placeholder="CustomerName" class="form-control" formControlName="customerName">
+                <div *ngIf="CustomerForm.get('customerName').invalid && CustomerForm.get('customerName').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('customerName').errors.required">Please
+                    Enter Customer Name</span>
+                  <span class="errormess" *ngIf="CustomerForm.get('customerName').errors.pattern">Please
+                    Numbers Should not Be Accepted</span>
+
+                </div>
+              </div>
+              <div class="col-6" style="margin-left: auto;margin-right: auto;">
+
+
+                <br>
+
+
+                <mat-form-field style="margin-left: 30px;">
+                  <mat-label>Select Service</mat-label>
+                  <mat-select placeholder="Services" formControlName="services" multiple disableOptionCentering>
+                    <mat-option *ngFor="let service of serviceTypeAssign" [value]="service.serviceTypeName">
+                      {{service.serviceTypeName}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
+
+
+              </div>
+
+
+            </div>
+            <div class="text-center">
+              <h5>Registered Customer Address</h5>
+            </div>
+            <div class="row">
+
+              <div class="col-4">
+                <br>
+                <mat-form-field>
+                  <mat-label>Select City</mat-label>
+                  <mat-select formControlName="regaddcity" disableOptionCentering (valueChange)="statesetting($event)">
+
+                    <mat-option *ngFor="let city of cityarray" [value]="city.deliverylocationName">
+                      {{city.deliverylocationName}}</mat-option>
+                  </mat-select>
+
+                  <mat-error *ngIf="CustomerForm.controls.regaddcity.hasError('required')">
+                    please choose city
+                  </mat-error>
+                </mat-form-field>
+
+
+
+              </div>
+
+              <div class="col-4">
+             
+          <br>
+                  <mat-label> State:</mat-label>
+                  <!-- <mat-select formControlName="regaddstate" disableOptionCentering>
+
+                    <mat-option *ngFor="let state of statelistall" [value]="state.stateName">
+                      {{state.stateName}}</mat-option>
+                  </mat-select> -->
+                  <mat-form-field style="margin-left: 5px;">
+                    <input matInput  formControlName="regaddstate">
+                  </mat-form-field>
+                  <!-- <mat-error *ngIf="CustomerForm.controls.regaddstate.hasError('required')">
+                    please choose state
+                  </mat-error> -->
+                
+                <!-- <mat-form-field>
+                    <input matInput placeholder="State">
+                  </mat-form-field> -->
+
+                <!-- <div *ngIf="CustomerForm.get('regaddstate').invalid && CustomerForm.get('regaddstate').touched">
+                  <span  class="errormess" *ngIf="CustomerForm.get('regaddstate').errors.required">Please
+                    Select Services</span>
+
+
+                </div> -->
+
+              </div>
+
+
+
+              <div class="col-4">
+                <label class="label1">Pin Code</label>
+                <input type="text" placeholder="Pin Code" class="form-control" formControlName="regaddpincode"
+                  maxlength="6">
+
+                <div *ngIf="CustomerForm.get('regaddpincode').invalid && CustomerForm.get('regaddpincode').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('regaddpincode').errors.required">
+                    Please
+                    Enter Pincode</span>
+                  <span class="errormess" *ngIf="CustomerForm.get('regaddpincode').errors.pattern">
+                    Please
+                    valid Pincode</span>
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <br>
+                <mat-form-field>
+                  <mat-label>Select Geo</mat-label>
+                  <mat-select formControlName="geo" disableOptionCentering (valueChange)="countrySetup($event)">
+
+                    <mat-option *ngFor="let geo of geoRegion" [value]="geo.geoname">
+                      {{geo.geoname}}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="CustomerForm.controls.geo.hasError('required')">
+                    Please
+                    Select GeoLocation
+                  </mat-error>
+                </mat-form-field>
+
+
+                <!-- <div *ngIf="CustomerForm.get('geo').invalid && CustomerForm.get('geo').touched">
+                  <span  class="errormess" *ngIf="CustomerForm.get('geo').errors.required">Please
+                    Select GeoLocation</span>
+
+
+                </div> -->
+
+              </div>
+              <div class="col-6">
+                <label class="label1" style="margin-top: 20px;">Choose Country</label><br>
+                <select class="search" data-live-search="true" formControlName="country" [(ngModel)]="countryvalue">
+                  <option value='' selected>Choose Country</option>
+
+                  <option *ngFor="let c of countryarrall" value="{{c.countryname}}">{{c.countryname}}</option>
+                </select>
+                <div *ngIf="CustomerForm.get('country').invalid && CustomerForm.get('country').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('country').errors.required">Please
+                    Select Country</span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-6">
+                <label class="label1">TAN</label>
+
+                <input type="text" placeholder="HYDO02275A" class="form-control" formControlName="TAN" inputRef
+                  maxlength="10" (keyup)="captialconversion($event)">
+
+
+                <div *ngIf=" CustomerForm.get('TAN').invalid&& CustomerForm.get('TAN').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('TAN').errors.required">Please Enter
+                    TAN Number
+                  </span>
+                  <span class="errormess" *ngIf="CustomerForm.get('TAN').errors.pattern">Please follow the example
+                    pattern:"HYDO02275A"
+
+                  </span>
+
+                </div>
+
+
+              </div>
+
+              <div class="col-6">
+                <label class="label1">PAN</label>
+                <input type="text" placeholder="AABCO4337J" class="form-control" formControlName="PAN"
+                  (keyup)="captialconversion1($event)" maxlength="10">
+
+
+                <div *ngIf="CustomerForm.get('PAN').invalid && CustomerForm.get('PAN').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('PAN').errors.required">Please Enter
+                    PAN Number
+                  </span>
+                  <span class="errormess" *ngIf="CustomerForm.get('PAN').errors.pattern">Please follow the example
+                    pattern:"AABCO4337J"
+                  </span>
+
+                </div>
+
+
+              </div>
+
+
+            </div>
+            <br>
+            <div style="border:1px solid rgb(126, 105, 105); padding:5px;">
+              <div class="text-center">
+                <h5>Billing Address</h5>
+              </div>
+              <div formArrayName="billingAddress"
+                *ngFor="let c of CustomerForm.get('billingAddress').controls;let i=index">
+                <div formGroupName="{{i}}">
+
+
+                  <div class="row">
+                    <div class="col-6">
+                      <label class="label1">Address Line1</label>
+                      <textarea rows="2" id="comment" class="form-control" name="text" placeholder="Address Line1"
+                        formControlName="Address1"></textarea>
+                      <span *ngIf="c.get('Address1').invalid && c.get('Address1').touched ">
+
+                        <span class="errormess" *ngIf="c.get('Address1').errors.required">Please
+                          Enter Address</span>
+                      </span>
+                    </div>
+
+                    <div class="col-6">
+                      <label>Address Line2</label>
+                      <textarea rows="2" id="comment" class="form-control" name="text" placeholder="Optional"
+                        formControlName="Address2"></textarea>
+
+                    </div>
+
+
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <br>
+                      <mat-form-field>
+
+                        <mat-label>Select City</mat-label>
+                        <mat-select formControlName="City" disableOptionCentering
+                          (selectionChange)="statesetting1($event.value,i)">
+
+                          <mat-option *ngFor="let city of cityarray" [value]="city.deliverylocationName">
+                            {{city.deliverylocationName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="c.controls.City.hasError('required')">
+                          Please
+                          choose city
+                        </mat-error>
+                      </mat-form-field>
+                      <!-- <span *ngIf="c.get('City').invalid && c.get('City').touched ">
+                        <span  class="errormess" *ngIf="c.get('City').errors.required">Please
+                          Enter
+                          CityName</span>
+                      </span> -->
+                    </div>
+
+                    <div class="col-4">
+
+
+                      <br>
+                      
+                        <mat-label> State:</mat-label>
+                        <!-- <mat-select formControlName="State" disableOptionCentering>
+
+                          <mat-option *ngFor="let state of statelistall" [value]="state.stateName">
+                            {{state.stateName}}</mat-option>
+                        </mat-select> -->
+                        <mat-form-field style="margin-left: 5px;">
+                          <input matInput  formControlName="State">
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="c.controls.State.hasError('required')">
+                          Please
+                          choose State
+                        </mat-error> -->
+                      
+
+
+                      <!-- <span *ngIf="c.get('State').invalid && c.get('State').touched ">
+
+                        <span  class="errormess" *ngIf="c.get('State').errors.required">Please
+                          Enter
+                          StateName</span>
+                      </span> -->
+                    </div>
+                    <div class="col-4">
+                      <label class="label1">Pin Code</label>
+                      <input type="text" placeholder="Pin Code" class="form-control" formControlName="Pincode" (keypress)="keyPressHandler($event)"
+                        maxlength="6">
+                      <span *ngIf="c.get('Pincode').invalid && c.get('Pincode').touched ">
+
+                        <span class="errormess" *ngIf="c.get('Pincode').errors.required">Please
+                          Enter pincode</span>
+                        <span class="errormess" *ngIf="c.get('Pincode').errors.pattern">Please
+                          Enter valid pincode</span>
+                      </span>
+                    </div>
+                  </div>
+
+
+
+
+
+                  <div class="row">
+                    <div class="col-6">
+
+                      <!-- <input type="radio"    value=""  name="billingdefault" formControlName="billingdefault"  >Set As Default BillingAddress -->
+                      <div class="form-check">
+                        <input class="form-check-input" formControlName="billingdefault" type="checkbox" value=""
+                          id="defaultCheck0" (change)="defaultbillingaddress($event)">
+                        <label class="form-check-label" for="defaultCheck0">
+                          Set As Default BillingAddress
+                        </label>
+                       
+
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="col-6">
+
+                      <div class="text-center">
+                        <button class="btn btn-danger" *ngIf="status " style="margin-right: 30px;"
+                          (click)="removingBillingAddress(i)">Remove</button>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+
+
+
+
+
+                </div>
+              </div>
+
+
+              <div class="text-center">
+                <button class="btn" style="background-color: #1d62a7;color: cornsilk;"
+                  (click)="addingBillingAddress()">+Billing
+                  Address</button>
+              </div>
+            </div>
+
+            <div style="border:1px solid black; padding:5px;">
+              <div class="text-center">
+                <h5>Shipping Address</h5>
+              </div>
+              <div formArrayName="ShippingingAddress"
+                *ngFor="let c of CustomerForm.get('ShippingingAddress').controls;let j=index">
+                <div formGroupName="{{j}}">
+
+                  <div class="row">
+                    <div class="col-6">
+                      <label class="label1">Address Line1</label>
+                      <textarea rows="2" id="comment" class="form-control" name="text" placeholder="Address Line1"
+                        formControlName="Address1"></textarea>
+                      <span *ngIf="c.get('Address1').invalid && c.get('Address1').touched ">
+
+                        <span class="errormess" *ngIf="c.get('Address1').errors.required">Please
+                          Enter Address</span>
+                      </span>
+
+
+                    </div>
+
+                    <div class="col-6">
+                      <label>Address Line2</label>
+                      <textarea rows="2" id="comment" class="form-control" name="text" placeholder="Optional"
+                        formControlName="Address2"></textarea><br>
+
+                    </div>
+
+
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <br>
+                      <mat-form-field>
+                        <mat-label>Select City</mat-label>
+                        <mat-select formControlName="City" disableOptionCentering
+                          (selectionChange)="statesetting2($event.value,j)">
+
+                          <mat-option *ngFor="let city of cityarray" [value]="city.deliverylocationName">
+                            {{city.deliverylocationName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="c.controls.City.hasError('required')">
+                          Please
+                          choose city
+                        </mat-error>
+                      </mat-form-field>
+                      <!-- <span *ngIf="c.get('City').invalid && c.get('City').touched ">
+
+                        <span  class="errormess" *ngIf="c.get('City').errors.required">Please
+                          Enter
+                          City</span>
+                      </span> -->
+                    </div>
+                    <div class="col-4">
+                     
+                     <br>
+                        <mat-label> State:</mat-label>
+                        <!-- <mat-select formControlName="State" disableOptionCentering>
+
+                          <mat-option *ngFor="let state of statelistall" [value]="state.stateName">
+                            {{state.stateName}}</mat-option>
+                        </mat-select> -->
+                        <mat-form-field  style="margin-left: 5px;">
+                          <input matInput  formControlName="State">
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="c.controls.State.hasError('required')">
+                          Please
+                          choose State
+                        </mat-error> -->
+                
+                      <!-- <span *ngIf="c.get('State').invalid && c.get('State').touched ">
+
+                        <span  class="errormess" *ngIf="c.get('State').errors.required">Please
+                          Enter
+                          State</span>
+                      </span> -->
+                    </div>
+                    <div class="col-4">
+                      <label class="label1">Pin Code</label>
+                      <input type="text" placeholder="Pin Code" class="form-control" formControlName="Pincode" (keypress)="keyPressHandler($event)"
+                        maxlength="6">
+
+                      <span *ngIf="c.get('Pincode').invalid && c.get('Pincode').touched ">
+
+                        <span class="errormess" *ngIf="c.get('Pincode').errors.required">Please
+                          Enter pincode</span>
+                        <span class="errormess" *ngIf="c.get('Pincode').errors.pattern">Please
+                          Enter valid pincode</span>
+                      </span>
+
+                    </div>
+                  </div>
+                  <div class="row">
+
+                    <div class="col-4">
+
+                      <label class="label1">SEZ</label>
+                      <select required class="form-control" formControlName="SEZ">
+                        <option disabled> SEZ</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+
+
+                      </select>
+                      <span *ngIf=" c.get('SEZ').invalid && c.get('SEZ').touched">
+                        <span class="errormess" *ngIf="c.get('SEZ').errors.required">Please
+                          Choose
+                          SEZ
+                        </span>
+
+
+                      </span>
+
+                    </div>
+                    <div class="col-4">
+                      <label class="label1">GST</label>
+                      <input type="text" placeholder="36AABCO4337J1ZD" class="form-control" formControlName="GST"
+                        maxlength="15" (keyup)="gstCapiatalsetup($event.target.value,j)"
+                        (change)="gstchange($event.target.value,j)">
+                      <div *ngIf="c.get('GST').invalid && c.get('GST').touched">
+                        <span class="errormess" *ngIf="c.get('GST').errors.required">Please Enter
+                          GST Number
+                        </span>
+                        <span class="errormess" *ngIf="c.get('GST').errors.pattern">please follow the example
+                          pattern:"36AABCO4337J1ZD"
+                        </span>
+
+                      </div>
+                    </div>
+                    <div class="col-4" style="margin-right: auto;margin-right: auto;">
+                    
+                    
+                        <mat-label> GST Location:</mat-label>
+                        <!-- <mat-select formControlName="gstLocation" #singleSelect disableOptionCentering>
+
+                          <mat-option *ngFor="let gst of gstarrayList" [value]="gst.gstlocationName">
+                            {{gst.gstlocationName}}
+                          </mat-option>
+
+                        </mat-select> -->
+                        <mat-form-field>
+                          <input matInput  formControlName="gstLocation">
+                        </mat-form-field>
+                     
+
+                      <span *ngIf=" c.get('State').invalid && c.get('State').touched">
+                        <span class="errormess" *ngIf="c.get('State').errors.required">Please
+                          Choose GST Location
+                        </span>
+
+
+                      </span>
+
+                    </div>
+
+
+
+                  </div>
+                  <div class="row">
+
+
+
+                    <div class="col-6">
+
+                      <div class="form-check">
+                        <input class="form-check-input" formControlName="shippingdefault" type="checkbox" value=""
+                          id="defaultCheck1" (change)="defaultshippingaddress($event)">
+                        <label class="form-check-label" for="defaultCheck1">
+                          Set As Default Shipping Address
+                        </label>
+                      </div>
+
+                    </div>
+                    <div class="col-6">
+                      <div class="text-center">
+                        <button class="btn btn-danger" *ngIf="status1" style="margin-right: 30px;"
+                          (click)="removingShippingAddress(j)">Remove</button>
+                      </div>
+
+
+
+                    </div>
+                  </div>
+
+
+                </div>
+
+              </div>
+
+
+              <div class="text-center">
+                <button class="btn" style="background-color: #1d62a7;color: cornsilk;"
+                  (click)="addingshippingingAddress()">+Shipping
+                  Address</button>
+                <br>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label class="label1">AP Contact Name</label>
+                <input type="text" placeholder="AP ContactName" class="form-control" formControlName="ApContactName">
+                <div *ngIf="CustomerForm.get('ApContactName').invalid && CustomerForm.get('ApContactName').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('ApContactName').errors.required">
+                    Please Enter ApContactName
+                  </span>
+                  <span class="errormess" *ngIf="CustomerForm.get('ApContactName').errors.pattern">Please
+                    Numbers Should not Be Accepted</span>
+
+
+                </div>
+              </div>
+              <div class="col-6">
+                <label class="label1">AP Email</label>
+                <input type="email" placeholder="AP Email" class="form-control" formControlName="Email">
+                <div *ngIf="CustomerForm.get('Email').invalid && CustomerForm.get('Email').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('Email').errors.required">Please
+                    Enter
+                    ApContactEmail</span>
+                  <span class="errormess" *ngIf="CustomerForm.get('Email').errors.pattern">Please
+                    Enter
+                    valid Email</span>
+
+
+
+                </div>
+              </div>
+
+
+            </div>
+            <br>
+            <div class="row">
+
+              <div class="col-6">
+                <label class="label1">AP Phone Number</label>
+                <input type="text" placeholder="AP Phone" class="form-control" formControlName="APPhoneNumber">
+                <div *ngIf="CustomerForm.get('APPhoneNumber').invalid && CustomerForm.get('APPhoneNumber').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('APPhoneNumber').errors.required">
+                    Please Enter ApContact PhoneNumber
+                  </span>
+                  <span class="errormess" *ngIf="CustomerForm.get('APPhoneNumber').errors.pattern">Please follow the
+                    example pattern:
+                    "6789123456"
+
+                  </span>
+
+                </div>
+              </div>
+              <div class="col-6">
+                <label class="label1">TDS%</label>
+                <input type="text" placeholder="TDS%" class="form-control" formControlName="Tds" step="0.01">
+                <div *ngIf="CustomerForm.get('Tds').invalid && CustomerForm.get('Tds').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('Tds').errors.required">Please Enter
+                    Tds%
+                  </span>
+                  <span class="errormess" *ngIf="CustomerForm.get('Tds').errors.pattern">Please Enter
+                    Proper%
+                    pattern
+                  </span>
+                  <span class="errormess" *ngIf="CustomerForm.get('Tds').errors.maxlength">Please max
+                    length should be less than 4 and format shouble be like 10 or 10.00 or 10.88
+                  </span>
+                  <span class="errormess" *ngIf="CustomerForm.get('Tds').errors.max">
+                    Tds value should not more than 100%
+                  </span>
+                </div>
+              </div>
+            </div>
+
+
+
+            <br>
+            <div class="row">
+              <div class="col-6">
+                <label class="label1">BDM Contact Name</label>
+                <input type="text" placeholder="BDM Contact name" class="form-control" formControlName="BdmContactName">
+                <div *ngIf="CustomerForm.get('BdmContactName').invalid && CustomerForm.get('BdmContactName').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('BdmContactName').errors.required">
+                    Please Enter BDMContactName
+                  </span>
+                  <span class="errormess" *ngIf="CustomerForm.get('BdmContactName').errors.pattern">Please
+                    Numbers Should not Be Accepted</span>
+
+
+                </div>
+              </div>
+              <div class="col-6">
+                <label class="label1">BDM Email</label>
+                <input type="email" placeholder="BDM Email" class="form-control" formControlName="BdmMail">
+                <div *ngIf="CustomerForm.get('BdmMail').invalid && CustomerForm.get('BdmMail').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('BdmMail').errors.required">Please
+                    Enter Bdm Email
+                  </span>
+                  <span class="errormess" *ngIf="CustomerForm.get('BdmMail').errors.pattern">Please
+                    Enter
+                    valid Email</span>
+
+                </div>
+              </div>
+
+
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-6">
+                <label class="label1">AM Name</label>
+                <input type="text" placeholder="AM Name" class="form-control" formControlName="AmName">
+                <div *ngIf="CustomerForm.get('AmName').invalid && CustomerForm.get('AmName').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('AmName').errors.required">Please
+                    Enter
+                    AM Name
+                  </span>
+                  <span class="errormess" *ngIf="CustomerForm.get('AmName').errors.pattern">Please
+                    Numbers Should not Be Accepted</span>
+
+
+                </div>
+              </div>
+              <div class="col-6">
+                <label class="label1">AM EMail</label>
+                <input type="email" placeholder="AM EmailId" class="form-control" formControlName="AmMailID">
+                <div *ngIf="CustomerForm.get('AmMailID').invalid && CustomerForm.get('AmMailID').touched">
+                  <span class="errormess" *ngIf="CustomerForm.get('AmMailID').errors.required">Please
+                    Enter AM Email
+                  </span>
+
+                  <span class="errormess" *ngIf="CustomerForm.get('AmMailID').errors.pattern">Please
+                    Enter valid Email</span>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+          <!-- <P>{{CustomerForm.value| json }}</P> -->
+          <!-- Modal footer -->
+          <div class="modal-footer">
+
+            <button type="button" class="btn bttn" (click)="createCustomer(CustomerForm.value)"
+              [disabled]="CustomerForm.invalid" #closeBtn>Create & Submit</button>
+            <button type="button" class="btn bttn" data-dismiss="modal" (click)="clearcreateform()">Close</button>
+          </div>
+        </form>
+        <!-- <pre>{{CustomerForm.controls.TAN.status}}</pre> -->
+        <!--  -->
+        <!-- {{CustomerForm.invalid}} -->
+        <!-- [disabled]="CustomerForm.invalid" -->
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- modal for edit -->
+<div class="container">
+
+
+
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Customer Updation</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <form [formGroup]="ModalCusForm">
+          <!-- Modal body -->
+          <div class="modal-body">
+
+            <div class="row">
+              <div class="col-6">
+                <label>Customer Name</label>
+                <input type="text" placeholder="CustomerName" class="form-control" formControlName="customerName">
+                <div *ngIf="ModalCusForm.get('customerName').invalid && ModalCusForm.get('customerName').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('customerName').errors.required">Please
+                    Enter Customer Name</span>
+
+
+                </div>
+              </div>
+              <div class="col-6" formGroupName="services" style="margin-left: auto;margin-right: auto;">
+
+
+                <br>
+
+
+                <mat-form-field style="margin-bottom: -2.50em; padding-bottom: 0;">
+                  <mat-label>Select Service</mat-label>
+                  <mat-select placeholder="Services" formControlName="serviceTypeid" multiple disableOptionCentering>
+                    <mat-option *ngFor="let service of serviceTypeAssign" [value]="service.serviceTypeName">
+                      {{service.serviceTypeName}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="ModalCusForm.get('services').invalid && ModalCusForm.get('services').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('services').errors.required">Please
+                    Select Service</span>
+
+
+                </div>
+
+
+
+              </div>
+
+
+            </div>
+            <div class="text-center">
+              <h5>Registered Customer Address</h5>
+            </div>
+            <div class="row">
+
+              <div class="col-4">
+                <br>
+                <mat-form-field style="margin-bottom: -2.50em; padding-bottom: 0;">
+                  <mat-label>Select City</mat-label>
+                  <mat-select formControlName="regaddcity" disableOptionCentering (valueChange)="statesemodal($event)">
+
+                    <mat-option *ngFor="let city of cityarray" [value]="city.deliverylocationName">
+                      {{city.deliverylocationName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
+
+                <div *ngIf="ModalCusForm.get('regaddcity').invalid && ModalCusForm.get('regaddcity').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('regaddcity').errors.required">Please
+                    Select City</span>
+
+
+                </div>
+
+              </div>
+
+              <div class="col-4">
+                <br>
+                <!-- <mat-form-field style="margin-bottom: -2.50em; padding-bottom: 0;"> -->
+                  <mat-label>State:</mat-label>
+                  <!-- <mat-select formControlName="regaddstate" disableOptionCentering>
+
+                    <mat-option *ngFor="let state of statelistall" [value]="state.stateName">
+                      {{state.stateName}}</mat-option>
+                  </mat-select> -->
+                <!-- </mat-form-field> -->
+                <mat-form-field style="margin-bottom: -2.50em; padding-bottom: 0;">
+                  <input matInput  formControlName="regaddstate">
+                </mat-form-field>
+
+
+                <div *ngIf="ModalCusForm.get('regaddstate').invalid && ModalCusForm.get('regaddstate').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('regaddstate').errors.required">Please
+                    Select State</span>
+
+
+                </div>
+
+              </div>
+
+
+
+              <div class="col-4">
+                <label>Pin Code</label>
+                <input type="text" placeholder="Pin Code" class="form-control" formControlName="regaddpincode"
+                  maxlength="6"> <br>
+
+                <div *ngIf="ModalCusForm.get('regaddpincode').invalid && ModalCusForm.get('regaddpincode').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('regaddpincode').errors.required">
+                    Please
+                    Enter Pincode</span>
+
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <br>
+                <mat-form-field>
+                  <mat-label>Select Geo</mat-label>
+                  <mat-select formControlName="geo" disableOptionCentering (valueChange)="countrySetup($event)">
+
+                    <mat-option *ngFor="let geo of geoRegion" [value]="geo.geoname">
+                      {{geo.geoname}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
+                <div *ngIf="ModalCusForm.get('geo').invalid && ModalCusForm.get('geo').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('geo').errors.required">Please
+                    Select GeoLocation</span>
+
+
+                </div>
+
+              </div>
+              <div class="col-6">
+                <label>Choose Country</label><br>
+                <select class="search" data-live-search="true" formControlName="country">
+                  <option *ngFor="let c of countryarrall" value="{{c.countryname}}">{{c.countryname}}</option>
+                </select>
+                <div *ngIf="ModalCusForm.get('country').invalid && ModalCusForm.get('country').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('country').errors.required">Please
+                    Select Country</span>
+                </div>
+
+              </div>
+
+
+
+
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label>TAN</label>
+                <input type="text" placeholder="HYDO02275A" class="form-control" formControlName="TAN" maxlength="10"
+                  (keyup)="modalcaptialconversion($event)">
+                <br>
+
+                <div *ngIf="ModalCusForm.get('TAN').invalid && ModalCusForm.get('TAN').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('TAN').errors.required">Please Enter
+                    TAN Number
+                  </span>
+                  <span class="errormess" *ngIf="ModalCusForm.get('TAN').errors.pattern">Please Enter
+                    Valid TAN Number
+                  </span>
+
+                </div>
+
+
+              </div>
+              <div class="col-6">
+                <label>PAN</label>
+                <input type="text" placeholder="AABCO4337J" class="form-control" formControlName="PAN" maxlength="10"
+                  (keyup)="modalcaptialconversion1($event)">
+                <br>
+
+                <div *ngIf="ModalCusForm.get('PAN').invalid && ModalCusForm.get('PAN').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('PAN').errors.required">Please Enter
+                    PAN Number
+                  </span>
+                  <span class="errormess" *ngIf="ModalCusForm.get('PAN').errors.pattern">Please Enter
+                    Valid PAN Number
+                  </span>
+
+                </div>
+
+
+              </div>
+
+
+            </div>
+            <div style="border:1px solid rgb(126, 105, 105); padding:5px;">
+              <div class="text-center">
+                <h5>Billing Address</h5>
+              </div>
+              <div formArrayName="billingAddress"
+                *ngFor="let c of ModalCusForm.get('billingAddress').controls;let i=index">
+                <div formGroupName="{{i}}">
+
+
+                  <div class="row">
+                    <div class="col-6">
+                      <label>Address Line1</label>
+                      <textarea rows="2" id="comment" class="form-control" name="text" placeholder="Address Line1"
+                        formControlName="Address1"></textarea>
+                      <span *ngIf="c.get('Address1').invalid && c.get('Address1').touched "
+                        style=" margin-bottom: -3.75em;padding-bottom: 0;">
+
+                        <span class="errormess" *ngIf="c.get('Address1').errors.required">Please
+                          Enter Address</span>
+                      </span>
+                    </div>
+
+                    <div class="col-6">
+                      <label>Address Line2</label>
+                      <textarea rows="2" id="comment" class="form-control" name="text" placeholder="Address Line2"
+                        formControlName="Address2"></textarea>
+
+                    </div>
+
+
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <br>
+                      <mat-form-field>
+
+                        <mat-label>Select City</mat-label>
+                        <mat-select formControlName="City" disableOptionCentering
+                          (selectionChange)="statesettingmodal1($event.value,i)">
+
+                          <mat-option *ngFor="let city of cityarray" [value]="city.deliverylocationName">
+                            {{city.deliverylocationName}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <span *ngIf="c.get('City').invalid && c.get('City').touched ">
+                        <span class="errormess" *ngIf="c.get('City').errors.required">Please
+                          Enter
+                          CityName</span>
+                      </span>
+                    </div>
+
+                    <div class="col-4">
+
+
+                      <br>
+                      <!-- <mat-form-field> -->
+                        <mat-label>State:</mat-label>
+                        <!-- <mat-select formControlName="State" disableOptionCentering>
+
+                          <mat-option *ngFor="let state of statelistall" [value]="state.stateName">
+                            {{state.stateName}}</mat-option>
+                        </mat-select> -->
+                      <!-- </mat-form-field> -->
+                      <mat-form-field >
+                        <input matInput  formControlName="State">
+                      </mat-form-field>
+
+
+                      <span *ngIf="c.get('State').invalid && c.get('State').touched ">
+
+                        <span class="errormess" *ngIf="c.get('State').errors.required">Please
+                          Enter
+                          StateName</span>
+                      </span>
+                    </div>
+                    <div class="col-4">
+                      <label>Pin Code</label>
+                      <input type="text" placeholder="Pin Code" class="form-control" formControlName="Pincode"> <br>
+                      <span *ngIf="c.get('Pincode').invalid && c.get('Pincode').touched ">
+
+                        <span class="errormess" *ngIf="c.get('Pincode').errors.required">Please
+                          Enter pincode</span>
+                      </span>
+                    </div>
+                  </div>
+
+
+
+
+
+                  <div class="row">
+                    <div class="col-6">
+
+                      <!-- <input type="radio"   value="1"  name="billingdefault" formControlName="billingdefault"  >Set As Default BillingAddress -->
+                      <div class="form-check">
+                        <input class="form-check-input" formControlName="billingdefault" type="checkbox" value=""
+                          id="defaultCheck1" (change)="defaultbillingaddress($event)">
+                        <label class="form-check-label" for="defaultCheck1">
+                          Set As Default BillingAddress
+                        </label>
+                      </div>
+
+                    </div>
+
+
+                    <div class="col-6">
+
+                      <div class="text-center">
+                        <button class="btn btn-danger" *ngIf="modalStatus" style="margin-right: 30px;"
+                          (click)=mmodalremovingBillingAddress(i)>Remove</button>
+                      </div>
+
+                    </div>
+                  </div>
+
+
+
+
+
+
+                </div>
+              </div>
+
+
+              <div class="text-center">
+                <button class="btn" style="background-color: #1d62a7;color: cornsilk;"
+                  (click)="modaladdingBillingAddress()">+Billing
+                  Address</button>
+              </div>
+            </div>
+
+            <div style="border:1px solid black; padding:5px;">
+              <div class="text-center">
+                <h5>Shipping Address</h5>
+              </div>
+              <div formArrayName="ShippingingAddress"
+                *ngFor="let c of ModalCusForm.get('ShippingingAddress').controls;let j=index">
+                <div formGroupName="{{j}}">
+
+                  <div class="row">
+                    <div class="col-6">
+                      <label>Address Line1</label>
+                      <textarea rows="2" id="comment" class="form-control" name="text" placeholder="Address Line1"
+                        formControlName="Address1"></textarea> <br>
+                      <span *ngIf="c.get('Address1').invalid && c.get('Address1').touched ">
+
+                        <span class="errormess" *ngIf="c.get('Address1').errors.required">Please
+                          Enter Address</span>
+                      </span>
+
+
+                    </div>
+
+                    <div class="col-6">
+                      <label>Address Line2</label>
+                      <textarea rows="2" id="comment" class="form-control" name="text" placeholder="Address Line2"
+                        formControlName="Address2"></textarea><br>
+
+                    </div>
+
+
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <br>
+                      <mat-form-field>
+                        <mat-label>Select City</mat-label>
+                        <mat-select formControlName="City" disableOptionCentering
+                          (selectionChange)="statesettingmodal($event.value,j)">
+
+                          <mat-option *ngFor="let city of cityarray" [value]="city.deliverylocationName">
+                            {{city.deliverylocationName}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <span *ngIf="c.get('City').invalid && c.get('City').touched ">
+
+                        <span class="errormess" *ngIf="c.get('City').errors.required">Please
+                          Enter
+                          City</span>
+                      </span>
+                    </div>
+                    <div class="col-4">
+                      <br>
+                      <!-- <mat-form-field> -->
+                        <mat-label>State:</mat-label>
+                        <!-- <mat-select formControlName="State" disableOptionCentering>
+
+                          <mat-option *ngFor="let state of statelistall" [value]="state.stateName">
+                            {{state.stateName}}</mat-option>
+                        </mat-select> -->
+                      <!-- </mat-form-field> -->
+                      <mat-form-field >
+                        <input matInput  formControlName="State">
+                      </mat-form-field>
+
+                      <span *ngIf="c.get('State').invalid && c.get('State').touched ">
+
+                        <span class="errormess" *ngIf="c.get('State').errors.required">Please
+                          Enter
+                          State</span>
+                      </span>
+                    </div>
+                    <div class="col-4">
+                      <label>Pin Code</label>
+                      <input type="text" placeholder="Pin Code" class="form-control" formControlName="Pincode"> <br>
+
+                      <span *ngIf="c.get('Pincode').invalid && c.get('Pincode').touched ">
+
+                        <span class="errormess" *ngIf="c.get('Pincode').errors.required">Please
+                          Enter pincode</span>
+                      </span>
+
+                    </div>
+                  </div>
+                  <div class="row">
+
+                    <div class="col-4">
+
+                      <label>SEZ</label>
+                      <select required class="form-control" formControlName="SEZ">
+                        <option disabled> SEZ</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+
+
+                      </select>
+                      <span *ngIf=" c.get('SEZ').invalid && c.get('SEZ').touched">
+                        <span class="errormess" *ngIf="c.get('SEZ').errors.required">Please
+                          Choose
+                          SEZ
+                        </span>
+
+
+                      </span>
+
+                    </div>
+                    <div class="col-4">
+                      <label>GST</label>
+                      <input type="text" placeholder="GSTNumber:(36AABCO4337J1ZD)" class="form-control"
+                        formControlName="GST" maxlength="15" (keyup)="modalgstCapiatalsetup($event.target.value,j)"
+                        (change)="gstchangemodal($event.target.value,j)">
+                      <div *ngIf="c.get('GST').invalid && c.get('GST').touched">
+                        <span class="errormess" *ngIf="c.get('GST').errors.required">Please Enter
+                          GST Number
+                        </span>
+                        <span class="errormess" *ngIf="c.get('GST').errors.pattern">Please Enter
+                          Valid GST Number
+                        </span>
+
+                      </div>
+                    </div>
+                    <div class="col-4" style="margin-right: auto;margin-right: auto;">
+                    
+                      <!-- <mat-form-field> -->
+                        <mat-label>GstLocation</mat-label>
+                        <!-- <mat-select formControlName="gstLocation" disableOptionCentering>
+
+                          <mat-option *ngFor="let gst of gstarrayList" [value]="gst.gstlocationName">
+                            {{gst.gstlocationName}}
+                          </mat-option>
+                        </mat-select> -->
+
+                      <!-- </mat-form-field> -->
+                      <mat-form-field >
+                        <input matInput  formControlName="gstLocation">
+                      </mat-form-field>
+
+
+                      <span *ngIf=" c.get('State').invalid && c.get('State').touched">
+                        <span class="errormess" *ngIf="c.get('State').errors.required">Please
+                          Choose GST Location
+                        </span>
+
+
+                      </span>
+
+                    </div>
+
+
+
+                  </div>
+                  <div class="row">
+
+
+
+                    <div class="col-6">
+
+                      <!-- <input type="radio"  value="1"  name="shippingdefault" formControlName="shippingdefault">Set As Default Shipping Address -->
+                      <div class="form-check">
+                        <input class="form-check-input" formControlName="shippingdefault" type="checkbox" value=""
+                          id="defaultCheck2" (change)="defaultshippingaddress($event)">
+                        <label class="form-check-label" for="defaultCheck2">
+                          Set As Default Shipping Address
+                        </label>
+                      </div>
+
+                    </div>
+                    <div class="col-6">
+                      <div class="text-center">
+                        <button class="btn btn-danger" *ngIf="modalStatus" style="margin-right: 30px;"
+                          (click)="modalremovingShippingAddress(j)">Remove</button>
+                      </div>
+
+
+
+                    </div>
+                  </div>
+
+
+                </div>
+
+              </div>
+
+
+              <div class="text-center">
+                <button class="btn" style="background-color: #1d62a7;color: cornsilk;"
+                  (click)="modaladdingshippingingAddress()">+Shipping
+                  Address</button>
+                <br>
+              </div>
+            </div>
+
+
+
+            <div class="row">
+              <div class="col-6">
+                <label>AP Contact Name</label>
+                <input type="text" placeholder="AP ContactName" class="form-control" formControlName="ApContactName">
+                <div *ngIf="ModalCusForm.get('ApContactName').invalid && ModalCusForm.get('ApContactName').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('ApContactName').errors.required">
+                    Please Enter ApContactName
+                  </span>
+
+
+                </div>
+              </div>
+              <div class="col-6">
+                <label>AP Email</label>
+                <input type="text" placeholder="AP Email" class="form-control" formControlName="Email">
+                <div *ngIf="ModalCusForm.get('Email').invalid && ModalCusForm.get('Email').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('Email').errors.required">Please
+                    Enter
+                    ApContactEmail</span>
+                  <span class="errormess" *ngIf="ModalCusForm.get('Email').errors.pattern">Please
+                    Enter
+                    valid Email</span>
+
+
+
+                </div>
+              </div>
+
+
+            </div>
+            <br>
+            <div class="row">
+
+              <div class="col-6">
+                <label>AP Phone Number</label>
+                <input type="text" placeholder="AP Phone" class="form-control" formControlName="APPhoneNumber">
+                <div *ngIf="ModalCusForm.get('APPhoneNumber').invalid && ModalCusForm.get('APPhoneNumber').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('APPhoneNumber').errors.required">
+                    Please Enter ApContact PhoneNumber
+                  </span>
+                  <span class="errormess" *ngIf="ModalCusForm.get('APPhoneNumber').errors.pattern">Please
+                    Enter valid PhoneNumber
+                  </span>
+
+                </div>
+              </div>
+              <div class="col-6">
+                <label>TDS%</label>
+                <input type="text" placeholder="TDS%" class="form-control" formControlName="Tds">
+                <div *ngIf="ModalCusForm.get('Tds').invalid && ModalCusForm.get('Tds').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('Tds').errors.required">Please Enter
+                    Tds%
+                  </span>
+                  <span class="errormess" *ngIf="ModalCusForm.get('Tds').errors.pattern">Please
+                    Proper%
+                    pattern
+                  </span>
+                  <span class="errormess" *ngIf="ModalCusForm.get('Tds').errors.max">Tds value should not more than 100%
+                  </span>
+
+                </div>
+              </div>
+            </div>
+
+
+
+            <br>
+            <div class="row">
+              <div class="col-6">
+                <label>BDM Contact Name</label>
+                <input type="text" placeholder="BDM Contact name" class="form-control" formControlName="BdmContactName">
+                <div *ngIf="ModalCusForm.get('BdmContactName').invalid && ModalCusForm.get('BdmContactName').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('BdmContactName').errors.required">
+                    Please Enter BdmContactName
+                  </span>
+
+
+                </div>
+              </div>
+              <div class="col-6">
+                <label>BDM Email</label>
+                <input type="text" placeholder="BDM Email" class="form-control" formControlName="BdmMail">
+                <div *ngIf="ModalCusForm.get('BdmMail').invalid && ModalCusForm.get('BdmMail').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('BdmMail').errors.required">Please
+                    Enter Bdm Email
+                  </span>
+                  <span class="errormess" *ngIf="ModalCusForm.get('BdmMail').errors.pattern">Please
+                    Enter
+                    valid Email</span>
+
+                </div>
+              </div>
+
+
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-6">
+                <label>AM Name</label>
+                <input type="text" placeholder="AM Name" class="form-control" formControlName="AmName">
+                <div *ngIf="ModalCusForm.get('AmName').invalid && ModalCusForm.get('AmName').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('AmName').errors.required">Please
+                    Enter
+                    AM Name
+                  </span>
+
+
+                </div>
+              </div>
+              <div class="col-6">
+                <label>AM EMail</label>
+                <input type="text" placeholder="AM EmailId" class="form-control" formControlName="AmMailID">
+                <div *ngIf="ModalCusForm.get('AmMailID').invalid && ModalCusForm.get('AmMailID').touched">
+                  <span class="errormess" *ngIf="ModalCusForm.get('AmMailID').errors.required">Please
+                    Enter AM Email
+                  </span>
+
+                  <span class="errormess" *ngIf="ModalCusForm.get('AmMailID').errors.pattern">Please
+                    Enter valid Email</span>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+          <!-- <P>{{CustomerForm.value| json }}</P> -->
+          <!-- Modal footer -->
+          <div class="modal-footer">
+
+            <button type="button" class="btn bttn" style="background-color: #1d62a7;color: cornsilk;"
+              data-dismiss="modal" (click)="updateCustomerData(ModalCusForm.value)"
+              [disabled]="ModalCusForm.invalid">Update</button>
+            <button type="button" class="btn bttn" data-dismiss="modal" (click)="reset()">Cancel</button>
+          </div>
+        </form>
+        <!-- [disabled]="CustomerForm.invalid" -->
+        <!-- {{CustomerForm.invalid}} -->
+      </div>
+    </div>
+  </div>
+
+</div>

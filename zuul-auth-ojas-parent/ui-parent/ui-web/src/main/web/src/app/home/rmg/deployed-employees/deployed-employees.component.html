@@ -1,0 +1,73 @@
+<div class="bgColor shadow in">
+  <div class="col-md-12">
+    <span style="font-size: 18px;">
+      <h5>Deployed Resource Management</h5>
+    </span>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="key" [(ngModel)]="search" size="20" placeholder="Search">
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Select Project to filter</mat-label>
+        <mat-select (selectionChange)="filter($event)" disableOptionCentering>
+          <mat-option *ngFor="let p of dataTo" [value]="p.projectName">
+            {{p.projectName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  
+  <div>
+    <table class="table text-center tablefontsize" style="border-radius: 3px;font-size:14px;margin-top:10px">
+      <thead style="background-color: #1d62a7; color: cornsilk; ">
+        <th>Booking Id</th>
+        <th>Resource Type</th>
+        <th>Employee Id</th>
+        <th>Employee Name</th>
+        <th>Poject Id </th>
+        <th>Poject Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Action</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of rmgdata | rmg:search | paginate: { itemsPerPage: pages, currentPage:pd, id:'pd' }">
+          <td>{{r.bookingId}}</td>
+          <td>{{r.resourceType}}</td>
+          <td *ngIf="r.resourceType== 'Specific'">{{r.resource.employeeId}}</td>
+          <td *ngIf="r.resourceType== 'Generic'">{{r.resource.empId}}</td>
+          <td><span *ngFor="let i of empall">
+            <span *ngIf="r.resourceType== 'Specific'&& r.resource.employeeId==i.id">{{i.name}}</span>
+            <span *ngIf="r.resourceType== 'Generic'&& r.resource.empId==i.id">{{i.name}}</span>
+            </span>
+          </td>
+          <td>{{r.projectId}}</td>
+          <td>{{r.projectName}}</td>
+          <td>{{r.resource.startDate|date:'yyyy-MM-dd'}}</td>
+          <td>{{r.resource.endDate|date:'yyyy-MM-dd'}}</td>
+          <td>
+            <div *ngIf="managerbtn">
+              <button class="btn bttn" (click)="releaseRequestObject(r)">Release</button>
+            </div>   
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <span class="m-2 col-1">Items per page</span>
+      <select [(ngModel)]="pages" class="col-1">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+      </select>
+      <pagination-controls (pageChange)="pd = $event" id="pd" style="float:right"></pagination-controls>
+  </div>
+  </div>
+</div>

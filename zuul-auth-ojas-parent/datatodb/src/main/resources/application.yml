@@ -1,0 +1,16 @@
+# MySQL jdbc connection url.
+server:
+  port: 8087
+
+spring :
+  datasource :
+  
+    url: jdbc:mysql://192.168.1.48:3306/ojas_obs
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari : 
+      connection-timeout : 500
+      maximum-pool-size : 2 
+file_excelfilename: excelfile.xlsx
+file_configfilename: jsnrest.json

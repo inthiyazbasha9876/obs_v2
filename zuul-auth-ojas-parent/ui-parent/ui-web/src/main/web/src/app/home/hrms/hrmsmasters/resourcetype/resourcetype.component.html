@@ -1,0 +1,142 @@
+<div class="app-title">
+  <div>
+    <h1><i class="fa fa-th-list"></i>Resource Type</h1>
+    <p class="pl-4">Ojas Business Suite</p>
+  </div>
+  <ul class="app-breadcrumb breadcrumb">
+    <li class="active"> <button type="button" class="btn bttn">
+        <a class="undlne" (click)="navigateTo()"><span><i class="fa fa-home"></i>&nbsp;Dashboard</span></a> </button>
+    </li>
+  </ul>
+</div>
+
+<div class="row" style="margin-bottom: 25px;">
+  <div class="col-4">
+    <form class="form-inline">
+        <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search" [disabled]="searchfield" (input)="searchPage()">
+        </form>
+      </div>
+      <div class="col-8 text-right">
+        <button type="submit"  class="btn" *ngIf="addb" (click)="value=!value;clear()">Add Resource Type</button>
+      </div>
+  
+</div>
+
+
+
+
+
+<div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
+  <form  #busunitfor="ngForm">
+
+
+  <table class="table table-condensed tile " style="width:100%">
+     <thead style="background-color: #1d62a7;color:white" class="text-center">
+       <tr>
+         <th>Resource Type</th>
+         <th>Status</th>
+         <th>Edit</th>
+       </tr>
+     </thead>
+     <tbody>
+<tr *ngFor="let rtlist of getResourceList |  filter:key |paginate: { itemsPerPage: pageSize, currentPage: p }" class="text-center">
+
+
+
+  <td>
+  <div *ngIf="!rtlist.isEditable">
+      {{rtlist.resourceTypeName}}
+  </div>
+  <div *ngIf="rtlist.isEditable">
+    <input type="text" class="form-control" name="resourceTypeName" [(ngModel)]="editname"
+    #res="ngModel" required pattern="[A-Za-z]{1}[A-Za-z. ]*"/>
+    
+    <div style="color:red" *ngIf="res.invalid && res.touched " >
+        <span *ngIf="res.errors.required">
+          Please enter resourse type
+        </span>
+        <span *ngIf="res.errors.pattern">
+          Please enter valid resourse type
+        </span>
+      </div>
+
+  </div>
+
+</td>
+
+
+<td>
+  Active
+</td>
+
+
+<td>
+
+
+  <div *ngIf="rtlist.isEditable">
+      <button class="btn" 
+      (click)="updateResource(busunitfor.value)"  [disabled]="busunitfor.invalid">Update</button>&nbsp;
+   
+     <button class="btn" (click)="(rtlist.isEditable=!rtlist.isEditable)" (click)="cancel()">Cancel</button>
+  </div>
+
+
+  <span style="color:#1d62a7;font-size:20px" 
+  (click)='(rtlist.isEditable =!rtlist.isEditable) && edit(rtlist.id,rtlist.resourceTypeName)'
+  *ngIf="!rtlist.isEditable"  [class.disabled]="noedit"><i class="fa fa-edit"></i></span>
+
+</td>
+
+
+</tr>
+
+
+
+
+<tr *ngIf="value">
+
+  <td *ngIf="value">
+      <input   type="text" class="form-control" placeholder="Enter Resource Type" name="resourceTypeName" [(ngModel)]="resourceTypeName"
+      #cost="ngModel" pattern="[A-Za-z]{1}[A-Za-z. ]*" placeholder="Enter Resource Type" required>
+
+      <div style="color:red" *ngIf="cost.invalid && cost.touched ">
+          <span *ngIf="cost.errors.required">
+            Please enter resourseType
+          </span>
+          <span *ngIf="cost.errors.pattern">
+            Please enter valid resourse type
+          </span>
+
+
+        </div>
+  </td>
+    
+
+    <td>
+      <button type="submit" class="btn  mr-2" *ngIf="value" (click)="setResource(busunitfor.value)"
+      [disabled]="busunitfor.invalid">Save</button>
+      <button type="submit" class="btn" *ngIf="value" (click)=cancelrtlist()>Cancel</button>
+    </td>
+
+</tr>
+
+     </tbody>
+  </table>
+  </form>
+</div>
+
+
+<pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+<div class="row">
+  <label class="ml-3 iteams">Items per page: </label>&nbsp;&nbsp;&nbsp;
+
+
+  <select id="PerPage" class="pull-right" [(ngModel)]="pageSize" (change)="searchPage()">
+    <option [ngValue]="5">5</option>
+    <option [ngValue]="10">10</option>
+    <option [ngValue]="15">15</option>
+    <option [ngValue]="20">20</option>
+    <option [ngValue]="25">25</option>
+  </select>
+
+</div>

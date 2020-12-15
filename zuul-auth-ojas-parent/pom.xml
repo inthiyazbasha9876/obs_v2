@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+	
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ojas.security</groupId>
+    <artifactId>zuul-auth-ojas-parent</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>api-gateway</module>
+        <module>auth-center</module>
+        <module>backend-service</module>
+        <module>common</module>
+        <module>ui-parent</module>
+		<module>ojas-obs-cost-center</module>
+	    <module>ojas-obs-businessunit</module>
+		<!-- <module>ojas-obs-online-gpa</module> -->
+		<module>ojas-obs-online-passport</module>
+		<module>ojas-obs-online-employeestatus-service</module>
+		<module>ojas-obs-educationtype</module>
+		<module>ojas-obs-rolemanagement</module>
+		<module>ojas-obs-subbusinessunit</module>
+		<module>ojas-obs-gender</module>
+		<module>ojas-obs-states</module>
+		<module>ojas-obs-resource-type</module>
+		<module>ojas-obs-designation</module> 
+		<module>ojas-obs-online-separationtype-service</module>
+		<module>ojas-obs-skill</module> 
+		<module>ojas-obs-bankdetails</module>
+		<module>ojas-obs-employee-education-details</module>
+		<module>ojas-obs-dependentdetails</module> 
+		<!-- <module>ojas-obs-employeebu</module> -->
+		<module>ojas-obs-empcertificationdetails</module>
+		<module>ojas-obs-employeeexperiencedetails</module>
+		<module>ojas-obs-employeecontactinfo</module>
+		<module>ojas-obs-employeeskills</module> 
+		<module>ojas-obs-employment-details</module>
+		<module>ojas-obs-project-details</module>
+		<module>ojas-obs-kye</module>
+		<module>ojas-obs-employeeinfo</module>
+		<module>ojas-obs-title</module>
+		<module>ojas-obs-resetpassword</module>
+		<module>ojas-obs-reg-forgot</module>
+		<module>ojas-obs-resignationdetails</module>
+		<module>ojas-obs-services</module>
+		<module>ojas-obs-timesheet-management</module>
+		<module>ojas-obs-psa-project-info</module>
+		<module>ojas-obs-action-owner</module>
+		<module>ojas-obs-billing-type</module>
+		<module>ojas-obs-action-type</module>
+		<module>ojas-obs-budget</module>
+		<module>ojas-obs-c2h-status</module>
+		<module>ojas-obs-delivery-location</module>
+		<module>ojas-obs-interview-mode</module>
+		<module>ojas-obs-interview-result</module>
+		<module>ojas-obs-location-type</module>
+		<module>ojas-obs-perm-status</module>
+		<module>ojas-obs-project-task</module>
+		<module>ojas-obs-project-tech-stack</module>
+		<module>ojas-obs-sar-status</module>
+		<module>ojas-obs-service-category</module>
+		<module>ojas-obs-service-type</module>
+		<module>ojas-obs-rate-type</module>
+		<module>ojas-obs-sez</module>
+		<module>ojas-obs-contractcompany</module>
+		<module>ojas-obs-country</module>
+		<module>ojas-obs-gst-location</module>
+		<module>ojas-obs-sez-location</module>
+		<module>ojas-obs-geo</module>
+		<module>ojas-obs-document-stage</module>
+		<module>ojas-obs-documenttype</module>
+		<module>ojas-obs-customer-info</module>
+		<module>ojas-obs-psa-customercontactinfo</module>
+		<module>ojas-obs-customercontract</module>
+		<module>ojas-obs-leavemanagementsystem</module>
+		<module>ojas-obs-rmg</module>
+		<module>ojas-obs-calendarholidays</module>
+        <module>ojas-obs-rmg-employee-experience</module>
+        <module>ojas-obs-projecttype</module>
+		<module>ojas-obs-lms-leave-type</module>
+		
+    </modules>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>0.7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ojas.security</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

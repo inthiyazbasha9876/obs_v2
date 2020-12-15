@@ -1,0 +1,489 @@
+
+{
+"database":"ojas_obs1",
+"servicetable":["obs_forgot_password","obs_experiencedetails","obs_employeecontactinfo","obs_employeeinfo","obs_employmentdetails","obs_kye","obs_employee_login",
+		"obs_employeeskilldetails",
+		"obs_education_details","obs_projectdetails",
+		"obs_certificationdetails",
+		 "obs_bankdetails","obs_budetails","user_role",
+		 "obs_dependent_details"],
+"mastertable":["obs_states","obs_gpaplan","obs_costcenter",
+		"obs_passport","obs_genders","obs_rolemanagement",
+		"obs_skill","obs_resourcetype","obs_educationtype","app_role",
+		"obs_separationtype","obs_employeestatus","obs_designation"],
+"obs_forgot_password":[
+"id int(11) NOT NULL AUTO_INCREMENT",
+"employee_id varchar(45) DEFAULT NULL",
+"otp varchar(45) DEFAULT NULL",
+"exp_time datetime DEFAULT NULL",
+"PRIMARY KEY (id)",
+"UNIQUE KEY employee_id_UNIQUE (employee_id)"
+
+],
+"obs_bankdetails":[
+   "id int(15) NOT NULL AUTO_INCREMENT",
+  "bank_account_no varchar(50) DEFAULT NULL",
+  "bank_name varchar(50) DEFAULT NULL",
+  "bank_city varchar(50) DEFAULT NULL",
+  "bank_branch varchar(50) DEFAULT NULL",
+  "bank_ifsc_code varchar(50) DEFAULT NULL",
+  "bank_account_status varchar(25) DEFAULT NULL",
+  "employee_id varchar(50) DEFAULT NULL",
+  "Is_active tinyint(1) DEFAULT NULL",
+  "updated_by varchar(50) DEFAULT NULL",
+  "created_by varchar(50) DEFAULT NULL",
+  "created_date datetime DEFAULT NULL",
+  "updated_date datetime DEFAULT NULL",
+  "flag tinyint(1) DEFAULT NULL",
+ "PRIMARY KEY (id)"
+],
+"obs_employeestatus":[
+   "id int(11) NOT NULL AUTO_INCREMENT",
+  "status varchar(45) DEFAULT NULL",
+  "PRIMARY KEY (id)",
+  "UNIQUE KEY status_UNIQUE(status)"
+],
+"obs_education_details":[
+   "id int(11) NOT NULL AUTO_INCREMENT",
+  "employeeId varchar(100) DEFAULT NULL",
+  "qualification varchar(50) DEFAULT NULL",
+  "year_of_passing varchar(100) DEFAULT NULL",
+  "percentage_marks varchar(100) DEFAULT NULL",
+  "institution_name varchar(100) DEFAULT NULL",
+  "flag tinyint(1) DEFAULT NULL",
+  "createdBy varchar(100) DEFAULT '0'",
+  "updatedBy varchar(100) DEFAULT '0'",
+  "createdDate timestamp NULL DEFAULT NULL",
+  "updatedDate timestamp NULL DEFAULT NULL",
+  "PRIMARY KEY (id)"
+],
+"obs_employee_login":[
+   "id int(11) NOT NULL AUTO_INCREMENT",
+  "employeeId varchar(100) DEFAULT NULL",
+  "password varchar(200) DEFAULT NULL",
+  "createdBy varchar(45) DEFAULT NULL",
+  "createdOn timestamp NULL DEFAULT NULL",
+  "updatedBy varchar(100) DEFAULT NULL",
+  "updatedOn timestamp NULL DEFAULT NULL",
+  "PRIMARY KEY (id)",
+  "UNIQUE KEY employeeId_UNIQUE (employeeId)"
+],
+
+"obs_skill":[
+   "id int(10) not null auto_increment",
+   "skill_name varchar(30) not null unique",
+   "primary key(id)"
+],
+"obs_employeeskilldetails":[
+   "id INT(10) AUTO_INCREMENT",
+   "skill_id INT(10) NOT NULL",
+   "level_id INT(10) NOT NULL",
+   "employee_id VARCHAR(10) NOT NULL UNIQUE",
+   "created_date TIMESTAMP NOT NULL",
+   "updated_date TIMESTAMP  NULL",
+ "created_by VARCHAR(10) NOT NULL",
+"update_by VARCHAR(10) NULL",
+"PRIMARY KEY(id)",
+"flag TINYINT(1)"
+],
+
+"obs_subbusinessunit":[
+    "id int(11) NOT NULL AUTO_INCREMENT",
+    "name varchar(30) DEFAULT NULL",
+  "costCenterId varchar(30) DEFAULT NULL",
+  "businessUnitId varchar(30) DEFAULT NULL",
+  "PRIMARY KEY (id)"
+ 
+],
+
+
+"obs_rolemanagement":[
+    "id int(10) NOT NULL AUTO_INCREMENT",
+    "rolename varchar(30) DEFAULT NULL",
+    "PRIMARY KEY (id)"
+],
+
+"obs_businessunit":[
+     "id INT(10) NOT NULL AUTO_INCREMENT",
+     "businessUnitName  VARCHAR(100) DEFAULT NULL",
+     "costCenterId  INT(20) NOT NULL",
+     "primary key(id)"
+],
+
+"obs_educationtype":[
+    "id int(50) NOT NULL AUTO_INCREMENT",
+    "educationType varchar(25) DEFAULT NULL",
+    "PRIMARY KEY (id)"
+],
+
+"obs_gpaplan":[
+    "id int(10) NOT NULL AUTO_INCREMENT",
+    "gpaPlanType varchar(30) DEFAULT NULL",
+    "gpaPremium double DEFAULT NULL",
+    "totalPremium double DEFAULT NULL",
+     "PRIMARY KEY (id)",
+    "UNIQUE KEY gpaPlanType(gpaPlanType)"
+],
+"obs_costcenter":[
+   "id int(20) not null auto_increment",
+   "costcentercode int(50) not null",
+   "primary key(id)"
+],
+"obs_states":[
+    
+   "id int(11) NOT NULL AUTO_INCREMENT",
+    "stateName varchar(45) NOT NULL",
+     "PRIMARY KEY (id)",
+    "UNIQUE KEY stateName_UNIQUE (stateName)"
+],
+
+
+"obs_genders":[
+    "id int(11) NOT NULL AUTO_INCREMENT",
+    "gender varchar(45) DEFAULT NULL",
+     "PRIMARY KEY (id)"
+   
+],
+
+"obs_passport":[
+   "id int(11) NOT NULL AUTO_INCREMENT",
+  "centerName varchar(45) NOT NULL",
+  "PRIMARY KEY (id)",
+  "UNIQUE KEY centerName_UNIQUE(centerName)"
+
+],
+"obs_empstatus":[
+     "id int(11) NOT NULL AUTO_INCREMENT",
+  "status varchar(45) DEFAULT NULL",
+  "PRIMARY KEY (id)"
+],
+"obs_resourcetype":[
+   "resourcetype_id int(10) NOT NULL AUTO_INCREMENT",
+  "resourcetype_name varchar(45) NOT NULL",
+  "PRIMARY KEY (resourcetype_id)"
+],
+"obs_budetails":[
+   "id int(20)  AUTO_INCREMENT",
+   "employeeId varchar(45)  NOT NULL",
+   "sbu int(11) NOT NULL",
+   "status varchar(45) NOT NULL",
+   "createdby varchar(45)  NOT NULL",
+   "createddate datetime  NOT NULL",
+   "updatedby varchar(45)",
+   "updateddate datetime",
+   "flag tinyint(4) NOT NULL",
+   "primary key(id)"
+
+],
+
+"obs_dependent_details":[
+    "id int(11) NOT NULL AUTO_INCREMENT",
+  "dependent_name varchar(45) DEFAULT NULL",
+  "relation varchar(45) DEFAULT NULL",
+  "date_of_birth date DEFAULT NULL",
+  "employee_id varchar(20) DEFAULT NULL",
+  "created_by varchar(45) DEFAULT NULL",
+  "created_date date DEFAULT NULL",
+  "updated_by varchar(45) DEFAULT NULL",
+  "updated_date date DEFAULT NULL",
+  "flag tinyint(4) DEFAULT NULL",
+  "PRIMARY KEY (id)"
+],
+"obs_experiencedetails":[
+    "Id int(20)  AUTO_INCREMENT",
+    "company_name varchar(100)  NOT NULL",
+    "joining_date date  NOT NULL",
+    "exit_date date  NOT NULL",
+    "salary double NOT NULL",
+    "location varchar(100)  NOT NULL",
+    "is_current_company tinyint(1)  NOT NULL ",
+    "employee_id varchar(20)  NOT NULL",
+    "Reference_1_name  varchar(200)  NOT NULL ",
+    "Reference_1_contact varchar(15)  NOT NULL",
+    "Reference_2_name varchar(200)  NOT NULL",
+    "Reference_2_contact varchar(15)  NOT NULL",
+    "flag tinyint(1)  NOT NULL",
+    "created_by varchar(50)   NULL",
+    "updated_by varchar(50)   NULL",
+    "created_date timestamp  NOT NULL",
+    "updated_date timestamp  NULL",
+	"experience Double",
+   "PRIMARY KEY (Id)"
+],
+		
+"obs_employeeinfo":[
+   "id int(11) NOT NULL AUTO_INCREMENT",
+   "firstname varchar(50) DEFAULT NULL",
+   "middlename varchar(50) DEFAULT NULL",
+   "lastname varchar(50) DEFAULT NULL",
+   "status varchar(50) DEFAULT NULL",
+   "statusDate date DEFAULT NULL",
+   "dob date DEFAULT NULL",
+   "gender varchar(50) DEFAULT NULL",
+   "title varchar(40) DEFAULT NULL",
+   "reportingManager varchar(40) DEFAULT NULL",
+   "employee_id  varchar(50) DEFAULT NULL",
+   "flag tinyint(4) DEFAULT NULL",
+   "createdOn timestamp NULL DEFAULT NULL",
+   "updatedOn timestamp NULL DEFAULT NULL",
+   "createdBy varchar(20) DEFAULT NULL",
+   "updatedBy varchar(20) DEFAULT NULL",
+   "email VARCHAR(45)",
+  "personal_mobileNo VARCHAR(45)",
+   "PRIMARY KEY (id)",
+   "UNIQUE KEY employeeId_UNIQUE (employee_id )"
+		],
+"obs_certificationdetails":[
+   "id int(11) NOT NULL AUTO_INCREMENT",
+   "certification_name varchar(45) NOT NULL",
+   "Issued_by varchar(45) NOT NULL", 
+  "Date_of_issue date NOT NULL",
+  
+  "employee_id varchar(45) NOT NULL",
+  
+  "created_by varchar(45)",
+  
+ "updated_by varchar(45) DEFAULT NULL",
+ 
+ "created_date date NULL DEFAULT NULL",
+ 
+ "updated_date date NULL DEFAULT NULL",
+ 
+ "flag varchar(45)",
+ 
+ "PRIMARY KEY (id)"
+],
+"app_role":[
+"id INT(11) NOT NULL",
+  "role_name VARCHAR(40) DEFAULT NULL",
+  "role_id INT(11) DEFAULT NULL",
+  "PRIMARY KEY (id)"
+],
+"user_role":[
+   "id int(11) NOT NULL AUTO_INCREMENT",
+  "employee_Id varchar(100) DEFAULT NULL",
+  "role_id int(11) DEFAULT NULL",
+  "PRIMARY KEY (id)"
+
+],
+"obs_employmentdetails":[
+   "id int(10) NOT NULL AUTO_INCREMENT",
+  "employee_id varchar(45) NOT NULL",
+  "joining_date date NOT NULL",
+  "resource_type varchar(45) NOT NULL",
+  "bond_status tinyint(1) NOT NULL",
+  "resignation_date date DEFAULT NULL",
+  "exit_date date DEFAULT NULL",
+  "separation_type varchar(45) DEFAULT NULL",
+  "flag tinyint(45) DEFAULT '0'",
+  "created_by varchar(45)",
+  "updated_by varchar(45) DEFAULT NULL",
+  "created_date datetime",
+  "updated_date datetime DEFAULT NULL",
+ "bu_id int(10) DEFAULT NULL",
+  "sbu_id int(10) DEFAULT NULL",
+	"cost_center_id int(10) DEFAULT NULL",
+  "PRIMARY KEY (id)",
+  "UNIQUE KEY employee_id (employee_id)"
+],
+"obs_kye":[
+   "id int AUTO_INCREMENT",
+    "KYE_Type varchar(45)",
+	"PAN_No varchar(10)",
+    "uan varchar(45)",
+	"Aadhar_No varchar(14)",
+	"Aadhar_Addr varchar(200)",
+    "KYE_address varchar(45)",
+    "passport_no varchar(45)",
+    "Passport_date_of_Issue Date",
+    "Passport_date_of_expiry Date",
+    "place_of_issue varchar(45)",
+    "Passport_address varchar(45)",
+    "employee_Id varchar(15)",
+    "flag tinyint(2)", 
+    "created_by varchar(15)",
+    "updated_by varchar(15)",
+    "created_date datetime",
+    "updated_date datetime",
+	"primary key(id)"
+],
+"obs_projectdetails":[
+   "id int(20) NOT NULL AUTO_INCREMENT",
+   "project_name varchar(100) DEFAULT NULL",
+   "contract_id int(20) DEFAULT NULL",
+   "rate_id int(20) DEFAULT NULL",
+   "start_date timestamp NULL DEFAULT NULL",
+   "end_date timestamp NULL DEFAULT NULL",
+   "Billing_id int(20) DEFAULT NULL",
+   "employee_id varchar(100) DEFAULT NULL",
+   "project_tech_stack varchar(20) DEFAULT NULL",
+   "customer varchar(100) DEFAULT NULL",
+   "location varchar(100) DEFAULT NULL",
+   "gst_applicable tinyint(1) DEFAULT '0'",
+   "project_type varchar(50) DEFAULT NULL",
+   "project_status varchar(50) DEFAULT NULL",
+   "bdm_contact varchar(100) DEFAULT NULL",
+   "is_internal tinyint(1) DEFAULT '0'",
+   "flag tinyint(1) DEFAULT '0'",
+   "created_by varchar(100) DEFAULT NULL",
+   "updated_by varchar(100) DEFAULT NULL",
+   "created_date timestamp NULL DEFAULT NULL",
+   "updated_date timestamp NULL DEFAULT NULL",
+   "PRIMARY KEY (id)"
+],
+"obs_employeecontactinfo":[
+   "id INT NOT NULL AUTO_INCREMENT",
+  "alternate_mobileNo VARCHAR(45)",
+  "current_Address_Line1 VARCHAR(45)",
+  "current_Address_Line2 VARCHAR(45)",
+  "current_City VARCHAR(45)",
+  "current_State VARCHAR(45)",
+  "current_Pin INT(15)",
+  "permanent_Address_Line_1 VARCHAR(45)",
+  "emp_Id VARCHAR(45)",
+   "flag Tinyint(1)",
+  "created_By VARCHAR(45)",
+ "updated_By VARCHAR(45)",
+  "created_date datetime",
+  "updated_date datetime",
+ 
+  
+  "PRIMARY KEY (id)"
+],
+"obs_separationtype":[
+"separationTypeId int  PRIMARY KEY AUTO_INCREMENT",
+"separationType varchar(45) "
+],
+"obs_designation":[
+ "id int PRIMARY KEY AUTO_INCREMENT",
+"designation varchar(45)"
+],
+
+ "sheetmapping" : {
+ "obs_forgot_password":"forgotpassword",
+ "app_role":"app_role",
+ "user_role":"user_role",
+ "obs_employmentdetails":"employmentdetails",
+ "obs_kye":"kye",
+ "obs_projectdetails":"projectdetails",
+ "obs_employeecontactinfo":"employeecontactinfo",
+		"obs_certificationdetails":"certificationdetails",
+		"obs_employeeinfo":"employeeinfo",
+		"obs_experiencedetails":"experiencedetails",
+		"obs_dependent_details":"dependent_details",
+		"obs_budetails":"budetails",
+		
+		"obs_resourcetype":"resourcetype",
+		"obs_separationtype":"separationtype",
+		"obs_designation":"designation",
+		"obs_empstatus":"employeestatus",
+		"obs_passport":"passport",
+		"obs_genders":"genders",
+		"obs_states":"states",
+		
+		"obs_gpaplan":"gpaplan",
+		"obs_educationtype":"educationtype",
+		"obs_businessunit":"businessunit",
+		"obs_rolemanagement":"rolemanagement",
+		"obs_subbusinessunit":"subbusinessunit",
+		"obs_employeeskilldetails":"employeeSkillDetails",
+		"obs_skill":"skill",
+		"obs_employee_login":"employee_login",
+		"obs_education_details":"education_details",
+		"obs_employeestatus":"obs.employeestatus",
+		"obs_bankdetails":"bank deatils",
+		"obs_title":"",
+		"obs_costcenter":"costcenterid"
+ },
+"bench":"1",
+"fte":"2",
+"contractor":"3",
+"lateral":"4",
+"tech":"5",
+"non tech":"6",
+"staffing":"7",
+
+"active":"1",
+"in active":"2",
+"separated":"3",
+"notice period":"4",
+
+
+"male":"1",
+"female":"2",
+"transgender":"3",
+
+"resigned":"1",
+"absconded":"2",
+"terminated":"3",
+
+"9000":"1",
+"9001":"2",
+"9002":"3",
+"9003":"4",
+"9004":"5",
+"9005":"6",
+"9006":"7",
+
+"app_dev":"1",
+"idm":"2",
+"etech":"3",
+"staffing":"4",
+"c2h":"5",
+"sales":"6",
+"support":"7",
+
+"java":"1",
+".net":"2",
+"testing":"3",
+"service now":"4",
+"python":"5",
+"oracleidm":"6",
+"sailpoint":"7",
+"sap":"8",
+"perm":"9",
+"finance":"13",
+"opearations":"15",
+"substaff":"16",
+"it":"17",
+
+"true":"1",
+"false":"0",
+
+"traine software engineer":"1",
+"associate software engineer":"2",
+"software engineer":"3",
+"sr.software engineer":"4",
+"lead software engineer":"5",
+"manager":"6",
+"sr.manager":"7",
+"avp":"8",
+
+"hr":"3",
+
+"yes":"1",
+"no":"0",
+
+"telangana":"1",
+"maharasta":"2",
+"punjab":"3",
+"gujarath":"4",
+"kerala":"5",
+"andrapradesh":"6",
+"karnataka":"7",
+"tamilnadu":"8",
+"madyapradesh":"9",
+"jammu kashmir":"10",
+"orisa":"11",
+"west bengal":"12",
+
+"b.tech":"1",
+"m.tech":"2",
+"degree":"3",
+"pg":"4",
+"mca":"5"
+
+
+
+"ojas1525":"$2a$10$mVSGNdcschgcZEwzWK.0BOqtzNXtN7UFoI65KmRpqjK.1EL1tpsxK"
+}

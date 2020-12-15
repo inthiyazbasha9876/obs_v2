@@ -1,0 +1,1644 @@
+<div *ngIf="role=='ROLE_ADMIN'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i>Admin Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="scrollData">
+
+
+    <!-- hrms charts starts -->
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="piechart">
+          <canvas baseChart [datasets]="EmployeeStatus_BarChartData" [labels]="EmployeeStatus_BarChartLabels"
+            [options]="EmployeeStatus_BarChartOptions" [legend]="EmployeeStatus_BarChartLegend"
+            [chartType]="EmployeeStatus_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Employee Status</h4>
+          <br>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div style="display: block;" class="piechart">
+
+          <canvas baseChart [data]="Reports_PieChartdata" [colors]="Reports_PieChartColors"
+            [labels]="Reports_PieChartLabels" [chartType]="Reports_PieChartType" [options]="Reports_PieChartOptions"
+            [legend]="Reports_PieChartLegend">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Reports</h4>
+          <br>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ExitEmployee_LineChartData" [labels]="ExitEmployee_LineChartLabels"
+            [options]="ExitEmployee_LineChartOptions" [colors]="ExitEmployee_LineChartColors"
+            [legend]="ExitEmployee_LineChartLegend" [chartType]="ExitEmployee_LineChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Exit Employee</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="Events_BarChartData" [labels]="Events_BarChartLabels"
+            [options]="Events_BarChartOptions" [legend]="Events_BarChartLegend" [chartType]="Events_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Events</h4>
+          <br>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="EmpMonthlyCount_BarChartData" [labels]="EmpMonthlyCount_BarChartLabels"
+            [options]="EmpMonthlyCount_BarChartOptions" [colors]="EmpMonthlyCount_BarChartColors"
+            [legend]="EmpMonthlyCount_BarChartLegend" [chartType]="EmpMonthlyCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Employees Monthly Count</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block; " class="piechart">
+          <canvas baseChart [data]="GenderDist_PieChartData" [colors]="GenderDist_PieChartColors"
+            [labels]="GenderDist_PieChartLabels" [chartType]="GenderDist_PieChartType"
+            [legend]="GenderDist_PieChartLegend">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Gender Distribution</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="YearsService_LineChartData" [labels]="YearsService_LineChartLabels"
+            [options]="YearsService_LineChartOptions" [colors]="YearsService_LineChartColors"
+            [legend]="YearsService_LineChartLegend" [chartType]="YearsService_LineChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Years In Service Distribution</h4>
+          <br>
+        </div>
+      </div>
+
+    </div>
+    <!-- hrms charts ends -->
+
+    <!-- psa charts starts -->
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectRevenue_BarChartData" [labels]="ProjectRevenue_BarChartLabels"
+            [options]="ProjectRevenue_BarChartOptions" [colors]="ProjectRevenue_BarChartColors"
+            [legend]="ProjectRevenue_BarChartLegend" [chartType]="ProjectRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Revenue</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectResourceCount_BarChartData"
+            [labels]="ProjectResourceCount_BarChartLabels" [options]="ProjectResourceCount_BarChartOptions"
+            [colors]="ProjectResourceCount_BarChartColors" [legend]="ProjectResourceCount_BarChartLegend"
+            [chartType]="ProjectResourceCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Resource Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectStatus_BarChartData" [labels]="ProjectStatus_BarChartLabels"
+            [options]="ProjectStatus_BarChartOptions" [colors]="ProjectStatus_BarChartColors"
+            [legend]="ProjectStatus_BarChartLegend" [chartType]="ProjectStatus_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Status</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustomerContract_BarChartData" [labels]="CustomerContract_BarChartLabels"
+            [options]="CustomerContract_BarChartOptions" [colors]="CustomerContract_BarChartColors"
+            [legend]="CustomerContract_BarChartLegend" [chartType]="CustomerContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Contract </h4>
+          <br>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ContractWiseRevenue_BarChartData" [labels]="ContractWiseRevenue_BarChartLabels"
+            [options]="ContractWiseRevenue_BarChartOptions" [colors]="ContractWiseRevenue_BarChartColors"
+            [legend]="ContractWiseRevenue_BarChartLegend" [chartType]="ContractWiseRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Wise Project Revenue Data</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+        <div style="display: block;" class="piechart">
+
+          <canvas baseChart [data]="ContractStatus_PieChartData" [colors]="ContractStatus_PieChartColors"
+            [labels]="ContractStatus_PieChartLabel" [chartType]="ContractStatus_PieChartType"
+            [options]="ContractStatus_PieChartOptions" [legend]="ContractStatus_PieChartLegend">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Status</h4>
+          <br>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustCountMonthly_BarChartData " [labels]="CustCountMonthly_BarChartLabels"
+            [options]="CustCountMonthly_BarChartOptions" [legend]="CustCountMonthly_BarChartLegend"
+            [chartType]="CustCountMonthly_BarChartType" [colors]="CustCountMonthly_BarChartColors">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Count By Monthly</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustCount_BarChartData" [labels]="BdmWiseCustCount_BarChartLabels"
+            [options]="BdmWiseCustCount_BarChartOptions" [colors]="BdmWiseCustCount_BarChartColors"
+            [legend]="BdmWiseCustCount_BarChartLegend" [chartType]="BdmWiseCustCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Count</h4>
+          <br>
+        </div>
+      </div>
+
+     
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContact_BarChartData" [labels]="BdmWiseCustContact_BarChartLabels"
+            [options]="BdmWiseCustContact_BarChartOptions" [legend]="BdmWiseCustContact_BarChartLegend"
+            [chartType]="BdmWiseCustContact_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Contact Count</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContract_BarChartData" [labels]="BdmWiseCustContract_BarChartLabels"
+            [options]="BdmWiseCustContract_BarChartOptions" [colors]="BdmWiseCustContract_BarChartColors"
+            [legend]="BdmWiseCustContract_BarChartLegend" [chartType]="BdmWiseCustContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Created Wise Contract Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- psa charts ends -->
+
+  </div>
+</div>
+
+<div *ngIf="role=='ROLE_HR'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i>HR Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="scrollData">
+    <!-- hrms charts starts -->
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="EmployeeStatus_BarChartData" [labels]="EmployeeStatus_BarChartLabels"
+            [options]="EmployeeStatus_BarChartOptions" [legend]="EmployeeStatus_BarChartLegend"
+            [chartType]="EmployeeStatus_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Employee Status</h4>
+          <br>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div style="display: block;" class="piechart">
+
+          <canvas baseChart [data]="Reports_PieChartdata" [colors]="Reports_PieChartColors"
+            [labels]="Reports_PieChartLabels" [chartType]="Reports_PieChartType" [options]="Reports_PieChartOptions"
+            [legend]="Reports_PieChartLegend">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Reports</h4>
+          <br>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ExitEmployee_LineChartData" [labels]="ExitEmployee_LineChartLabels"
+            [options]="ExitEmployee_LineChartOptions" [colors]="ExitEmployee_LineChartColors"
+            [legend]="ExitEmployee_LineChartLegend" [chartType]="ExitEmployee_LineChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Exit Employee</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="Events_BarChartData" [labels]="Events_BarChartLabels"
+            [options]="Events_BarChartOptions" [legend]="Events_BarChartLegend" [chartType]="Events_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Events</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="EmpMonthlyCount_BarChartData" [labels]="EmpMonthlyCount_BarChartLabels"
+            [options]="EmpMonthlyCount_BarChartOptions" [colors]="EmpMonthlyCount_BarChartColors"
+            [legend]="EmpMonthlyCount_BarChartLegend" [chartType]="EmpMonthlyCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Employees Monthly Count</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block; " class="piechart">
+          <canvas baseChart [data]="GenderDist_PieChartData" [colors]="GenderDist_PieChartColors"
+            [labels]="GenderDist_PieChartLabels" [chartType]="GenderDist_PieChartType"
+            [legend]="GenderDist_PieChartLegend">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Gender Distribution</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="YearsService_LineChartData" [labels]="YearsService_LineChartLabels"
+            [options]="YearsService_LineChartOptions" [colors]="YearsService_LineChartColors"
+            [legend]="YearsService_LineChartLegend" [chartType]="YearsService_LineChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Years In Service Distribution</h4>
+          <br>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- hrms charts ends -->
+  </div>
+</div>
+
+<div *ngIf="role=='ROLE_USER'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i> Employee Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+
+
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-4">
+      <div class="widget-small shadow info  coloured-icon"><i class="icon fa fa-user fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="personaldetails()">
+            <h4>Personal Details</h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="widget-small  shadow info  coloured-icon"><i class="icon fa fa-folder-open fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="directory()">
+            <h4>Directory </h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="widget-small shadow info coloured-icon"><i class="icon fa fa-graduation-cap fa-3x"
+          style="background-color: #1d62a7; "></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="Careers()">
+            <h4>Careers </h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="role=='ROLE_MANAGER'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i> Reporting Manager Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small shadow info coloured-icon"><i class="icon fa fa-user fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="personaldetails()">
+            <h4>Personal Details</h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small shadow info coloured-icon"><i class="icon fa fa-address-book fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="directory()">
+            <h4>Directory </h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div *ngIf="role=='ROLE_SALES'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i> Sales Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+
+
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="scrollData">
+    <div class="row">
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small shadow info coloured-icon"><i class="icon fa fa-user fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="personaldetails()">
+              <h4>Personal Details</h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+   
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="directory()">
+              <h4>Directory </h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small info shadow  coloured-icon"><i class="icon fa fa-address-book fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="Careers()">
+              <h4>Careers </h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- psa charts starts -->
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectRevenue_BarChartData" [labels]="ProjectRevenue_BarChartLabels"
+            [options]="ProjectRevenue_BarChartOptions" [colors]="ProjectRevenue_BarChartColors"
+            [legend]="ProjectRevenue_BarChartLegend" [chartType]="ProjectRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Revenue</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectResourceCount_BarChartData"
+            [labels]="ProjectResourceCount_BarChartLabels" [options]="ProjectResourceCount_BarChartOptions"
+            [colors]="ProjectResourceCount_BarChartColors" [legend]="ProjectResourceCount_BarChartLegend"
+            [chartType]="ProjectResourceCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Resource Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectStatus_BarChartData" [labels]="ProjectStatus_BarChartLabels"
+            [options]="ProjectStatus_BarChartOptions" [colors]="ProjectStatus_BarChartColors"
+            [legend]="ProjectStatus_BarChartLegend" [chartType]="ProjectStatus_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Status</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustomerContract_BarChartData" [labels]="CustomerContract_BarChartLabels"
+            [options]="CustomerContract_BarChartOptions" [colors]="CustomerContract_BarChartColors"
+            [legend]="CustomerContract_BarChartLegend" [chartType]="CustomerContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Contract </h4>
+          <br>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ContractWiseRevenue_BarChartData" [labels]="ContractWiseRevenue_BarChartLabels"
+            [options]="ContractWiseRevenue_BarChartOptions" [colors]="ContractWiseRevenue_BarChartColors"
+            [legend]="ContractWiseRevenue_BarChartLegend" [chartType]="ContractWiseRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Wise Project Revenue Data</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+        <div style="display: block;" class="piechart">
+
+          <canvas baseChart [data]="ContractStatus_PieChartData" [colors]="ContractStatus_PieChartColors"
+            [labels]="ContractStatus_PieChartLabel" [chartType]="ContractStatus_PieChartType"
+            [options]="ContractStatus_PieChartOptions" [legend]="ContractStatus_PieChartLegend">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Status</h4>
+          <br>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustCountMonthly_BarChartData " [labels]="CustCountMonthly_BarChartLabels"
+            [options]="CustCountMonthly_BarChartOptions" [legend]="CustCountMonthly_BarChartLegend"
+            [chartType]="CustCountMonthly_BarChartType" [colors]="CustCountMonthly_BarChartColors">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Count By Monthly</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustCount_BarChartData" [labels]="BdmWiseCustCount_BarChartLabels"
+            [options]="BdmWiseCustCount_BarChartOptions" [colors]="BdmWiseCustCount_BarChartColors"
+            [legend]="BdmWiseCustCount_BarChartLegend" [chartType]="BdmWiseCustCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Count</h4>
+          <br>
+        </div>
+      </div>
+
+     
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContact_BarChartData" [labels]="BdmWiseCustContact_BarChartLabels"
+            [options]="BdmWiseCustContact_BarChartOptions" [legend]="BdmWiseCustContact_BarChartLegend"
+            [chartType]="BdmWiseCustContact_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Contact Count</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContract_BarChartData" [labels]="BdmWiseCustContract_BarChartLabels"
+            [options]="BdmWiseCustContract_BarChartOptions" [colors]="BdmWiseCustContract_BarChartColors"
+            [legend]="BdmWiseCustContract_BarChartLegend" [chartType]="BdmWiseCustContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Created Wise Contract Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- psa charts ends -->
+  </div>
+</div>
+
+<div *ngIf="role=='ROLE_BDM'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i>BDM Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="scrollData">
+
+    <!-- psa charts starts -->
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectRevenue_BarChartData" [labels]="ProjectRevenue_BarChartLabels"
+            [options]="ProjectRevenue_BarChartOptions" [colors]="ProjectRevenue_BarChartColors"
+            [legend]="ProjectRevenue_BarChartLegend" [chartType]="ProjectRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Revenue</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectResourceCount_BarChartData"
+            [labels]="ProjectResourceCount_BarChartLabels" [options]="ProjectResourceCount_BarChartOptions"
+            [colors]="ProjectResourceCount_BarChartColors" [legend]="ProjectResourceCount_BarChartLegend"
+            [chartType]="ProjectResourceCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Resource Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectStatus_BarChartData" [labels]="ProjectStatus_BarChartLabels"
+            [options]="ProjectStatus_BarChartOptions" [colors]="ProjectStatus_BarChartColors"
+            [legend]="ProjectStatus_BarChartLegend" [chartType]="ProjectStatus_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Status</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustomerContract_BarChartData" [labels]="CustomerContract_BarChartLabels"
+            [options]="CustomerContract_BarChartOptions" [colors]="CustomerContract_BarChartColors"
+            [legend]="CustomerContract_BarChartLegend" [chartType]="CustomerContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Contract </h4>
+          <br>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ContractWiseRevenue_BarChartData" [labels]="ContractWiseRevenue_BarChartLabels"
+            [options]="ContractWiseRevenue_BarChartOptions" [colors]="ContractWiseRevenue_BarChartColors"
+            [legend]="ContractWiseRevenue_BarChartLegend" [chartType]="ContractWiseRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Wise Project Revenue Data</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+        <div style="display: block;" class="piechart">
+
+          <canvas baseChart [data]="ContractStatus_PieChartData" [colors]="ContractStatus_PieChartColors"
+            [labels]="ContractStatus_PieChartLabel" [chartType]="ContractStatus_PieChartType"
+            [options]="ContractStatus_PieChartOptions" [legend]="ContractStatus_PieChartLegend">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Status</h4>
+          <br>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustCountMonthly_BarChartData " [labels]="CustCountMonthly_BarChartLabels"
+            [options]="CustCountMonthly_BarChartOptions" [legend]="CustCountMonthly_BarChartLegend"
+            [chartType]="CustCountMonthly_BarChartType" [colors]="CustCountMonthly_BarChartColors">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Count By Monthly</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustCount_BarChartData" [labels]="BdmWiseCustCount_BarChartLabels"
+            [options]="BdmWiseCustCount_BarChartOptions" [colors]="BdmWiseCustCount_BarChartColors"
+            [legend]="BdmWiseCustCount_BarChartLegend" [chartType]="BdmWiseCustCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Count</h4>
+          <br>
+        </div>
+      </div>
+
+     
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContact_BarChartData" [labels]="BdmWiseCustContact_BarChartLabels"
+            [options]="BdmWiseCustContact_BarChartOptions" [legend]="BdmWiseCustContact_BarChartLegend"
+            [chartType]="BdmWiseCustContact_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Contact Count</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContract_BarChartData" [labels]="BdmWiseCustContract_BarChartLabels"
+            [options]="BdmWiseCustContract_BarChartOptions" [colors]="BdmWiseCustContract_BarChartColors"
+            [legend]="BdmWiseCustContract_BarChartLegend" [chartType]="BdmWiseCustContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Created Wise Contract Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- psa charts ends -->
+  </div>
+</div>
+
+<div *ngIf="role=='ROLE_BUHEAD'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i> BU Head Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+
+
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="scrollData">
+    <div class="row">
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-user fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="personaldetails()">
+              <h4>Personal Details</h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="directory()">
+              <h4>Directory </h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="Careers()">
+              <h4>Careers </h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- psa charts starts -->
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectRevenue_BarChartData" [labels]="ProjectRevenue_BarChartLabels"
+            [options]="ProjectRevenue_BarChartOptions" [colors]="ProjectRevenue_BarChartColors"
+            [legend]="ProjectRevenue_BarChartLegend" [chartType]="ProjectRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Revenue</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectResourceCount_BarChartData"
+            [labels]="ProjectResourceCount_BarChartLabels" [options]="ProjectResourceCount_BarChartOptions"
+            [colors]="ProjectResourceCount_BarChartColors" [legend]="ProjectResourceCount_BarChartLegend"
+            [chartType]="ProjectResourceCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Resource Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectStatus_BarChartData" [labels]="ProjectStatus_BarChartLabels"
+            [options]="ProjectStatus_BarChartOptions" [colors]="ProjectStatus_BarChartColors"
+            [legend]="ProjectStatus_BarChartLegend" [chartType]="ProjectStatus_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Status</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustomerContract_BarChartData" [labels]="CustomerContract_BarChartLabels"
+            [options]="CustomerContract_BarChartOptions" [colors]="CustomerContract_BarChartColors"
+            [legend]="CustomerContract_BarChartLegend" [chartType]="CustomerContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Contract </h4>
+          <br>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ContractWiseRevenue_BarChartData" [labels]="ContractWiseRevenue_BarChartLabels"
+            [options]="ContractWiseRevenue_BarChartOptions" [colors]="ContractWiseRevenue_BarChartColors"
+            [legend]="ContractWiseRevenue_BarChartLegend" [chartType]="ContractWiseRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Wise Project Revenue Data</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+        <div style="display: block;" class="piechart">
+
+          <canvas baseChart [data]="ContractStatus_PieChartData" [colors]="ContractStatus_PieChartColors"
+            [labels]="ContractStatus_PieChartLabel" [chartType]="ContractStatus_PieChartType"
+            [options]="ContractStatus_PieChartOptions" [legend]="ContractStatus_PieChartLegend">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Status</h4>
+          <br>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustCountMonthly_BarChartData " [labels]="CustCountMonthly_BarChartLabels"
+            [options]="CustCountMonthly_BarChartOptions" [legend]="CustCountMonthly_BarChartLegend"
+            [chartType]="CustCountMonthly_BarChartType" [colors]="CustCountMonthly_BarChartColors">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Count By Monthly</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustCount_BarChartData" [labels]="BdmWiseCustCount_BarChartLabels"
+            [options]="BdmWiseCustCount_BarChartOptions" [colors]="BdmWiseCustCount_BarChartColors"
+            [legend]="BdmWiseCustCount_BarChartLegend" [chartType]="BdmWiseCustCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Count</h4>
+          <br>
+        </div>
+      </div>
+
+     
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContact_BarChartData" [labels]="BdmWiseCustContact_BarChartLabels"
+            [options]="BdmWiseCustContact_BarChartOptions" [legend]="BdmWiseCustContact_BarChartLegend"
+            [chartType]="BdmWiseCustContact_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Contact Count</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContract_BarChartData" [labels]="BdmWiseCustContract_BarChartLabels"
+            [options]="BdmWiseCustContract_BarChartOptions" [colors]="BdmWiseCustContract_BarChartColors"
+            [legend]="BdmWiseCustContract_BarChartLegend" [chartType]="BdmWiseCustContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Created Wise Contract Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- psa charts ends -->
+  </div>
+
+</div>
+
+<div *ngIf="role=='ROLE_SBUHEAD'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i> SBU Head Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+
+
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="scrollData">
+    <div class="row">
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small shadow info coloured-icon"><i class="icon fa fa-user fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="personaldetails()">
+              <h4>Personal Details</h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="directory()">
+              <h4>Directory </h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="Careers()">
+              <h4>Careers </h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- psa charts starts -->
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectRevenue_BarChartData" [labels]="ProjectRevenue_BarChartLabels"
+            [options]="ProjectRevenue_BarChartOptions" [colors]="ProjectRevenue_BarChartColors"
+            [legend]="ProjectRevenue_BarChartLegend" [chartType]="ProjectRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Revenue</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectResourceCount_BarChartData"
+            [labels]="ProjectResourceCount_BarChartLabels" [options]="ProjectResourceCount_BarChartOptions"
+            [colors]="ProjectResourceCount_BarChartColors" [legend]="ProjectResourceCount_BarChartLegend"
+            [chartType]="ProjectResourceCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Resource Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectStatus_BarChartData" [labels]="ProjectStatus_BarChartLabels"
+            [options]="ProjectStatus_BarChartOptions" [colors]="ProjectStatus_BarChartColors"
+            [legend]="ProjectStatus_BarChartLegend" [chartType]="ProjectStatus_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Status</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustomerContract_BarChartData" [labels]="CustomerContract_BarChartLabels"
+            [options]="CustomerContract_BarChartOptions" [colors]="CustomerContract_BarChartColors"
+            [legend]="CustomerContract_BarChartLegend" [chartType]="CustomerContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Contract </h4>
+          <br>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ContractWiseRevenue_BarChartData" [labels]="ContractWiseRevenue_BarChartLabels"
+            [options]="ContractWiseRevenue_BarChartOptions" [colors]="ContractWiseRevenue_BarChartColors"
+            [legend]="ContractWiseRevenue_BarChartLegend" [chartType]="ContractWiseRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Wise Project Revenue Data</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+        <div style="display: block;" class="piechart">
+
+          <canvas baseChart [data]="ContractStatus_PieChartData" [colors]="ContractStatus_PieChartColors"
+            [labels]="ContractStatus_PieChartLabel" [chartType]="ContractStatus_PieChartType"
+            [options]="ContractStatus_PieChartOptions" [legend]="ContractStatus_PieChartLegend">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Status</h4>
+          <br>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustCountMonthly_BarChartData " [labels]="CustCountMonthly_BarChartLabels"
+            [options]="CustCountMonthly_BarChartOptions" [legend]="CustCountMonthly_BarChartLegend"
+            [chartType]="CustCountMonthly_BarChartType" [colors]="CustCountMonthly_BarChartColors">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Count By Monthly</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustCount_BarChartData" [labels]="BdmWiseCustCount_BarChartLabels"
+            [options]="BdmWiseCustCount_BarChartOptions" [colors]="BdmWiseCustCount_BarChartColors"
+            [legend]="BdmWiseCustCount_BarChartLegend" [chartType]="BdmWiseCustCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Count</h4>
+          <br>
+        </div>
+      </div>
+
+     
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContact_BarChartData" [labels]="BdmWiseCustContact_BarChartLabels"
+            [options]="BdmWiseCustContact_BarChartOptions" [legend]="BdmWiseCustContact_BarChartLegend"
+            [chartType]="BdmWiseCustContact_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Contact Count</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContract_BarChartData" [labels]="BdmWiseCustContract_BarChartLabels"
+            [options]="BdmWiseCustContract_BarChartOptions" [colors]="BdmWiseCustContract_BarChartColors"
+            [legend]="BdmWiseCustContract_BarChartLegend" [chartType]="BdmWiseCustContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Created Wise Contract Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- psa charts ends -->
+  </div>
+</div>
+
+<div *ngIf="role=='ROLE_DM'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i> Delivery Manager Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+
+
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small shadow info coloured-icon"><i class="icon fa fa-user fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="personaldetails()">
+            <h4>Personal Details</h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="directory()">
+            <h4>Directory </h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="Careers()">
+            <h4>Careers </h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="role=='ROLE_FINANCE'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i> Finance Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+
+
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small shadow info coloured-icon"><i class="icon fa fa-user fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="personaldetails()">
+            <h4>Personal Details</h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small shadow info coloured-icon"><i class="icon fa fa-address-book fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="directory()">
+            <h4>Directory </h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="Careers()">
+            <h4>Careers </h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="role=='ROLE_STAFFAUGHEAD'">
+
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i> StaffAug Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+
+
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="scrollData">
+    <div class="row">
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small shadow info coloured-icon"><i class="icon fa fa-user fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="personaldetails()">
+              <h4>Personal Details</h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="directory()">
+              <h4>Directory </h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+            style="background-color: #1d62a7;"></i>
+          <div class="info mx-auto my-auto">
+            <a (click)="Careers()">
+              <h4>Careers </h4>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- psa charts starts -->
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectRevenue_BarChartData" [labels]="ProjectRevenue_BarChartLabels"
+            [options]="ProjectRevenue_BarChartOptions" [colors]="ProjectRevenue_BarChartColors"
+            [legend]="ProjectRevenue_BarChartLegend" [chartType]="ProjectRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Revenue</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectResourceCount_BarChartData"
+            [labels]="ProjectResourceCount_BarChartLabels" [options]="ProjectResourceCount_BarChartOptions"
+            [colors]="ProjectResourceCount_BarChartColors" [legend]="ProjectResourceCount_BarChartLegend"
+            [chartType]="ProjectResourceCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Resource Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ProjectStatus_BarChartData" [labels]="ProjectStatus_BarChartLabels"
+            [options]="ProjectStatus_BarChartOptions" [colors]="ProjectStatus_BarChartColors"
+            [legend]="ProjectStatus_BarChartLegend" [chartType]="ProjectStatus_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Project Status</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustomerContract_BarChartData" [labels]="CustomerContract_BarChartLabels"
+            [options]="CustomerContract_BarChartOptions" [colors]="CustomerContract_BarChartColors"
+            [legend]="CustomerContract_BarChartLegend" [chartType]="CustomerContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Contract </h4>
+          <br>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="ContractWiseRevenue_BarChartData" [labels]="ContractWiseRevenue_BarChartLabels"
+            [options]="ContractWiseRevenue_BarChartOptions" [colors]="ContractWiseRevenue_BarChartColors"
+            [legend]="ContractWiseRevenue_BarChartLegend" [chartType]="ContractWiseRevenue_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Wise Project Revenue Data</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+        <div style="display: block;" class="piechart">
+
+          <canvas baseChart [data]="ContractStatus_PieChartData" [colors]="ContractStatus_PieChartColors"
+            [labels]="ContractStatus_PieChartLabel" [chartType]="ContractStatus_PieChartType"
+            [options]="ContractStatus_PieChartOptions" [legend]="ContractStatus_PieChartLegend">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Contract Status</h4>
+          <br>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="CustCountMonthly_BarChartData " [labels]="CustCountMonthly_BarChartLabels"
+            [options]="CustCountMonthly_BarChartOptions" [legend]="CustCountMonthly_BarChartLegend"
+            [chartType]="CustCountMonthly_BarChartType" [colors]="CustCountMonthly_BarChartColors">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Customer Count By Monthly</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustCount_BarChartData" [labels]="BdmWiseCustCount_BarChartLabels"
+            [options]="BdmWiseCustCount_BarChartOptions" [colors]="BdmWiseCustCount_BarChartColors"
+            [legend]="BdmWiseCustCount_BarChartLegend" [chartType]="BdmWiseCustCount_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Count</h4>
+          <br>
+        </div>
+      </div>
+
+     
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContact_BarChartData" [labels]="BdmWiseCustContact_BarChartLabels"
+            [options]="BdmWiseCustContact_BarChartOptions" [legend]="BdmWiseCustContact_BarChartLegend"
+            [chartType]="BdmWiseCustContact_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">BDM Wise Customer Contact Count</h4>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;" class="barchart">
+          <canvas baseChart [datasets]="BdmWiseCustContract_BarChartData" [labels]="BdmWiseCustContract_BarChartLabels"
+            [options]="BdmWiseCustContract_BarChartOptions" [colors]="BdmWiseCustContract_BarChartColors"
+            [legend]="BdmWiseCustContract_BarChartLegend" [chartType]="BdmWiseCustContract_BarChartType">
+          </canvas>
+          <br>
+          <h4 Style="color:#154979;text-align: center">Created Wise Contract Count</h4>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- psa charts ends -->
+  </div>
+</div>
+
+<div *ngIf="role=='ROLE_BDMHEAD'">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i> BDM Head Dashboard</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+
+
+    <div class="float-right">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+          Settings
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" style="cursor: pointer;" (click)="myInfo()">My Info</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="changepassword()">Change Password</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logoutAction()" style="cursor: pointer;">Logout</a>
+          <a></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-user fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="personaldetails()">
+            <h4>Personal Details</h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="directory()">
+            <h4>Directory </h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="widget-small info shadow coloured-icon"><i class="icon fa fa-address-book fa-3x"
+          style="background-color: #1d62a7;"></i>
+        <div class="info mx-auto my-auto">
+          <a (click)="Careers()">
+            <h4>Careers </h4>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1128 @@
+<div class="bgColor shadow in">
+  <div class="col-5">
+    <span style="font-size: 18px;">
+      <h5>Resource Management Bookings</h5>
+    </span>
+    <!-- <button *ngIf="addhide&&role=='ROLE_MANAGER'" class="btn"  (click)="formhide()"
+      style=" float:right;background-color: #1d62a7;color:white;" data-toggle="modal"
+      data-target="#bookingResourceModal">Request Resource</button> -->
+  </div>
+
+  <button class="btn float-right" style="background-color: #1d62a7;color: white;margin:20px;" *ngIf="backhide"
+    (click)="back()">Back</button>
+  <button type="button" class="btn float-right" style="background-color: #1d62a7;color: white;margin:20px;"
+    *ngIf="openBook" (click)="cancelSA()">
+    <span aria-hidden="true">Back</span>
+  </button>
+  <hr>
+  <div class="row" *ngIf="hidedtab">
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="key" [(ngModel)]="search" size="20" placeholder="Search">
+    </div>
+
+    <div class="col-md-7">
+      <button class="btn float-right" style="background-color: #1d62a7;color:white ;"  data-toggle="modal"
+        data-target="#myModal" (click)="formhide()" *ngIf="showRequestbutton || role=='ROLE_MANAGER'">Request
+        Resource</button>
+    </div>
+  </div>
+  <br>
+
+  <div *ngIf="hidedtab">
+
+    <div class="table table-responsive">
+
+      <table class="table text-center tablefontsize" style="border-radius: 3px;font-size:14px">
+
+        <thead style="background-color: #1d62a7; color: cornsilk; ">
+          <th>Booking Id</th>
+
+          <th>Resource Type</th>
+          <th>Project Id</th>
+          <th>Project Name</th>
+          <th>Status</th>
+
+          <th *ngIf="role=='ROLE_STAFFAUGHEAD'">Book Resource</th>
+          <th>More Info</th>
+
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let resouceProposal of rmgProposal| rmgpipe:search | paginate: { itemsPerPage: pages, currentPage:pd, id:'pd' };let i=index">
+            <td>{{resouceProposal.bookingId}}</td>
+            <td>{{resouceProposal.resourceType}}</td>
+
+            <td>{{resouceProposal.projectId}}</td>
+            <td>{{resouceProposal.projectName}}</td>
+            <td>{{resouceProposal.status}}</td>
+
+
+            <td *ngIf="role=='ROLE_STAFFAUGHEAD'"><button class="btn"
+                (click)="book(resouceProposal.bookingId,resouceProposal.projectId)"
+                style="background-color: #1d62a7;color: white;">Book</button>
+            </td>
+            <td><img src="assets/moreinfo.jpg" height="20px" width="20px" style="cursor: pointer;"
+                (click)="bookmore(resouceProposal.bookingId)"></td>
+
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div>
+      <span class="m-2">Items per page</span>
+      <select [(ngModel)]="pages">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+      </select>
+      <pagination-controls (pageChange)="pd = $event" id="pd" style="float:right"></pagination-controls>
+
+    </div>
+  </div>
+
+
+
+  <!--modal for booking req starts-->
+
+  <div *ngIf="openBook">
+
+
+    <div *ngIf="specificShow" style="margin-top:60px;">
+      <div class="row">
+
+        <span class="row col-4" >
+          <span class="col-5">
+            <label>Booking Id </label>
+          </span>
+          <span class="col-1">
+            :
+          </span>
+          <span class="col-6">
+            <span>
+            {{dataOfResourceOF.bookingId}}</span>
+          </span>
+        </span>
+        <span class="row col-4" >
+          <span class="col-5">
+            <label>Project Id </label>
+          </span>
+          <span class="col-1">
+            :
+          </span>
+          <span class="col-6">
+            <span>
+            {{dataOfResourceOF.projectId}}</span>
+          </span>
+        </span>
+        <span class="row col-4" >
+          <span class="col-5">
+            <label>Resource Type </label>
+          </span>
+          <span class="col-1">
+            :
+          </span>
+          <span class="col-6">
+            <span>
+            {{dataOfResourceOF.resourceType}}</span>
+          </span>
+        </span>
+
+        <!-- <div class="col-md-2">
+          <p><b>Booking Id </b>: {{dataOfResourceOF.bookingId}}</p>
+        </div>
+
+        <div class="col-md-2">
+          <p><b>Project Id</b> : {{dataOfResourceOF.projectId}}</p>
+        </div>
+        <div class="col-md-2">
+          <p><b>Resource Type</b> : {{dataOfResourceOF.resourceType}}</p>
+        </div> -->
+
+      </div>
+
+      <div *ngFor="let resourceDataArray of specificToBook">
+
+        <div class="row" style="background-color: #ebe9e9;">
+      
+          <span class="row col-4" >
+            <span class="col-5">
+              <label>Employee Id </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{resourceDataArray.employeeId}}</span>
+            </span>
+          </span>
+          <span class="row col-4" >
+            <span class="col-5">
+              <label>Start Date </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{resourceDataArray.startDate|date}}</span>
+            </span>
+          </span>
+          <span class="row col-4" >
+            <span class="col-5">
+              <label>End Date </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{resourceDataArray.endDate|date}}</span>
+            </span>
+          </span>
+          <span class="row col-4" >
+            <span class="col-5">
+              <label>Bill Rate </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{resourceDataArray.billRate}}</span>
+            </span>
+          </span>
+          <!-- <div class="col-md-2">
+            <p><b>Employee Id </b>: {{resourceDataArray.employeeId}}</p>
+          </div>
+
+          <div class="col-md-2">
+            <p><b>Start Date :</b> {{resourceDataArray.startDate|date}}</p>
+          </div>
+          <div class="col-md-2">
+            <p><b>End Date :</b> {{resourceDataArray.endDate|date}}</p>
+          </div>
+          <div class="col-md-2">
+            <p><b>Bill Rate :</b> {{resourceDataArray.billRate}}</p>
+          </div> -->
+         
+            <button class="btn btn-success  " style="margin-left:550px"
+              (click)="msg='approved';messageTosend='Approved by STAFFAUG Head';statusMethod(resourceDataArray,dataOfResourceOF.projectId)"
+              data-dismiss="modal">Approve</button>&nbsp;
+            <button class="btn btn-warning  " style="color: white;" data-toggle="modal" data-target="#propmodal"
+              (click)="propose(resourceDataArray)" data-dismiss="modal">New Proposal</button>&nbsp;
+            <button class="btn btn-danger "
+              (click)="msg='rejected';messageTosend='Rejected by STAFFAUG Head';statusMethod1(resourceDataArray)">Reject</button>
+
+          
+        </div>
+
+        <hr>
+
+      </div>
+
+
+    </div>
+
+    <div *ngIf="!specificShow" style="margin-top:60px;">
+      <div class="row">
+        <span class="row col-4" >
+          <span class="col-5">
+            <label>Booking Id </label>
+          </span>
+          <span class="col-1">
+            :
+          </span>
+          <span class="col-6">
+            <span>
+            {{dataOfResourceOF.bookingId}}</span>
+          </span>
+        </span>
+        <span class="row col-4" >
+          <span class="col-5">
+            <label>Project Id </label>
+          </span>
+          <span class="col-1">
+            :
+          </span>
+          <span class="col-6">
+            <span>
+            {{dataOfResourceOF.projectId}}</span>
+          </span>
+        </span>
+        <span class="row col-4" >
+          <span class="col-5">
+            <label>Resource Type </label>
+          </span>
+          <span class="col-1">
+            :
+          </span>
+          <span class="col-6">
+            <span>
+            {{dataOfResourceOF.resourceType}}</span>
+          </span>
+        </span>
+        <!-- <div class="col-md-2">
+          <p><b>Booking Id </b>: {{dataOfResourceOF.bookingId}}</p>
+        </div>
+
+        <div class="col-md-2">
+          <p><b>Project Id</b> : {{dataOfResourceOF.projectId}}</p>
+        </div>
+        <div class="col-md-2">
+          <p><b>Resource Type</b> : {{dataOfResourceOF.resourceType}}</p>
+        </div> -->
+
+      </div>
+
+      <div *ngFor="let resourceDataArray of dataToBook">
+
+        <div class="row" style="background-color: #ebe9e9">
+
+          <span class="row col-4" >
+            <span class="col-5">
+              <label>Skills </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{resourceDataArray.resourceSkills}}</span>
+            </span>
+          </span>
+          <span class="row col-4" >
+            <span class="col-5">
+              <label>Experience </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{resourceDataArray.resourceExperience}}</span>
+            </span>
+          </span>
+          <span class="row col-4" >
+            <span class="col-5">
+              <label>Start Date </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{resourceDataArray.startDate|date}}</span>
+            </span>
+          </span>
+          <span class="row col-4" >
+            <span class="col-5">
+              <label>End Date </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{resourceDataArray.endDate|date}}</span>
+            </span>
+          </span>
+          <span class="row col-4" >
+            <span class="col-5">
+              <label>Bill Rate </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{resourceDataArray.billRate}}</span>
+            </span>
+          </span>
+          <span class="row col-4" >
+            <span class="col-5">
+              <label>Resource Count </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{resourceDataArray.resourceCount}}</span>
+            </span>
+          </span>
+          <!-- <div class="col-md-2">
+            <p> <b>Skills </b>: {{resourceDataArray.resourceSkills}}</p>
+          </div>
+          <div class="col-md-2">
+            <p><b>Experience :</b> {{resourceDataArray.resourceExperience}}</p>
+          </div>
+          <div class="col-md-2">
+            <p><b>Start Date :</b> {{resourceDataArray.startDate|date}}</p>
+          </div>
+          <div class="col-md-2">
+            <p><b>End Date :</b> {{resourceDataArray.endDate|date}}</p>
+          </div>
+          <div class="col-md-2">
+            <p><b>Bill Rate :</b> {{resourceDataArray.billRate}}</p>
+          </div>
+          <div class="col-md-2">
+            <p><b>Resource Count :</b> {{resourceDataArray.resourceCount}}</p>
+          </div> -->
+
+
+          <button class="btn"
+            style="background-color: #1d62a7;color:white;margin-left:auto;margin-right:auto;margin-top:10px;margin-bottom:10px"
+            (click)="addingmapresouces(resourceDataArray.resourceCount,resourceDataArray.genericId,dataOfResourceOF.projectId);getAllSkill(resourceDataArray);getIdProject(dataOfResourceOF.projectId)"
+            data-toggle="modal" data-target="#genericInner">Map Resources</button>
+
+        </div>
+        <hr>
+      </div>
+    </div>
+
+    <div *ngIf="mappingShow">
+
+      <div class="modal" id="genericInner">
+        <div class="modal-dialog" style="max-width:880px;">
+          <div class="modal-content">
+
+
+            <div class="modal-header">
+              <h4 class="modal-title">Map Resource</h4>
+              <button type="button" class="close" data-dismiss="modal" (click)="cancelAllocation()">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+              <form [formGroup]="genericformbook">
+                <div formArrayName="mapresouce"
+                  *ngFor="let c of genericformbook.get('mapresouce').controls;let j=index">
+                  <div class="row" formGroupName="{{j}}">
+
+                    <div class="col-md-3">
+                      <label>Map Resource</label>
+                      <input list="browsers" class="form-control" formControlName="empId"
+                        (change)="resourerepeated(genericformbook)" />
+                      <datalist id="browsers">
+                        <option *ngFor="let empinfo of skilledEmployees" [value]="empinfo.employeeId">
+                          {{empinfo.fullName}}</option>
+                      </datalist>
+                      <span style="color:#f44336;font-size: 83%;"
+                        *ngIf="c.get('empId').invalid && c.get('empId').touched">
+                        <span *ngIf="c.get('empId').errors.required">
+                          Resource id is required.
+                        </span>
+                      </span>
+                    </div>
+                    <div class="col-md-3">
+                      <br>
+                      <mat-form-field>
+                        <input formControlName="startDate" matInput [min]="mindate" [max]="maxdate"
+                          [matDatepicker]="picker" placeholder="Start date" (click)="picker.open()"
+                          onkeydown="return false">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error
+                          *ngIf="c.get('startDate').errors?.required &&c.get('startDate').invalid&&c.get('startDate').touched">
+                          Start date is required.
+                        </mat-error>
+                      </mat-form-field>
+
+                    </div>
+
+                    <div class="col-md-3">
+                      <br>
+                      <mat-form-field>
+                        <input formControlName="endDate" matInput [matDatepicker]="picker1"
+                          [min]="genericformbook.value.mapresouce[j].startDate" [max]="maxdate" placeholder="End date"
+                          (click)="picker1.open()" onkeydown="return false">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        <mat-error
+                          *ngIf="c.get('endDate').errors?.required &&c.get('endDate').invalid&&c.get('endDate').touched">
+                          End date is required.
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+
+            <div class="modal-footer">
+              <button class="btn float-right bttn"
+                (click)='allocate(genericformbook.value,resourceDataArray,dataOfResourceOF)'
+                [disabled]="genericformbook.invalid" data-dismiss="modal">Allocate</button>&nbsp;
+              <button type="button" class="btn btn-danger" data-dismiss="modal"
+                (click)='cancelAllocation()'>Close</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <br>
+
+
+
+
+
+
+    <div class="modal-footer" *ngIf="!specificShow">
+      <div class="col-md-12">
+        <div class="float-right">
+          <!-- <button class="btn btn-warning" style="color:white"
+                (click)="msg='proposal';messageTosend='proposal';statusMethod()"
+                data-dismiss="modal">Proposal</button>&nbsp; -->
+          <!-- <button class="btn btn-success "
+                    (click)="msg='accepted';messageTosend='Approved by STAFFAUG Head';statusMethod()"
+                    data-dismiss="modal">Approve</button>&nbsp;
+                  <button class="btn btn-danger  "
+                    (click)="msg='rejected';messageTosend='Rejected by STAFFAUG Head';statusMethod()"
+                    data-dismiss="modal">Reject</button> -->
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+  <div *ngIf="bookmoreid">
+    <div class="card mt-5" >
+      <div class="header shadow">
+        <b>Resource Details</b>
+      </div>
+      <div style="padding:20px;">
+        <div class="row">
+          <span class="row col-4">
+            <span class="col-5">
+              <label>Booking Id </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              <span>
+              {{dataOfResource.bookingId}}</span>
+            </span>
+          </span>
+          <span class="row col-4">
+            <span class="col-5">
+              <label>Project Id </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              {{dataOfResource.projectId}}
+            </span>
+          </span>
+          <span class="row col-4">
+            <span class="col-5">
+              <label>Resource Type </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              {{dataOfResource.resourceType}}
+            </span>
+          </span>
+          <span class="row col-4">
+            <span class="col-5">
+              <label>Status </label>
+            </span>
+            <span class="col-1">
+              :
+            </span>
+            <span class="col-6">
+              {{dataOfResource.status}}
+            </span>
+          </span>
+
+
+          <!-- <div class="col-md-3">
+              <label>Booking Id </label>: {{dataOfResource.bookingId}}
+            </div>
+  
+            <div class="col-md-3">
+              <label>Project Id</label> : {{dataOfResource.projectId}}
+            </div>
+  
+            <div class="col-md-3">
+              <label>Status</label> : {{dataOfResource.status}}
+            </div>
+  
+            <div class="col-md-3">
+              <label>Resource Type</label> : {{dataOfResource.resourceType}}
+            </div> -->
+
+        </div>
+        <div *ngIf="specificMoreInfo">
+          <div *ngFor="let resourceDataArray of specificDataSp">
+
+            <div class="row" style="background-color: #ebe9e9;">
+              <span class="row col-4">
+                <span class="col-5">
+                  <label>Employee Id </label>
+                </span>
+                <span class="col-1">
+                  :
+                </span>
+                <span class="col-6">
+                  <span>
+                    {{resourceDataArray.employeeId}}</span>
+                </span>
+              </span>
+              <span class="row col-4">
+                <span class="col-5">
+                  <label>Start Date </label>
+                </span>
+                <span class="col-1">
+                  :
+                </span>
+                <span class="col-6">
+                  <span>
+                    {{resourceDataArray.startDate|date}}</span>
+                </span>
+              </span>
+              <span class="row col-4">
+                <span class="col-5">
+                  <label>End Date </label>
+                </span>
+                <span class="col-1">
+                  :
+                </span>
+                <span class="col-6">
+                  <span>
+                    {{resourceDataArray.endDate|date}}</span>
+                </span>
+              </span>
+              <span class="row col-4">
+                <span class="col-5">
+                  <label>Bill Rate </label>
+                </span>
+                <span class="col-1">
+                  :
+                </span>
+                <span class="col-6">
+                  <span>
+                    {{resourceDataArray.billRate}}</span>
+                </span>
+              </span>
+
+            </div>
+
+
+            <hr>
+
+          </div>
+        </div>
+        <div *ngIf="!specificMoreInfo">
+          <div *ngFor="let resourceDataArray of dataOfResource.rmggeneric">
+
+            <div class="row" style="background-color: #ebe9e9;">
+              <span class="row col-4">
+                <span class="col-5">
+                  <label>Resource Skill </label>
+                </span>
+                <span class="col-1">
+                  :
+                </span>
+                <span class="col-6">
+                  <span>
+                    {{resourceDataArray.resourceSkills}}</span>
+                </span>
+              </span>
+              <span class="row col-4">
+                <span class="col-5">
+                  <label>Resource Experience </label>
+                </span>
+                <span class="col-1">
+                  :
+                </span>
+                <span class="col-6">
+                  <span>
+                    {{resourceDataArray.resourceExperience}}</span>
+                </span>
+              </span>
+              <span class="row col-4">
+                <span class="col-5">
+                  <label>Start Date </label>
+                </span>
+                <span class="col-1">
+                  :
+                </span>
+                <span class="col-6">
+                  <span>
+                    {{resourceDataArray.startDate|date}}</span>
+                </span>
+              </span>
+              <span class="row col-4">
+                <span class="col-5">
+                  <label>End Date </label>
+                </span>
+                <span class="col-1">
+                  :
+                </span>
+                <span class="col-6">
+                  <span>
+                    {{resourceDataArray.endDate|date}}</span>
+                </span>
+              </span>
+              <span class="row col-4">
+                <span class="col-5">
+                  <label>Resource Count </label>
+                </span>
+                <span class="col-1">
+                  :
+                </span>
+                <span class="col-6">
+                  <span>
+                    {{resourceDataArray.resourceCount}}</span>
+                </span>
+              </span>
+              <span class="row col-4">
+                <span class="col-5">
+                  <label>Bill Rate </label>
+                </span>
+                <span class="col-1">
+                  :
+                </span>
+                <span class="col-6">
+                  <span>
+                    {{resourceDataArray.billRate}}</span>
+                </span>
+              </span>
+
+              <!-- <div class="col-md-3">
+                <label>Resourse Skill :</label> {{resourceDataArray.resourceSkills}}
+              </div>
+              <div class="col-md-3">
+                <label>Resourse Experience :
+                </label>{{resourceDataArray.resourceExperience}}
+              </div>
+
+              <div class="col-md-3">
+                <label>Start Date :</label> {{resourceDataArray.startDate|date}}
+              </div>
+              <div class="col-md-3">
+                <label>End Date :</label> {{resourceDataArray.endDate|date}}
+              </div>
+
+            </div>
+            <div class="row" style="background-color: #ebe9e9;">
+              <div class="col-md-3">
+                <label>Resourse Count :</label> {{resourceDataArray.resourceCount}}
+              </div>
+              <div class="col-md-3">
+                <label>Resourse Cost :</label> {{resourceDataArray.billRate}}
+              </div> -->
+
+            </div>
+            <hr>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!--modal starts-->
+
+<div class="modal" id="myModal" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog" style="max-width:1400px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Resource Details</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetforms()">
+          <span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="resourceForm">
+
+          <div class="row">
+            <div class="col-md-2">
+              <br>
+              <mat-form-field>
+                <mat-label>Select Project</mat-label>
+                <mat-select disableOptionCentering (selectionChange)="selected_projects($event.value)"
+                  formControlName="projectname">
+                  <mat-option *ngFor="let project of dataProject" [value]="project.projectId">
+                    {{project.projectName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="resourceForm.get('projectname').errors?.required &&resourceForm.get('projectname').invalid&&resourceForm.get('projectname').touched">
+                  Project name is required.
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Project Id</label>
+                <input type="text" class="form-control" formControlName="projectid" disabled>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Start Date</label>
+                <input type="text" class="form-control" formControlName="startdate2" disabled>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>End Date</label>
+                <input type="text" class="form-control" formControlName="enddate2" disabled>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <br>
+              <div *ngIf="hideoptions">
+                <mat-radio-group aria-label="Select an option" formControlName="resourceType">
+                  <mat-radio-button value="Specific" (change)="selectedProject($event.value)">
+                    Specific</mat-radio-button>
+                  <mat-radio-button value="Generic" (change)="option($event.value)">Generic
+                  </mat-radio-button>
+                </mat-radio-group><br>
+                <span *ngIf="showmsg" style="color:red;font-size: 12px;">Please Select
+                  Resource Type</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div formArrayName="AddResourcespecific"
+            *ngFor="let c of resourceForm.get('AddResourcespecific').controls; let i=index">
+            <div formGroupName="{{i}}">
+
+
+              <div *ngIf="hidevalues">
+                <div class="row">
+                  <div class=" col-md-2 ">
+                    <div class="form-group">
+                      <label>Map Resource</label>
+                      <input list="browsers" class="form-control" formControlName="resourceId"
+                        (change)="resourerepeat(resourceForm)" />
+                      <datalist id="browsers">
+                        <option *ngFor="let empinfo of empbasicinfo" [value]="empinfo.employeeId">{{empinfo.fullName}}
+                        </option>
+                      </datalist>
+                      <div>
+                        <span style="color: #f44336;font-size:84%;"
+                          *ngIf="c.get('resourceId').invalid && c.get('resourceId').touched">
+                          <span *ngIf="c.get('resourceId').errors.required">
+                            Resource id is required.
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <br>
+                    <div class="form-group">
+
+                      <mat-form-field>
+                        <input matInput [min]="mindate" [max]="maxdate" [matDatepicker]="picker"
+                          formControlName="startDate" placeholder="Start date" (click)="picker.open()"
+                          onkeydown="return false">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error
+                          *ngIf="c.get('startDate').errors?.required &&c.get('startDate').invalid&&c.get('startDate').touched">
+                          Start date is required.
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-md-2 ">
+                    <br>
+                    <div class="form-group">
+                      <mat-form-field>
+                        <input matInput [min]="resourceForm.value.AddResourcespecific[i].startDate" [max]="maxdate"
+                          [matDatepicker]="picker1" formControlName="endDate" placeholder="End date"
+                          (click)="picker1.open()" onkeydown="return false">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        <mat-error
+                          *ngIf="c.get('endDate').errors?.required &&c.get('endDate').invalid&&c.get('endDate').touched">
+                          End date is required.
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <br>
+                    <div class="form-group">
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Bill Rate" formControlName="resourceCost">
+                        <mat-error
+                          *ngIf="c.get('resourceCost').errors?.required &&c.get('resourceCost').invalid&&c.get('resourceCost').touched">
+                          Bill rate is required.
+                        </mat-error>
+                        <mat-error *ngIf="c.get('resourceCost').errors?.pattern">
+                          Enter numbers only.
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-12">
+                    <button class="btn btn-danger float-right" *ngIf="removestatus"
+                      (click)=modalremovingresource(i)>Remove</button>
+                  </div>
+                </div>
+                <hr>
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="text-center">
+                <button class="btn" *ngIf="hidevalues;hideoptions" style="background-color: #1d62a7;color: cornsilk;"
+                  (click)="addresouces()">+Add
+                  Resource</button>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer" *ngIf="hidevalues">
+            <div>
+              <div class="row">
+                <button class=" btn mr-1" style="background-color: #1d62a7; color: white;" data-dismiss="modal"
+                  type="submit" (click)="saveresourceSpecific(resourceForm.value)&&clear()">Submit</button><br>
+                <button class="btn mr-3" data-dismiss="modal" style="background-color: #1d62a7; color: white;"
+                  aria-label="Close" (click)="clear()">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+
+        <form [formGroup]="skillForm">
+          <div formArrayName="AddResourcegeneric"
+            *ngFor="let c of skillForm.get('AddResourcegeneric').controls;let j=index">
+            <div formGroupName="{{j}}">
+
+
+              <div *ngIf="status1">
+                <div class="row">
+                  <div class="col-md-2">
+                    <mat-form-field>
+                      <mat-label>Select Skill</mat-label>
+                      <mat-select formControlName="skillName" disableOptionCentering multiple>
+                        <mat-option *ngFor="let skill of skillmasterArray" [value]="skill.skill_name">
+                          {{skill.skill_name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                        *ngIf="c.get('skillName').errors?.required &&c.get('skillName').invalid&&c.get('skillName').touched">
+                        Skill name is required.
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+
+                    <mat-form-field>
+                      <mat-label>Experience</mat-label>
+                      <mat-select formControlName="experience" disableOptionCentering>
+                        <mat-option *ngFor="let exp of expList" [value]="exp.empExperience">
+                          {{exp.empExperience}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                        *ngIf="c.get('experience').errors?.required &&c.get('experience').invalid&&c.get('experience').touched">
+                        Experience is required.
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class=" col-md-2">
+                    <div class="form-group">
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="picker3" [min]="mindate" [max]="maxdate"
+                          placeholder="Start Date" formControlName="startDate1" (click)="picker3.open()"
+                          onkeydown="return false">
+                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>
+                        <mat-error
+                          *ngIf="c.get('startDate1').errors?.required &&c.get('startDate1').invalid&&c.get('startDate1').touched">
+                          Start date is required.
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="pickerTo"
+                          [min]="skillForm.value.AddResourcegeneric[j].startDate1" [max]="maxdate"
+                          placeholder="End Date" formControlName="endDate1" (click)="picker3.open()"
+                          onkeydown="return false">
+                        <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerTo></mat-datepicker>
+                        <mat-error
+                          *ngIf="c.get('endDate1').errors?.required &&c.get('endDate1').invalid&&c.get('endDate1').touched">
+                          End date is required.
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Resource Count" formControlName="resourceCount">
+                        <mat-error
+                          *ngIf="c.get('resourceCount').errors?.required &&c.get('resourceCount').invalid&&c.get('resourceCount').touched">
+                          Resource count is required.
+                        </mat-error>
+                        <mat-error *ngIf="c.get('resourceCount').errors?.pattern">
+                          Enter numbers only.
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Bill Rate" formControlName="billrate">
+                        <mat-error
+                          *ngIf="c.get('billrate').errors?.required &&c.get('billrate').invalid&&c.get('billrate').touched">
+                          Bill rate is required.
+                        </mat-error>
+                        <mat-error *ngIf="c.get('billrate').errors?.pattern">
+                          Enter numbers only.
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-12">
+                    <button class="btn btn-danger float-right" *ngIf="removestatus1"
+                      (click)=modalremovinggenresource(j)>Remove</button>
+                  </div>
+                </div>
+                <hr>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="text-center">
+                <button class="btn" *ngIf="status1" style="background-color: #1d62a7;color: cornsilk;"
+                  (click)="addresouces1()">+Add Skill</button>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer" *ngIf="status1">
+            <div>
+              <div class="row">
+                <button class=" btn mr-1" style="background-color: #1d62a7; color: white;" type="submit"
+                  data-dismiss="modal" (click)="saveresourceGeneric(resourceForm.value,skillForm.value)&&clear()"
+                  [disabled]="skillForm.invalid">Submit</button><br>
+                <button class="btn mr-3" data-dismiss="modal" style="background-color: #1d62a7; color: white;"
+                  aria-label="Close" (click)="clear()">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<!--modal ends-->
+
+<!--modal for new proposal starts-->
+
+<div class="modal fade" id="propmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Proposal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetforms()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="propForm">
+          <div class="form-group">
+            <div class="col-md-6">
+              <label>Map Resource</label>
+              <input list="browsers" class="form-control" formControlName="resourceId1" />
+              <datalist id="browsers">
+                <option *ngFor="let empinfo of empbasicinfo" [value]="empinfo.employeeId"
+                  (change)="resourerepeatedproposal(propForm)">{{empinfo.fullName}} </option>
+              </datalist>
+              <span style="color: #f44336;font-size: 83%;"
+                *ngIf="propForm.get('resourceId1').invalid && propForm.get('resourceId1').touched">
+                <span *ngIf="propForm.get('resourceId1').errors.required">
+                  Resource id is required.
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-12">
+              <label for="message-text" class="col-form-label">Reason:</label>
+              <textarea class="form-control" id="message-text" formControlName="reason"></textarea>
+
+              <span style="color:#f44336;font-size: 83%;"
+                *ngIf="propForm.get('reason').invalid && propForm.get('reason').touched">
+                <span *ngIf="propForm.get('reason').errors.required">
+                  Reason is mandatory.
+                </span>
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" type="submit" class="btn btn-primary"
+          (click)="statusMethod2(propForm.value)&&resetforms()" [disabled]="propForm.invalid"
+          data-dismiss="modal">Propose</button>
+        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal"
+          (click)="resetforms()">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--modal for new proposal ends-->

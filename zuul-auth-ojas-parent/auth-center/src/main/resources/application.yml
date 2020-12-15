@@ -1,0 +1,36 @@
+server:
+  port: 8081
+eureka:
+ client: 
+  serviceUrl:
+   defaultZone: http://192.168.1.155:8089/eureka
+
+ojas.security.jwt.secret: otherpeopledontknowit
+
+spring:
+  datasource:
+    #url: jdbc:mysql://192.168.7.190:3306/obs?autoReconnect=true&useSSL=false
+    
+#    url: jdbc:mysql://${obs_db_url}:${obs_db_port}/${obs_db_name}?autoReconnect=true&useSSL=false
+#    username: ${obs_db_username}
+#    password: ${obs_db_password}
+#    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.1.155:3306/ojas_obs
+    username: dbubora
+    password: Ojas-1525
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari : 
+      connection-timeout : 500
+      maximum-pool-size : 2
+
+#   url: jdbc:mysql://${OBS_DBURL}:3306/${OBS_DBNAME}
+#   username: ${OBS_DBUSERNAME}
+#   password: ${OBS_DBPASSWORD}
+#   driver-class-name: com.mysql.jdbc.Driver
+
+#   url: jdbc:mysql://localhost:3306/ojas_obs?autoReconnect=true&useSSL=false
+#   username: root
+#   password: root
+#   driver-class-name: com.mysql.jdbc.Driver
+
+ 

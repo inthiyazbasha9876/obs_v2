@@ -1,0 +1,15 @@
+pipeline{
+     agent any
+     stages {
+     stage('clone repo and clean it') {
+        steps {
+	       sh "git credentialsId: 'obs-hrms', url: 'https://rchallaojas@bitbucket.org/sunilmukta/obs-hrms.git'"
+              }
+        }
+     stage('install') {
+        steps {
+           sh "mvn clean install -U"
+            }
+        }        
+    }
+}

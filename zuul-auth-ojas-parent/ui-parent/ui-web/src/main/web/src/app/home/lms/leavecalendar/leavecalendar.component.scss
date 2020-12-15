@@ -1,0 +1,34 @@
+.vertical{
+    border-left: 1px solid lightgray;
+}
+.dismonth{
+    font-size: 20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 15px 0px 0px 25px;
+}
+i{
+    font-size: 25px;
+    margin:0px 10px 0px 10px;
+    cursor: pointer;
+}
+th{
+    color:black;
+}
+.calendar td{
+    padding:20px 5px 20px 5px;
+    cursor: pointer;
+}
+.row{
+    margin: 0px;
+}
+.dis{
+    font-size: 20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 15px 0px 5px 0px;
+}
+.bttn{
+    text-align: center;
+    background-color:#1D62A7;
+    border-color: #1D62A7;
+    color:white
+}

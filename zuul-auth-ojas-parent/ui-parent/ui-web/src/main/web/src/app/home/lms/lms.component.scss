@@ -1,0 +1,128 @@
+
+.container-fluid{
+    background: linear-gradient(to bottom, #0066cc 0%, #99ccff 100%);
+    
+}
+.btn{
+    border-radius: 15px !important;
+    background-color: white;
+}
+.sty{
+    color: black;
+    padding: 8px 5px 8px 5px;
+    background-color: #99ccff;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+.btnpad{
+    padding:15px;
+    text-align: center
+}
+.tblmar{
+    margin-bottom: 0px;
+}
+.cal{
+ padding-right:20px;
+}
+
+
+a:hover {
+    background-color:#1D62A7;
+    color: #FAFAFA !important;
+    border-radius: 10px
+  }
+  
+  .margin{
+    margin-left: 10px;
+  
+  }
+  label{
+    font-weight:bold;
+   }
+   
+   .emd_edt.nav-tabs {
+   border-bottom:2px solid #999999;
+   width:100% !important;
+   
+   .nav-item{
+    border-bottom: 2px solid  transparent;
+     a{
+        color: #565656;
+        
+  
+      
+     }
+     &.active{
+      color:  #1D62A7;
+      border-bottom:2px solid #1D62A7;
+  
+      
+      a{
+       color:  #0062cc;
+       text-decoration: none;
+       border-radius: 10px;
+      }
+     }
+   }
+  
+  #nav{
+    position: fixed; 
+  }
+  
+  .left{
+   margin-left: 16px;
+  }
+  
+  
+  // /* ----- v CAN BE DELETED v ----- */
+  body {
+  background-color: #78909C;
+  }
+  .demo {
+  padding-top: 600px;
+  padding-bottom: 110px;
+  }
+  .btn-demo {
+  margin: 15px;
+  padding: 10px 15px;
+  border-radius: 0;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  }
+  .btn-demo:focus {
+  outline: 0;
+  }
+  
+  .modal.right.fade[_ngcontent-c2] .modal-dialog[_ngcontent-c2] {
+  transition: opacity 0.3s linear, right 0.3s ease-out;
+  top: 55px;
+  }
+  
+  
+  #topheader .navbar-nav li > a {
+      text-transform: capitalize;
+      color: #CD5C5C;
+      transition: background-color .2s, color .2s;
+    background-color: #0062cc;
+    color: #fff; 
+      &:hover,
+      &:focus {
+          background-color: #333;
+      color: #fff;
+      
+   
+      }
+  }
+  
+  #topheader .navbar-nav li.active > a {
+      background-color: #333;
+    color: #fff;
+    margin-left: 25px;
+    margin-right: 25px;
+    
+  }
+   }
+   .back{
+    background-color:#EFF7FA
+  }
+

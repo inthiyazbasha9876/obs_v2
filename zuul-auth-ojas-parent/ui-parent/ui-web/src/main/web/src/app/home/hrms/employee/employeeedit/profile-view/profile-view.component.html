@@ -1,0 +1,270 @@
+<div class="card card1">
+    <span class="head">Profile</span>
+    <div class="row mt-3">
+        <div class="col-md-2 col-sm-2 col-lg-2">
+            <p class="mx-auto links">Quick Links</p>
+            <div class="navbar">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" (click)="scroll('summary')">Summary</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="scroll('experience')">Experience</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="scroll('education')">Education</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="scroll('skills')">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="scroll('projects')">Projects</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-10 colData">
+            <div class="card shadow data">
+                <p class="innerhead">Actions</p>
+                <div class="row">
+                    <div class="ml-auto pr-3">
+                        <button class="btn bttn" data-toggle="modal" data-target="#exampleModal">Preview</button>
+                        <button class="btn bttn1">Download Resume</button>
+                    </div>
+                </div>
+            </div>
+
+            <form [formGroup]="resumeForm">
+                <div class="card shadow data" id="summary">
+                    <div class="row head2">
+                        <p class="innerhead">Executive Summary</p>
+                        <div class="ml-auto">
+                            <i class="fa fa-pencil" (click)="editSummary()" *ngIf="sumData" aria-hidden="true"></i>
+                            <button class="bttn1 btn-sm btn" *ngIf="!sumData"
+                                (click)="saveProfile(resumeForm)">Save</button>
+                        </div>
+                    </div>
+                    <p *ngIf="sumData">{{resumeForm.controls.executiveSummary.value}}</p>
+                    <textarea *ngIf="!sumData" class="form-control" formControlName="executiveSummary" rows="4"
+                        cols="50"></textarea>
+                </div>
+
+                <div class="card shadow data" id="experience">
+                    <div class="row head2">
+                        <p class="innerhead">Experience</p>
+                        <div class="ml-auto">
+                            <i class="fa fa-pencil" aria-hidden="true" *ngIf="expData" (click)="editExperience()"></i>
+                            <button class="bttn1 btn-sm btn" *ngIf="!expData"
+                                (click)="saveProfile(resumeForm.controls.addExperience.controls)">Save</button>
+                        </div>
+                    </div>
+                    <ul *ngIf="expData" type="none">
+                        <li *ngFor="let r of resumeForm.controls.addExperience.controls">{{r.controls.experience.value}}
+                        </li>
+                    </ul>
+                    <div *ngIf="!expData" formArrayName="addExperience">
+                        <div *ngFor="let r of resumeForm.controls.addExperience.controls; let i=index"
+                            [formGroupName]="i">
+                            <div class="input-group">
+                                <textarea class="form-control multitext src" rows="1" formControlName="experience"
+                                    cols="50"></textarea>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default multitext" (click)="deleteExperience(i)"
+                                        type="submit"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm bttn1 float-right" (click)="addExperience()">Add</button>
+                    </div>
+                </div>
+
+            </form>
+            <div class="card shadow data" id="education">
+                <div class="row head2">
+                    <p class="innerhead">Education</p>
+                    <i class="fa fa-pencil ml-auto" aria-hidden="true"></i>
+                </div>
+                <div *ngFor="let d of empEducation">
+                    <p style="font-size: 16px; font-weight: 500; margin: 0;">{{d.qualification}}</p>
+                    <span style="font-size: 14px;">{{d.institution_name|uppercase}}</span>
+                </div>
+            </div>
+
+            <div class="card shadow data" id="skills">
+                <div class="row head2">
+                    <p class="innerhead">Skills</p>
+                    <i class="fa fa-pencil ml-auto" aria-hidden="true"></i>
+                </div>
+                <div class="row skills">
+                    <p *ngFor="let i of empSkills" class="skillList"><span class="txt1">{{i.skill_id}}</span>
+                        <span *ngIf="i.level_id < 4" class="txt">Beginner</span>
+                        <span *ngIf="i.level_id > 4" class="txt">Intermediate</span>
+                        <span *ngIf="i.level_id > 6" class="txt">Experience</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow data" id="projects">
+                <div class="row head2">
+                    <p class="innerhead">Projects</p>
+                    <div class="ml-auto">
+                        <button class="bttn1 btn-sm btn" *ngIf="proData" (click)="addProject()">Add</button>
+
+                    </div>
+                </div>
+                <div *ngIf="proData">
+                    <div *ngFor="let i of projects;">
+                        <div class="row head2">
+                            <p style="font-size: 16px; font-weight: 500;">{{i.title}}</p>
+                            <i class="fa fa-pencil ml-auto my-auto" *ngIf="proData" (click)="editProject(i)"
+                                aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <p class="pro-headings">Role</p>
+                            <p>{{i.role}}</p>
+                        </div>
+                        <div>
+                            <p class="pro-headings">Description</p>
+                            <p>{{i.description}}</p>
+                        </div>
+                        <div>
+                            <p class="pro-headings">Responsibilities</p>
+                            <ul type="none">
+                                <li *ngFor="let r of i.responsibilities">
+                                    {{r.responsibiltiy}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!proData">
+                    <form [formGroup]="projectForm">
+                        <div class="row head2">
+                            <p style="font-size: 16px; font-weight: 500;">{{projectForm.value.proName}}</p>
+                            <button class="bttn1 btn-sm btn ml-auto" *ngIf="!proData"
+                                (click)="saveProject()">Save</button>
+                        </div>
+                        <div>
+                            <p class="pro-headings">Role</p>
+                            <p>{{projectForm.value.role}}</p>
+                        </div>
+                        <div>
+                            <p class="pro-headings">Description</p>
+                            <p>{{projectForm.value.description}}</p>
+                        </div>
+                        <div>
+                            <p class="pro-headings">Responsibilities</p>
+                            <div formArrayName="addResponsibility">
+
+                                <div *ngFor="let r of projectForm.controls.addResponsibility.controls; let j=index"
+                                    [formGroupName]="j">
+                                    <div class="input-group">
+                                        <textarea class="form-control multitext src" rows="1"
+                                            formControlName="responsibiltiy" cols="50"></textarea>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default multitext" (click)="deleteResposibility(j)"
+                                                type="submit"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm bttn1 float-right" (click)="addResponsibity()">Add</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header sticky-top">
+                        <h5 class="modal-title" id="exampleModalLabel">Resume</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="resume">
+                        <div>
+                            <p class="name text-center">{{empData.firstname|titlecase}} {{empData.middlename|titlecase}} {{empData.lastname|titlecase}}</p>
+                            <p class="text-center">Email : {{empData.officialEmail}}</p>
+                            <p class="text-center">Mobile No : {{empData.personalMobileNo}}</p>
+                        </div>
+
+                        <div>
+                            <p class="name mt-2 mb-2">Excutive Summary</p>
+                            <p>{{resumeForm.controls.executiveSummary.value}}</p>
+                        </div>
+
+                        <div>
+                            <p class="name mt-2 mb-2">AREAS OF EXPERTISE:</p>
+                            <ul>
+                                <li *ngFor="let r of resumeForm.controls.addExperience.controls">{{r.controls.experience.value}}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <p class="name mt-2 mb-2">Education</p>
+                            <div *ngFor="let d of empEducation">
+                                <p style="font-size: 16px; font-weight: 500;">{{d.qualification}}</p>
+                                <p>{{d.institution_name|uppercase}}</p>
+                            </div>
+                            
+                        </div>
+
+                        <div>
+                            <p class="name mt-2 mb-2">Technical Skills:</p>
+                            <p *ngFor="let i of empSkills" class="skillList"><span class="txt1">{{i.skill_id}}</span>
+                                <span *ngIf="i.level_id < 4" class="txt">Beginner</span>
+                                <span *ngIf="i.level_id > 4" class="txt">Intermediate</span>
+                                <span *ngIf="i.level_id > 6" class="txt">Experience</span>
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="name mt-2 mb-2">SPECIFIC PROJECT EXPERIENCE: </p>
+                            <div *ngFor="let p of projects">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <b><p>Project</p></b>
+                                    </div>
+                                    <div class="col-1">
+                                        <b>:</b>
+                                    </div>
+                                    <div class="col-9">
+                                       <p>{{p.title}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <b><p>Role</p></b>
+                                    </div>
+                                    <div class="col-1">
+                                        <b>:</b>
+                                    </div>
+                                    <div class="col-9">
+                                       <p>{{p.role}}</p>
+                                    </div>
+                                </div>
+                                <b><p>Description</p></b>
+                                <p>{{p.description}}</p>
+                                <b><p>Responsibilities</p></b>
+                                <ul>
+                                    <li *ngFor="let r of p.responsibilities">{{r.responsibiltiy}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn bttn1" (click)="downloadResume()">Download Resume</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

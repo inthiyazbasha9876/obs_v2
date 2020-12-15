@@ -1,0 +1,40 @@
+server:
+  port: 7101
+eureka:
+ client: 
+  serviceUrl:
+   defaultZone: http://192.168.1.48:8089/eureka    
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.1.48:3306/obs_lms
+    username: dbubora
+    password: Ojas-1525
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari : 
+      connection-timeout : 500
+      maximum-pool-size : 2
+  mail:
+    host: smtp.office365.com
+    port: 587
+    username: support-obs@ojas-it.com
+    password: Ojas-1525
+    properties:
+      mail: 
+        smtp: 
+          auth: true
+          starttls: 
+            enable: true
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+  jackson.serialization.FAIL_ON_EMPTY_BEANS: false
+file_directory : /home/LMS-uploads
+db.url : jdbc:mysql://192.168.1.155:3306/ojas_obs
+applied : has been applied for leave from
+accepted : Your leave application from 
+rejected : Your leave application from
+Withdrawn : leave has been withdrawn from
+    

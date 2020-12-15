@@ -1,0 +1,127 @@
+server:
+  port: 8089
+
+zuul:
+  routes:
+    auth-center:
+      path: /login/**
+      url: http://${GATEWAY_URL}:8081/
+      sensitiveHeaders: Cookie,Set-Cookie
+      stripPrefix: false
+    ojas-obs-cost-center:
+      path : /master/costcenterservice/**
+      url: http://${GATEWAY_URL}:8013/
+    ojas-obs-businessunit :
+      path : /master/businessUnit/**
+      url : http://${GATEWAY_URL}:8015/
+    ojas-obs-online-passport:
+      path : /master/passportService/**
+      url : http://${GATEWAY_URL}:8012/
+    ojas-obs-online-gpa:
+     path : /master/gpa/**
+     url : http://${GATEWAY_URL}:8018/
+    ojas-obs-online-employeestatus-service:
+     path : /master/EmployeeStatus/**
+     url : http://${GATEWAY_URL}:8017/
+    ojas-obs-educationtype:
+     path : /master/educationdetails/**
+     url : http://${GATEWAY_URL}:8016/
+    ojas-obs-rolemanagement:
+     path : /master/RoleManagement/**
+     url : http://${GATEWAY_URL}:8020/
+    ojas-obs-subbusinessunit:
+     path : /master/subbusinessunit/**
+     url : http://${GATEWAY_URL}:8021/
+    ojas-obs-gender:
+      path: /master/genders/**
+      url: http://${GATEWAY_URL}:8010/
+    ojas-obs-states :
+      path : /master/states/**
+      url : http://${GATEWAY_URL}:8014/
+    ojas-obs-resource-type:
+       path : /master/resourceType/**
+       url : http://${GATEWAY_URL}:8022/  
+    ojas-obs-designation:
+      path: /master/designation/**
+      url: http://${GATEWAY_URL}:8011/
+    ojas-obs-online-separationtype-service :
+     path : /master/separationType/**
+     url : http://${GATEWAY_URL}:8019/  
+    ojas-obs-skill:
+      path : /master/skill/**
+      url : http://${GATEWAY_URL}:8023/
+    ojas-obs-bankdetails:
+      path: /obs/BankDetails/**
+      url: http://${GATEWAY_URL}:9000/
+    ojas-obs-employee-education-details:
+      path: /obs/employeeEducationDetails/**
+      url: http://${GATEWAY_URL}:8525/
+    ojas-obs-dependentdetails:
+      path: /obs/DependentDetailsService/**
+      url: http://${GATEWAY_URL}:8090/
+    ojas-obs-employeebu:
+     path: /obs/employeebu/**
+     url: http://${GATEWAY_URL}:8087/
+    ojas-obs-empcertificationdetails:
+     path: /obs/certifications/**
+     url: http://${GATEWAY_URL}:8888/ 
+    ojas-obs-employeeexperiencedetails:
+      path: /obs/EmployeeExperienceDetails/**
+      url: http://${GATEWAY_URL}:8092/ 
+    ojas-obs-employeecontactinfo:
+      path: /obs/employeecontactinfo/**
+      url: http://${GATEWAY_URL}:8091/
+    ojas-obs-employeeskills:
+      path: /obs/employeeskillsdetails/** 
+      url: http://${GATEWAY_URL}:8094/ 
+    ojas-obs-employment-details :
+       path: /obs/employmentDetails/**
+       url: http://${GATEWAY_URL}:8084/   
+    ojas-obs-project-details:
+       path: /obs/projectDetails/**
+       url: http://${GATEWAY_URL}:8083/  
+    ojas-obs-kye :
+       path: /obs/kye/**
+       url: http://${GATEWAY_URL}:7070/   
+    ojas-obs-employeeinfo :
+      path: /obs/employeeInfo/**
+      url: http://${GATEWAY_URL}:8093/    
+    ojas-obs-title :
+      path: /obs/employeetitle/**
+      url: http://${GATEWAY_URL}:8095/  
+    ojas-obs-resetpassword :      
+      path : /obs/ResetPassword/**
+      url: http://${GATEWAY_URL}:8096/
+    ojas-obs-reg-forgot :
+      path : /obs/ResetPassword/**
+      url: http://${GATEWAY_URL}:8088/
+    ojas-obs-resignationdetails :
+      path : /obs/resignation/**
+      url: http://${GATEWAY_URL}:8099/
+    ojas-obs-services: 
+      path: /obs/services/**
+      url: http://${GATEWAY_URL}:8085/
+    ojas-obs-timesheet-management :
+      path: /obs/timesheet/**
+      url: http://${GATEWAY_URL}:7000/
+    ojas-obs-service-category:  
+      path: /obs/servicecategory/**
+      url: http://${GATEWAY_URL}:9998/
+    ojas-obs-delivery-location: 
+      path: /obs/deliverylocation/**
+      url: http://${GATEWAY_URL}:9997/
+    ojas-obs-RateType: 
+      path: /obs/ratetype/**
+      url: http://${GATEWAY_URL}:9971/ 
+    ojas-obs-project-tech-stack: 
+      path: /obs/projecttechstack/**
+      url: http://${GATEWAY_URL}:9972/ 
+    ojas-obs-service-type:  
+      path: /obs/servicetype/**
+      url: http://${GATEWAY_URL}:9973/         
+    ojas-obs-rmg-employee-experience:  
+      path: /obs/rmgemployeeexperience/**
+      url: http://${GATEWAY_URL}:9974/  
+    #192.168.6.186
+    
+ojas.security.jwt.secret: otherpeopledontknowit

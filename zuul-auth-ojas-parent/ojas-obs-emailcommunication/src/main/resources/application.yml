@@ -1,0 +1,46 @@
+server:
+  port: 8099
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.1.48:3306/ojas_obs
+    username: dbubora
+    password: Ojas-1525
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari :
+      connection-timeout : 500
+      maximum-pool-size : 2
+#    url: jdbc:mysql://localhost:3306/ojas_obs?autoReconnect=true&useSSL=false
+#    username: root
+#    password: root
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  mail:
+#    protocol: smtp
+#    host: smtp.office365.com
+#    username: saritha.ummani@ojas-it.com
+#    password: Bujji@9999
+#    port: 587
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#            required: false
+            
+            
+     
+mailusername: support-obs@ojas-it.com
+mailpassword: Maz16944
+        
+Text: Test Email from OBS-HRMS to test mass email communication - please ignore
+Subject: Test Mail
+
+Auth: true
+Starttlsenable: true
+Host: smtp.office365.com
+Port: 587
+
+  
+
+
+          

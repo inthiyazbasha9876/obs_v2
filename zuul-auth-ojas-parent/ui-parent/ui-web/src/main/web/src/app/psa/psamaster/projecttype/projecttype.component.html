@@ -1,0 +1,132 @@
+<div class="app-title">
+    <div>
+      <h1><i class="fa fa-th-list"></i>&nbsp;ProjectType</h1>
+      <p class="pl-4">Ojas Business Suite</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="active"> <button type="button" class="btn bttn">
+          <a class="undlne" (click)="navigateTo()"><span><i class="fa fa-home"></i>&nbsp;Dashboard</span></a> </button>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="row" style="margin-bottom: 25px;">
+    <div class="col-4">
+      <form>
+  
+        <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search" (input)="searchPage()"
+          [disabled]="searchfield">
+      </form>
+    </div>
+    <div class="col-8 text-right">
+      <button type="submit" (click)="value=!value; clear()" *ngIf="addb" class="btn ">Add ProjectType</button>
+    </div>
+  
+  
+  </div>
+  <div class="col-md-1" style="padding-left:40px;">
+  
+  </div>
+  
+  <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
+  
+    <form #projecttypeForm="ngForm">
+      <table class="table table-condensed tile" style="width:100%">
+        <thead style="background-color: #1d62a7;color:white" class="text-center">
+  
+          <tr>
+  
+            <th>Project type</th>
+            <th>Status</th>
+            <th>Edit</th>
+  
+          </tr>
+        </thead>
+  
+        <tbody>
+  
+          <tr *ngFor="let projecttypeTable of table | filter:key | paginate: { itemsPerPage: pageSize, currentPage: p };  let i=index "
+            class="text-center">
+            <td>
+              <span *ngIf="!projecttypeTable.isEditable">
+                {{projecttypeTable.projectType}}
+              </span>
+              <span *ngIf="projecttypeTable.isEditable">
+                <input name="projecttype" #projecttypeForm1="ngModel" required pattern="[A-Za-z]{1}[A-Za-z0-9. ]*"
+                  [(ngModel)]="editname" class="form-control">
+                <div style="color:red" *ngIf="projecttypeForm1.invalid && projecttypeForm1.touched ">
+  
+                  <span *ngIf="projecttypeForm1.errors.required">
+                    Please enter project type
+                  </span>
+                  <span *ngIf="projecttypeForm1.errors.pattern">
+                    Please enter valid name
+                  </span>
+                </div>
+              </span>
+            </td>
+            <td>
+              <span *ngIf="projecttypeTable.status">Active</span>
+              <span *ngIf="!projecttypeTable.status">Inactive</span>
+            </td>
+            <td>
+              <span style="color:#1d62a7;font-size:20px"
+                (click)="projecttypeTable.isEditable=!projecttypeTable.isEditable"
+                (click)="edit(projecttypeTable.id,projecttypeTable.projecttype,projecttypeTable.status)"
+                *ngIf="!projecttypeTable.isEditable"><i class="fa fa-edit" [class.disabled]="noedit"></i></span>
+              <button class="btn " *ngIf="projecttypeTable.isEditable"
+                (click)="updateprojecttypedata(projecttypeForm.value);projecttypeTable.isEditable=!projecttypeTable.isEditable"
+                [disabled]="projecttypeForm.invalid">Update</button>&nbsp;
+  
+              <button type="submit" class="btn " *ngIf="projecttypeTable.isEditable"
+                (click)='projecttypeTable.isEditable =!projecttypeTable.isEditable' (click)="cancel()">Cancel</button>
+  
+              <!-- <span style="color:#1d62a7;font-size:20px"
+              (click)="edit(actionowner.actionownerId,actionowner.status);actionowner.isEditable=!actionowner.isEditable"
+              *ngIf="!actionowner.isEditable"><i class="fa fa-edit"></i></span> -->
+            </td>
+  
+          </tr>
+  
+  
+          <tr *ngIf="value">
+  
+            <td>
+              <input name="addaprojecttype" [(ngModel)]="projecttype" type="text" class="form-control" #role="ngModel"
+                placeholder="Enter projectType " required pattern="[A-Za-z]{1}[A-Za-z0-9. ]*">
+              <div *ngIf="role.invalid && role.touched">
+                <span *ngIf="role.errors.required" style="color:red;"> Please enter project type </span>
+                <span *ngIf="role.errors.pattern" style="color:red;"> Please enter valid name </span>
+              </div>
+            </td>
+  
+            <td *ngIf="value">
+              <button class="btn mr-2" type="submit" [disabled]="projecttypeForm.invalid"
+                (click)="setProjectTypeSave(projecttypeForm.value)">Save</button>&nbsp;
+              <button type="submit" class="btn" (click)=cancelbulist()>Cancel</button>
+  
+            </td>
+  
+          </tr>
+        </tbody>
+  
+  
+      </table>
+  
+    </form>
+  </div>
+  
+  <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+  <div class="row">
+    <span class="ml-3">Items per page: </span>&nbsp;&nbsp;&nbsp;
+  
+  
+    <select id="PerPage" class="pull-right" [(ngModel)]="pageSize" (change)="searchPage()">
+      <option [ngValue]="5">5</option>
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="15">15</option>
+      <option [ngValue]="20">20</option>
+      <option [ngValue]="25">25</option>
+    </select>
+  
+  </div>

@@ -1,0 +1,14 @@
+pipeline {
+agent any
+stages {
+stage('Build') {
+steps {
+node('master'){
+sh label: '', script: '/var/lib/jenkins/workspace/maven/zuul-auth-ojas-parent/'
+sh 'mvn clean install'
+sh label: '', script: 'sudo docker login -u bellary210 -p Bellary@210 https://hub.docker.com/'
+sh label: '', script: 'sudo docker tag sree:latest https://hub.docker.com/v:1.0.1'
+sh label: '', script: 'sudo docker push https://hub.docker.com/v:1.0.1'
+}
+}}}}
+

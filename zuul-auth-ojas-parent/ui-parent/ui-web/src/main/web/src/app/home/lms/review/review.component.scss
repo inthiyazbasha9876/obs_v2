@@ -1,0 +1,98 @@
+.heading{
+    color: #1d62a7;
+    font-size: 20px;
+    font-weight: bold;
+}
+.master{
+    margin:10px 30px 10px 30px;
+}
+.nav-pills{
+    background: #FFFFFF;
+    cursor: pointer;
+    color: black;
+  }
+  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #FFFFFF;
+    background-color:#1D62A7;
+    border-color: #1D62A7;
+    border-radius:5px 5px 0px 0px !important;
+}
+.card{
+    padding:30px;
+}
+
+.srch{
+    color:white;
+    background: #1D62A7;
+    border-color:#1D62A7;
+  }
+  .srch:hover{
+    color:white;
+    background: #1D62A7;
+    border-color:#1D62A7;
+  }
+  .bttn{
+    color:white;
+    background: #1D62A7;
+    border-color:#1D62A7;
+    margin:0px 10px 10px 0px;
+}
+.bttn:hover{
+    color:white;
+    background: #1D62A7;
+    border-color:#1D62A7;
+}
+.heading2{
+    color: #1d62a7;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.data{
+    border:1px solid #EFF7FA;
+    margin:5px;
+    border-radius: 5px;
+}
+.data a{
+    background: #EFF7FA;
+    text-decoration: none;
+    border-radius: 3px;
+    color:black;
+}
+.data img{
+    height:50px;
+    width:50px;
+    margin:8px;
+}
+.data span,p{
+    font-size:16px;
+}
+h5,h6{
+    color:black;
+    margin:8px 0px 0px 0px
+}
+.cdata{
+    background: white;
+    border-radius: 5px;
+    padding:10px
+}
+.txt{
+    height:50px;
+    width:50px;
+    margin:8px !important;
+    background: gray;
+    color:white;
+    padding:10px;
+}
+.at:focus{
+    background:gray;
+    border-color:gray
+}
+.at:active{
+    background:gray;
+    border-color:gray;
+}
+
+.inner{
+    background: white !important;
+}

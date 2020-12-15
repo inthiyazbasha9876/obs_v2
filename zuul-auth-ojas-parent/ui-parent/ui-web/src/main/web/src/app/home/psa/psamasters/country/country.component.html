@@ -1,0 +1,132 @@
+<div class="app-title">
+  <div>
+    <h1><i class="fa fa-th-list"></i>&nbsp;Country</h1>
+    <p class="pl-4">Ojas Business Suite</p>
+  </div>
+  <ul class="app-breadcrumb breadcrumb">
+    <li class="active"> <button type="button" class="btn bttn">
+        <a class="undlne" (click)="navigateTo()"><span><i class="fa fa-home"></i>&nbsp;Dashboard</span></a> </button>
+    </li>
+  </ul>
+</div>
+
+<div class="row" style="margin-bottom: 25px;">
+  <div class="col-4">
+    <form>
+
+      <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search" (input)="searchPage()"
+       [disabled]="searchfield">
+    </form>
+  </div>
+  <div class="col-8 text-right">
+    <button type="submit" (click)="value=!value; clear()" *ngIf="addb" class="btn ">Add Country</button>
+  </div>
+
+
+</div>
+
+
+<div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
+
+  <form #countrytype="ngForm">
+    <table class="table table-condensed tile" style="width:100%">
+      <thead style="background-color: #1d62a7;color:white" class="text-center">
+
+        <tr>
+
+          <th>Country</th>
+          <th>Status</th>
+          <th>Edit</th>
+
+
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr
+          *ngFor="let countrytypeTable of table|filter:key |  paginate: { itemsPerPage: pageSize, currentPage: p }; let i=index "
+          class="text-center">
+
+          <td>
+            <div *ngIf="!countrytypeTable.isEditable">
+              {{countrytypeTable.countryname}}
+              
+            </div>
+            <div *ngIf="countrytypeTable.isEditable"  >
+              
+              <input type="text" name="country" #countrylist="ngModel" required pattern="[A-Za-z]{1}[A-Za-z0-9. ]*"
+                [(ngModel)]="editname" class="form-control" />
+              <div style="color:red" *ngIf="countrytype.invalid && countrytype.touched ">
+                <span *ngIf="countrytype.errors?.required">
+                  Please enter country
+                </span>
+                <span *ngIf="countrytype.errors?.pattern">
+                  Please enter valid country
+                </span>
+              </div>
+            </div>
+          </td>
+
+
+          <td>
+            <span *ngIf="countrytypeTable.status">Active</span>
+            <span *ngIf="!countrytypeTable.status">Inactive</span>
+          </td>
+
+          <td> <span style="color:#1d62a7;font-size:20px"
+              (click)='countrytypeTable.isEditable =!countrytypeTable.isEditable'
+              (click)="edit(countrytypeTable.id,countrytypeTable.countryname,countrytypeTable.status)" *ngIf="!countrytypeTable.isEditable"><i
+                class="fa fa-edit" [class.disabled]="noedit"></i></span>
+
+            <button class="btn " *ngIf="countrytypeTable.isEditable"
+              (click)='countrytypeTable.isEditable=!countrytypeTable.isEditable'
+              (click)="UpdateCountry(countrytype.value)" [disabled]="countrytype.invalid">Update</button>&nbsp;
+
+            <button type="submit" class="btn " *ngIf="countrytypeTable.isEditable"
+              (click)='countrytypeTable.isEditable =!countrytypeTable.isEditable' (click)="cancel()">Cancel</button>
+          </td>
+        </tr>
+
+        <tr>
+
+          <td *ngIf="value">
+            <input name="addcountrytype" [(ngModel)]="country" type="text" class="form-control" #role="ngModel"
+              placeholder="Enter Country" required pattern="[A-Za-z]{1}[A-Za-z0-9. ]*">
+            <div *ngIf="role.invalid && role.touched">
+              <span *ngIf="role.errors.required" style="color:red;"> Please enter country </span>
+              <span *ngIf="role.errors.pattern" style="color:red;"> Please enter country </span>
+            </div>
+          </td>
+          <td *ngIf="value">
+            <button class="btn" type="submit" [disabled]="countrytype.invalid"
+              (click)="SetCountry(countrytype.value)">Save</button>&nbsp;
+            <button type="submit" class="btn" (click)=cancelbulist()>Cancel</button>
+
+          </td>
+
+        </tr>
+
+
+      </tbody>
+
+
+    </table>
+
+  </form>
+</div>
+
+<pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+<div class="row">
+  <span class="ml-3">Items per page: </span>&nbsp;&nbsp;&nbsp;
+
+
+  <select id="PerPage" class="pull-right" [(ngModel)]="pageSize" (change)="searchPage()">
+    <option [ngValue]="5">5</option>
+    <option [ngValue]="10">10</option>
+    <option [ngValue]="15">15</option>
+    <option [ngValue]="20">20</option>
+    <option [ngValue]="25">25</option>
+  </select>
+
+</div>

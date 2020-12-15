@@ -1,0 +1,131 @@
+<div *ngIf="summary">
+    <div class="row">
+      <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+        <div class="card shadow">
+          <h4 class="titleHeading">Leave Balance</h4>
+          <table class="table table-hover" >
+            <thead class="tstyle">
+              <tr>
+                <th>Leave Type</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Casual Leave</td>
+                <td>{{cl}}</td>
+              </tr>
+              <tr>
+                <td>Sick Leave</td>
+                <td>{{sl}}</td>
+              </tr>
+              <tr>
+                <td>Comp Off</td>
+                <td>{{cf}}</td>
+              </tr>
+              <tr>
+                <td>Maternity Leave</td>
+                <td>{{ml}}</td>
+              </tr>
+              <tr>
+                <td>Loss Of Pay</td>
+                <td>{{lop}}</td>
+              </tr>
+            </tbody>
+          </table>
+  
+          <div class="row">
+           <!--  <button class="btn bttn mx-auto" (click)="deatils()">View details</button> -->
+  
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+        <div class="card shadow">
+          <h4 class="titleHeading">Recent Transcations</h4>
+          <table class="table table-hover">
+            <thead class="tstyle">
+              <tr>
+                <th>Leave Type</th>
+                <th>Applied On</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let l of appliedLeaves; let i=index">
+                <td *ngIf="i<5">{{l.leaveType}}</td>
+                <td *ngIf="i<5">{{l.appliedOn}}</td>
+                <td *ngIf="i<5">{{l.status}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+        <div class="card shadow">
+          <h4 class="titleHeading">Upcoming Holidays</h4>
+          <table class="table table-hover">
+            <thead class="tstyle">
+                <th>Date</th>
+                <th>Holiday</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ch of calenderHolidays; let i=index">
+                  <td *ngIf="i<5">{{ch.holidayDate}}</td>
+                  <td *ngIf="i<5">{{ch.holidayName}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" *ngIf="rolemanager">
+          <div class="card shadow">
+              <h4 class="titleHeading">Team Transcations</h4>
+  
+              <table class="table table-hover">
+                <thead class="tstyle">
+                    <th>Name</th>
+                    <th>Leave Type</th>
+                    <th>status</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let tl of teamleaves; let i=index">
+                      <td *ngIf="i<5">{{tl.empInfo.firstname|titlecase}}</td>
+                      <td *ngIf="i<5">{{tl.leaveInfo.leaveType}}</td>
+                      <td *ngIf="i<5">{{tl.leaveInfo.status}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!summary">
+    <div class="row">
+        <p class="heading">Leave balance details</p>
+        <button (click)="goback()" class="btn bttn ml-auto">View Summary</button>
+    </div>
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="control">
+                <label class="radio">
+                  <input type="radio" name="rsvp">
+                  Going
+                </label>
+                <label class="radio">
+                  <input type="radio" name="rsvp">
+                  Not going
+                </label>
+                <label class="radio" disabled>
+                  <input type="radio" name="rsvp">
+                  Maybe
+                </label>
+              </div>
+        </div>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12">
+  
+        </div>
+    </div>
+  </div>

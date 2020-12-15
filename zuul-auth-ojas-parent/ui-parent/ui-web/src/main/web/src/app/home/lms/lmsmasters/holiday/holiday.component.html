@@ -1,0 +1,162 @@
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>&nbsp;Holidays</h1>
+        <p class="pl-4">Ojas Business Suite</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="active"> <button type="button" class="btn dashboard">
+                <a class="undlne" (click)="navigateTo()"><span><i class="fa fa-home"></i>&nbsp;Dashboard</span></a>
+            </button>
+        </li>
+    </ul>
+</div>
+
+<div class="row" style="margin-bottom: 25px;">
+    <div class="col-4">
+        <form>
+
+            <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search"
+                (input)="searchPage()" [disabled]="searchfield">
+        </form>
+    </div>
+    <div class="col-8 text-right">
+        <button type="submit" (click)="value=!value; clear()" *ngIf="addb" class="btn bttn">Add Holiday</button>
+    </div>
+
+
+</div>
+<div class="col-md-1" style="padding-left:40px;">
+
+</div>
+
+<div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
+
+    <form #holidayForm="ngForm">
+        <table class="table table-condensed tile" style="width:100%">
+            <thead style="background-color: #1d62a7;color:white" class="text-center">
+
+                <tr>
+
+                    <th>Holiday Date</th>
+                    <th>Festival</th>
+                    <th>Edit</th>
+
+                </tr>
+            </thead>
+
+            <tbody class="text-center">
+
+                <tr
+                    *ngFor="let holiday of holidaylist | lms:key | paginate: { itemsPerPage: pageSize, currentPage: p };  let i=index ">
+                    <td>
+                        <span *ngIf="!holiday.isEditable">
+                            {{holiday.holidayDate}}
+                        </span>
+                        <span *ngIf="holiday.isEditable">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker" name="hDate" #holidayDate="ngModel"
+                                    [(ngModel)]="editDate" required placeholder="Choose a date" (click)="picker.open()"
+                                    onkeydown="return false">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <div style="color:red" *ngIf="holidayDate.invalid && holidayDate.touched ">
+
+                                <span *ngIf="holidayDate.errors.required">
+                                    Please enter holiday list
+                                </span>
+                                <span *ngIf="holidayDate.errors.pattern">
+                                    Please enter valid name
+                                </span>
+                            </div>
+                        </span>
+                    </td>
+                    <td>
+                        <span *ngIf="!holiday.isEditable">
+                            {{holiday.holidayName}}
+                        </span>
+                        <span *ngIf="holiday.isEditable">
+                            <input name="hName" #holidayName="ngModel" required pattern="[A-Za-z]{1}[A-Za-z0-9. ]*"
+                                [(ngModel)]="editName" class="form-control">
+                            <div style="color:red" *ngIf="holidayName.invalid && holidayName.touched ">
+
+                                <span *ngIf="holidayName.errors.required">
+                                    Please enter holiday list
+                                </span>
+                                <span *ngIf="holidayName.errors.pattern">
+                                    Please enter valid name
+                                </span>
+                            </div>
+                        </span>
+
+                    </td>
+                    <td>
+                        <span style="color:#1d62a7;font-size:20px" (click)="holiday.isEditable=!holiday.isEditable"
+                            (click)="edit(holiday)" *ngIf="!holiday.isEditable && !noedit"><i
+                                class="fa fa-edit "></i></span>
+                        <button class="btn bttn" *ngIf="holiday.isEditable"
+                            (click)="updateholiday(holidayForm.value);holiday.isEditable=!holiday.isEditable"
+                            [disabled]="holidayForm.invalid">Update</button>&nbsp;
+
+                        <button type="submit" class="btn bttn" *ngIf="holiday.isEditable"
+                            (click)='holiday.isEditable =!holiday.isEditable' (click)="cancel()">Cancel</button>
+                    </td>
+
+                </tr>
+
+
+                <tr *ngIf="value">
+
+                    <td>
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker" name="holidayDate" [(ngModel)]="hdate"
+                                #hd="ngModel" required placeholder="Choose a date" (click)="picker.open()"
+                                onkeydown="return false">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <div *ngIf="hd.invalid && hd.touched">
+                            <span *ngIf="hd.errors.required" style="color:red;"> Please enter action owner name
+                            </span>
+                            <span *ngIf="hd.errors.pattern" style="color:red;"> Please enter valid name </span>
+                        </div>
+                    </td>
+                    <td>
+                        <input name="holidayName" [(ngModel)]="hname" type="text" class="form-control" #hn="ngModel"
+                        placeholder="Enter action Owner name " required pattern="[A-Za-z]{1}[A-Za-z0-9. ]*">
+                      <div *ngIf="hn.invalid && hn.touched">
+                        <span *ngIf="hn.errors.required" style="color:red;"> Please enter action owner name </span>
+                        <span *ngIf="hn.errors.pattern" style="color:red;"> Please enter valid name </span>
+                      </div>
+                    </td>
+
+                    <td *ngIf="value">
+                        <button class="btn bttn mr-2" type="submit" [disabled]="holidayForm.invalid"
+                            (click)="setActionowner(holidayForm.value)">Save</button>&nbsp;
+                        <button type="submit" class="btn bttn" (click)=cancelbulist()>Cancel</button>
+
+                    </td>
+
+                </tr>
+            </tbody>
+
+
+        </table>
+
+    </form>
+</div>
+
+<pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+<div class="row">
+    <span class="ml-3">Items per page: </span>&nbsp;&nbsp;&nbsp;
+
+
+    <select id="PerPage" class="pull-right" [(ngModel)]="pageSize" (change)="searchPage()">
+        <option [ngValue]="5">5</option>
+        <option [ngValue]="10">10</option>
+        <option [ngValue]="15">15</option>
+        <option [ngValue]="20">20</option>
+        <option [ngValue]="25">25</option>
+    </select>
+
+</div>

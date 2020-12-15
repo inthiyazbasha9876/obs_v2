@@ -1,0 +1,38 @@
+server:
+  port: 8096
+eureka:
+ client: 
+  serviceUrl:
+   defaultZone: http://192.168.1.48:8089/eureka    
+  siteUrl : http://192.168.1.48:8000/login
+  
+spring:
+  datasource:
+#    url: jdbc:mysql://localhost:3306/ojas_obs
+#    driver-class-name: com.mysql.jdbc.Driver
+#    password: root
+#    username: root
+    url: jdbc:mysql://192.168.1.48:3306/ojas_obs
+    username: dbubora
+    password: Ojas-1525
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari : 
+      connection-timeout : 500
+      maximum-pool-size : 2
+      
+mail:
+    host: smtp.office365.com
+    port: 587
+    username: support-obs@ojas-it.com
+    password: Ojas-1525
+    properties:
+      mail: 
+        smtp: 
+          auth: true
+          starttls: 
+            enable: true
+
+
+        
+Text: your new password was generated - please check it.
+Subject: Test Mail

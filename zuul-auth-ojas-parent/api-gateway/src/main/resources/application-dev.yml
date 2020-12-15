@@ -1,0 +1,221 @@
+server:
+  port: 8089
+
+zuul:
+  routes:
+    auth-center:
+      path: /obs/login/**
+      url: http://192.168.1.155:8081/
+      sensitiveHeaders: Cookie,Set-Cookie
+      stripPrefix: false
+    ojas-obs-cost-center:
+      path : /obs/master/costcenterservice/**
+      url: http://192.168.1.155:8013/
+    ojas-obs-businessunit :
+      path : /obs/master/businessUnit/**
+      url : http://192.168.1.155:8015/
+    ojas-obs-online-passport:
+      path : /obs/master/passportService/**
+      url : http://192.168.1.155:8012/
+#    ojas-obs-online-gpa:
+#     path : /obs/master/gpa/**
+#     url : http://192.168.1.155:8018/
+    ojas-obs-online-employeestatus-service:
+     path : /obs/master/EmployeeStatus/**
+     url : http://192.168.1.155:8017/
+    ojas-obs-educationtype:
+     path : /obs/master/educationdetails/**
+     url : http://192.168.1.155:8016/
+    ojas-obs-rolemanagement:
+     path : /obs/master/RoleManagement/**
+     url : http://192.168.1.155:8020/
+    ojas-obs-subbusinessunit:
+     path : /obs/master/subbusinessunit/**
+     url : http://192.168.1.155:8021/
+    ojas-obs-gender:
+      path: /obs/master/genders/**
+      url: http://192.168.1.155:8010/
+    ojas-obs-states :
+      path : /obs/master/states/**
+      url : http://192.168.1.155:8014/
+    ojas-obs-resource-type:
+       path : /obs/master/resourceType/**
+       url : http://192.168.1.155:8022/  
+    ojas-obs-designation:
+      path: /obs/master/designation/**
+      url: http://192.168.1.155:8011/
+    ojas-obs-online-separationtype-service :
+     path : /obs/master/separationType/**
+     url : http://192.168.1.155:8019/  
+    ojas-obs-skill:
+      path : /obs/master/skill/**
+      url : http://192.168.1.155:8023/
+    ojas-obs-bankdetails:
+      path: /obs/BankDetails/**
+      url: http://192.168.1.155:9000/
+    ojas-obs-employee-education-details:
+      path: /obs/employeeEducationDetails/**
+      url: http://192.168.1.155:8525/
+    ojas-obs-dependentdetails:
+      path: /obs/DependentDetailsService/**
+      url: http://192.168.1.155:8090/
+#    ojas-obs-employeebu:
+#     path: /obs/employeebu/**
+#     url: http://192.168.1.155:8087/
+    ojas-obs-empcertificationdetails:
+     path: /obs/certifications/**
+     url: http://192.168.1.155:8888/ 
+    ojas-obs-employeeexperiencedetails:
+      path: /obs/EmployeeExperienceDetails/**
+      url: http://192.168.1.155:8092/ 
+    ojas-obs-employeecontactinfo:
+      path: /obs/employeecontactinfo/**
+      url: http://192.168.1.155:8091/
+    ojas-obs-employeeskills:
+      path: /obs/employeeskillsdetails/** 
+      url: http://192.168.1.155:8094/ 
+    ojas-obs-employment-details :
+       path: /obs/employmentDetails/**
+       url: http://192.168.1.155:8084/   
+    ojas-obs-project-details:
+       path: /obs/projectDetails/**
+       url: http://192.168.1.155:8083/  
+    ojas-obs-kye :
+       path: /obs/kye/**
+       url: http://192.168.1.155:7070/   
+    ojas-obs-employeeinfo :
+      path: /obs/employeeInfo/**
+      url: http://192.168.1.155:8093/    
+    ojas-obs-title :
+      path: /obs/employeetitle/**
+      url: http://192.168.1.155:8095/  
+    ojas-obs-resetpassword :      
+      path : /obs/ResetPassword/**
+      url: http://192.168.1.155:8096/
+    ojas-obs-reg-forgot :
+      path : /obs/forgot/**
+      url: http://192.168.1.155:8088/
+    ojas-obs-resignationdetails :
+      path : /obs/resignation/**
+      url: http://192.168.1.155:8099/
+    ojas-obs-services: 
+      path: /obs/services/**
+      url: http://192.168.1.155:8085/
+    ojas-obs-timesheet-management :
+      path: /obs/timesheet/**
+      url: http://192.168.1.155:7071/
+    ojas-obs-psa-project-info:
+      path: /obs/projectInfo/**
+      url: http://192.168.1.155:7072/
+    ojas-obs-action-owner:  
+      path: /obs/master/actionowner/**
+      url: http://192.168.1.155:7073/
+    ojas-obs-billing-type:
+      path: /obs/master/billingtype/**
+      url: http://192.168.1.155:7074/
+    ojas-obs-action-type:  
+      path: /obs/master/actiontype/**
+      url: http://192.168.1.155:7075/
+    ojas-obs-budget:  
+      path: /obs/master/budget/**
+      url: http://192.168.1.155:7076/  
+    ojas-obs-c2h-status:  
+      path: /obs/master/c2hstatus/**
+      url: http://192.168.1.155:7077/
+    ojas-obs-delivery-location:  
+      path: /obs/master/deliverylocation/**
+      url: http://192.168.1.155:7078/
+    ojas-obs-interview-mode:  
+      path: /obs/master/interviewmode/**
+      url: http://192.168.1.155:7079/  
+    ojas-obs-interview-result:  
+      path: /obs/master/interviewresult/**
+      url: http://192.168.1.155:7080/  
+    ojas-obs-location-type:  
+      path: /obs/master/locationtype/**
+      url: http://192.168.1.155:7081/  
+    ojas-obs-perm-status:  
+      path: /obs/master/permstatus/**
+      url: http://192.168.1.155:7082/
+    ojas-obs-project-task:  
+      path: /obs/master/projecttask/**
+      url: http://192.168.1.155:7083/  
+    ojas-obs-project-tech-stack:  
+      path: /obs/master/projecttechstack/**
+      url: http://192.168.1.155:7084/ 
+    ojas-obs-sar-status:  
+      path: /obs/master/sarstatus/**
+      url: http://192.168.1.155:7085/  
+    ojas-obs-service-category:  
+      path: /obs/master/servicecategory/**
+      url: http://192.168.1.155:7086/
+    ojas-obs-service-type:  
+      path: /obs/master/servicetype/**
+      url: http://192.168.1.155:7087/
+    ojas-obs-rate_type:  
+      path: /obs/master/ratetype/**
+      url: http://192.168.1.155:7088/
+    ojas-obs-sez:
+      path: /obs/master/sez/**
+      url: http://192.168.1.155:7089/
+    ojas-obs-contractcompany:
+      path: /obs/master/contractcompany/**
+      url: http://192.168.1.155:7090/
+    ojas-obs-country:
+      path: /obs/master/country/**
+      url: http://192.168.1.155:7091/
+    ojas-obs-geo:
+      path: /obs/master/geo/**
+      url: http://192.168.1.155:7092/
+    ojas-obs-gst-location:
+      path: /obs/master/gstlocation/**
+      url: http://192.168.1.155:7093/ 
+    ojas-obs-sez-location:
+      path: /obs/master/sezlocation/**
+      url: http://192.168.1.155:7094/ 
+    ojas-obs-document-stage:  
+      path: /obs/master/documentstage/**
+      url: http://192.168.1.155:7095/
+    ojas-obs-documenttype:  
+      path: /obs/master/documenttype/**
+      url: http://192.168.1.155:7096/
+    ojas-obs-customer-info:
+      path: /obs/customerinfo/**
+      url: http://192.168.1.155:7097/
+    ojas-obs-customercontract:
+      path: /obs/customerContract/**
+      url: http://192.168.1.155:7098/
+    ojas-obs-psa-customercontactinfo:
+      path: /obs/customerContactInfo/**
+      url: http://192.168.1.155:7099/
+    ojas-obs-rmg:
+      path: /obs/rmg/**
+      url: http://192.168.1.155:7100/
+    ojas-obs-leavemanagementsystem:
+      path: /obs/lms/**
+      url: http://192.168.1.155:7101/
+    ojas-obs-rmg-employee-experience:  
+      path: /obs/master/rmgemployeeexperience/**
+      url: http://192.168.1.155:7102/
+    ojas-obs-calenderholidays:
+      path: /obs/master/holidays/**
+      url: http://192.168.1.155:7103/
+    ojas-obs-projecttype:
+      path: /obs/master/projecttype/**
+      url: http://192.168.1.155:7104/
+    ojas-obs-lms-leave-type:
+      path: /obs/master/leavetype/**
+      url: http://192.168.1.155:7105
+
+
+eureka: 
+    client:
+        registerWithEureka: false
+        fetchRegistry: false
+    instance:
+        hostname: localhost
+    server:
+        enableSelfPreservation: false 
+    #192.168.6.186
+    
+ojas.security.jwt.secret: otherpeopledontknowit
